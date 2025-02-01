@@ -19,6 +19,14 @@ namespace RoguelikeBase2D.Maps
             Width = width;
             Height = height;
             Grid = new Tile[Width * Height];
+            for (int i = 0; i < Grid.Length; i++)
+            {
+                Grid[i] = new Tile()
+                {
+                    TileType = Constants.TileType.None,
+                    IsExplored = false,
+                };
+            }
         }
 
         public Tile GetTile(int x, int y)

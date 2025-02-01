@@ -14,10 +14,8 @@ namespace RoguelikeBase2D.Maps
         public Dictionary<MapLayerType, MapLayer> MapLayers { get; private set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
-        public string TilesetName { get; set; }
-        public Tileset Tileset { get; set; }
 
-        public Map(int width, int height, Tileset tileset) 
+        public Map(int width, int height) 
         {
             MapLayers = new Dictionary<MapLayerType, MapLayer>()
             {
@@ -26,8 +24,6 @@ namespace RoguelikeBase2D.Maps
             };
             Width = width;
             Height = height;
-            Tileset = tileset;
-            TilesetName = tileset.Name;
         }
 
         public Tile GetTileFromLayer(MapLayerType layer, int x, int y)

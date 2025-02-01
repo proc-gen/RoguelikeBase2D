@@ -9,6 +9,7 @@ namespace RoguelikeBase2D.Constants
 {
     public enum TileType
     {
+        None,
         Floor,
         Wall,
     }

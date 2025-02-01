@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RoguelikeBase2D.Constants;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,9 @@ namespace RoguelikeBase2D.Maps
 {
     public struct Tile
     {
+        public string TilesetName { get; set; }
         public int TilesetTileId { get; set; }
-        public TilesetTile TilesetTile { get; set; }
+        public TileType TileType { get; set; }
         public bool IsExplored { get; set; }
     }
 }
