@@ -13,6 +13,8 @@ namespace RoguelikeBase2D.Maps
         public int Height { get; private set; }
         public int TileWidth { get; private set; }
         public int TileHeight { get; private set; }
+        public int NumTilesX { get; private set; }
+        public int NumTilesY { get; private set; }
         public TilesetTile[] TilesetTiles { get; private set; }
 
         public Tileset(string name, int width, int height, int tileWidth, int tileHeight)
@@ -22,7 +24,9 @@ namespace RoguelikeBase2D.Maps
             Height = height;
             TileWidth = tileWidth;
             TileHeight = tileHeight;
-            TilesetTiles = new TilesetTile[(width/tileWidth) * (height/tileHeight)];
+            NumTilesX = width / tileWidth;
+            NumTilesY = height / tileHeight;
+            TilesetTiles = new TilesetTile[NumTilesX * NumTilesY];
         }
 
         public TilesetTile GetTilesetTile(int id)

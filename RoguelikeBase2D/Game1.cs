@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RoguelikeBase2D.Constants;
 using RoguelikeBase2D.Maps;
 using RoguelikeBase2D.Maps.Generators;
 using RoguelikeBase2D.Maps.Painters;
+using RoguelikeBase2D.Utils.Rendering;
 using System.Collections.Generic;
 using System.IO;
 
@@ -14,6 +16,7 @@ namespace RoguelikeBase2D
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         Dictionary<string, Texture2D> textures;
+        Dictionary<string, Tileset> tilesets;
         Map map;
 
         public Game1()
@@ -47,27 +50,32 @@ namespace RoguelikeBase2D
 
         private void GenerateMap()
         {
-            Tileset tileset = new Tileset("test-tileset", 480, 480, 48, 48);
+            var tileset = new Tileset("test-tileset", 480, 480, 48, 48);
             tileset.SetTilesetTile(31, new TilesetTile()
             {
                 Id = 31,
-                TileType = Constants.TileType.Wall,
+                TileType = TileType.Wall,
             });
             tileset.SetTilesetTile(40, new TilesetTile()
             {
                 Id = 40,
-                TileType = Constants.TileType.Floor,
+                TileType = TileType.Floor,
             });
             tileset.SetTilesetTile(41, new TilesetTile()
             {
                 Id = 41,
-                TileType = Constants.TileType.Floor,
+                TileType = TileType.Floor,
             });
+
+            tilesets = new Dictionary<string, Tileset>()
+            {
+                {tileset.Name, tileset},
+            };
 
             TestGenerator generator = new TestGenerator();
             TestPainter painter = new TestPainter();
             map = generator.GenerateMap(10, 10);
-            map = painter.PaintMap(map, tileset);
+            map = painter.PaintMap(map, tilesets["test-tileset"]);
 
         }
 
@@ -85,9 +93,31 @@ namespace RoguelikeBase2D
         {
             GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend, transformMatrix: Matrix.Identity);
+            RenderLayer(MapLayerType.Floor);
+            RenderLayer(MapLayerType.Wall);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void RenderLayer(MapLayerType layerType)
+        {
+            for (int i = 0; i < map.Width; i++)
+            {
+                for (int j = 0; j < map.Height; j++)
+                {
+                    var tile = map.GetTileFromLayer(layerType, i, j);
+                    if (tile.TileType != TileType.None) 
+                    {
+                        var tileset = tilesets[tile.TilesetName];
+                        var sourceRect = tileset.GetRectangleForTilesetTile(tile.TilesetTileId);
+                        var tileX = i * tileset.TileWidth;
+                        var tileY = j * tileset.TileHeight;
+                        _spriteBatch.Draw(textures[tile.TilesetName], new Vector2(tileX, tileY), sourceRect, Color.White);
+                    } 
+                }
+            }
         }
     }
 }
