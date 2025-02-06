@@ -13,6 +13,16 @@ namespace RoguelikeBase2D.Constants
      *   4-5-6
      *   | | |
      *   7-8-9
+     *
+     *  //Conversion Code
+     *  public int EnumToValue(string enumName)
+     *  {
+     *      string tileType = enumName.Replace("WallBorder", "");
+     *      var numbers = tileType.ToCharArray();
+     *      return numbers.Sum(a => (int)Math.Pow(2, int.Parse(a.ToString())));
+     *  }
+     *
+     *
      */
 
     public enum TileType
@@ -74,6 +84,64 @@ namespace RoguelikeBase2D.Constants
         public static bool IsPassable(this TileType tileType)
         {
             return tileType == TileType.Floor;
+        }
+
+        public static bool IsWallOrBorder(this TileType tileType)
+        {
+            switch (tileType)
+            {
+                case TileType.Wall:
+                case TileType.WallBorder5:
+                case TileType.WallBorder25:
+                case TileType.WallBorder258:
+                case TileType.WallBorder58:
+                case TileType.WallBorder56:
+                case TileType.WallBorder456:
+                case TileType.WallBorder45:
+                case TileType.WallBorder256:
+                case TileType.WallBorder2456:
+                case TileType.WallBorder245:
+                case TileType.WallBorder2568:
+                case TileType.WallBorder24568:
+                case TileType.WallBorder2458:
+                case TileType.WallBorder568:
+                case TileType.WallBorder4568:
+                case TileType.WallBorder458:
+                case TileType.WallBorder124568:
+                case TileType.WallBorder25689:
+                case TileType.WallBorder23568:
+                case TileType.WallBorder245678:
+                case TileType.WallBorder45689:
+                case TileType.WallBorder23456789:
+                case TileType.WallBorder12345689:
+                case TileType.WallBorder23456:
+                case TileType.WallBorder45678:
+                case TileType.WallBorder12456789:
+                case TileType.WallBorder12345678:
+                case TileType.WallBorder12456:
+                case TileType.WallBorder234568:
+                case TileType.WallBorder24578:
+                case TileType.WallBorder12458:
+                case TileType.WallBorder245689:
+                case TileType.WallBorder5689:
+                case TileType.WallBorder235689:
+                case TileType.WallBorder2345689:
+                case TileType.WallBorder2356:
+                case TileType.WallBorder2456789:
+                case TileType.WallBorder2345678:
+                case TileType.WallBorder123456789:
+                case TileType.WallBorder123456:
+                case TileType.WallBorder456789:
+                case TileType.WallBorder1245689:
+                case TileType.WallBorder1234568:
+                case TileType.WallBorder4578:
+                case TileType.WallBorder1245678:
+                case TileType.WallBorder124578:
+                case TileType.WallBorder1245:
+                    return true;
+            }
+
+            return false;
         }
     }
 }

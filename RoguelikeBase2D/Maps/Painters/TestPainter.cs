@@ -27,7 +27,8 @@ namespace RoguelikeBase2D.Maps.Painters
                     if (wallTile.TileType != Constants.TileType.None)
                     {
                         wallTile.TilesetName = tileset.Name;
-                        wallTile.TilesetTileId = 31;
+                        var tilesetTile = tileset.TilesetTiles.Where(a => a != null && a.TileType == wallTile.TileType).FirstOrDefault();
+                        wallTile.TilesetTileId = tilesetTile?.Id ?? 31;
                         map.SetTileInLayer(Constants.MapLayerType.Wall, i, j, wallTile);
                     }
                 }
