@@ -30,6 +30,16 @@ namespace RoguelikeBase2D.Constants
         None = 0,
         Floor = 1,
         Wall = 2,
+
+        WallTopLeft = 3,
+        WallTopRight = 4,
+        WallBottomLeft = 5,
+        WallBottomRight = 6,
+        WallTopMiddle = 7,
+        WallBottomMiddle = 8,
+        WallTopSingle = 9,
+        WallBottomSingle = 10,
+
         WallBorder5 = 32,
         WallBorder25 = 36,
         
@@ -120,11 +130,110 @@ namespace RoguelikeBase2D.Constants
             return tileType == TileType.Floor;
         }
 
+        public static bool IsBorder(this TileType tileType)
+        {
+            switch (tileType)
+            {
+                case TileType.WallBorder5:
+                case TileType.WallBorder25:
+
+                case TileType.WallBorder258:
+                case TileType.WallBorder1258:
+                case TileType.WallBorder12358:
+                case TileType.WallBorder12578:
+                case TileType.WallBorder12589:
+                case TileType.WallBorder123578:
+                case TileType.WallBorder123589:
+                case TileType.WallBorder1235789:
+                case TileType.WallBorder2358:
+                case TileType.WallBorder23578:
+                case TileType.WallBorder23589:
+                case TileType.WallBorder235789:
+                case TileType.WallBorder2578:
+                case TileType.WallBorder2589:
+                case TileType.WallBorder25789:
+
+                case TileType.WallBorder58:
+                case TileType.WallBorder56:
+
+                case TileType.WallBorder456:
+                case TileType.WallBorder1456:
+                case TileType.WallBorder13456:
+                case TileType.WallBorder14567:
+                case TileType.WallBorder14569:
+                case TileType.WallBorder134567:
+                case TileType.WallBorder134569:
+                case TileType.WallBorder1345679:
+                case TileType.WallBorder3456:
+                case TileType.WallBorder34567:
+                case TileType.WallBorder34569:
+                case TileType.WallBorder345679:
+                case TileType.WallBorder4567:
+                case TileType.WallBorder4569:
+                case TileType.WallBorder45679:
+
+                case TileType.WallBorder45:
+                case TileType.WallBorder256:
+                case TileType.WallBorder2456:
+                case TileType.WallBorder245:
+                case TileType.WallBorder2568:
+                case TileType.WallBorder24568:
+                case TileType.WallBorder2458:
+                case TileType.WallBorder568:
+                case TileType.WallBorder4568:
+                case TileType.WallBorder458:
+                case TileType.WallBorder124568:
+                case TileType.WallBorder25689:
+                case TileType.WallBorder23568:
+                case TileType.WallBorder245678:
+                case TileType.WallBorder45689:
+                case TileType.WallBorder23456789:
+                case TileType.WallBorder12345689:
+                case TileType.WallBorder23456:
+                case TileType.WallBorder45678:
+                case TileType.WallBorder12456789:
+                case TileType.WallBorder12345678:
+                case TileType.WallBorder12456:
+                case TileType.WallBorder234568:
+                case TileType.WallBorder24578:
+                case TileType.WallBorder12458:
+                case TileType.WallBorder245689:
+                case TileType.WallBorder5689:
+                case TileType.WallBorder235689:
+                case TileType.WallBorder2345689:
+                case TileType.WallBorder2356:
+                case TileType.WallBorder2456789:
+                case TileType.WallBorder2345678:
+                case TileType.WallBorder123456789:
+                case TileType.WallBorder123456:
+                case TileType.WallBorder456789:
+                case TileType.WallBorder1245689:
+                case TileType.WallBorder1234568:
+                case TileType.WallBorder4578:
+                case TileType.WallBorder1245678:
+                case TileType.WallBorder124578:
+                case TileType.WallBorder1245:
+                    return true;
+            }
+
+            return false;
+        }
+
         public static bool IsWallOrBorder(this TileType tileType)
         {
             switch (tileType)
             {
                 case TileType.Wall:
+
+                case TileType.WallTopLeft:
+                case TileType.WallTopRight:
+                case TileType.WallBottomLeft:
+                case TileType.WallBottomRight:
+                case TileType.WallTopMiddle:
+                case TileType.WallBottomMiddle:
+                case TileType.WallTopSingle:
+                case TileType.WallBottomSingle:
+
                 case TileType.WallBorder5:
                 case TileType.WallBorder25:
 
