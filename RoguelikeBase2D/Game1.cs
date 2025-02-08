@@ -57,7 +57,22 @@ namespace RoguelikeBase2D
 
             tileset.SetTilesetTile(90, new TilesetTile(90, TileType.WallBorder5));
             tileset.SetTilesetTile(80, new TilesetTile(80, TileType.WallBorder25));
-            tileset.SetTilesetTile(70, new TilesetTile(70, TileType.WallBorder258));
+            tileset.SetTilesetTile(70, new TilesetTile(70, 
+                TileType.WallBorder258, 
+                TileType.WallBorder1258,
+                TileType.WallBorder12358,
+                TileType.WallBorder12578,
+                TileType.WallBorder12589,
+                TileType.WallBorder123578,
+                TileType.WallBorder123589,
+                TileType.WallBorder1235789,
+                TileType.WallBorder2358,
+                TileType.WallBorder23578,
+                TileType.WallBorder23589,
+                TileType.WallBorder235789,
+                TileType.WallBorder2578,
+                TileType.WallBorder2589,
+                TileType.WallBorder25789));
             tileset.SetTilesetTile(60, new TilesetTile(60, TileType.WallBorder58));
             tileset.SetTilesetTile(91, new TilesetTile(91, TileType.WallBorder56));
             tileset.SetTilesetTile(92, new TilesetTile(92, TileType.WallBorder456));
