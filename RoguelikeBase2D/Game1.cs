@@ -51,257 +51,57 @@ namespace RoguelikeBase2D
         private void GenerateMap()
         {
             var tileset = new Tileset("test-tileset", 480, 480, 48, 48);
-            tileset.SetTilesetTile(31, new TilesetTile()
-            {
-                Id = 31,
-                TileType = TileType.Wall,
-            });
-            tileset.SetTilesetTile(40, new TilesetTile()
-            {
-                Id = 40,
-                TileType = TileType.Floor,
-            });
-            tileset.SetTilesetTile(41, new TilesetTile()
-            {
-                Id = 41,
-                TileType = TileType.Floor,
-            });
+            tileset.SetTilesetTile(31, new TilesetTile(31, TileType.Wall));
+            tileset.SetTilesetTile(40, new TilesetTile(40, TileType.Floor));
+            tileset.SetTilesetTile(41, new TilesetTile(41, TileType.Floor));
 
-            tileset.SetTilesetTile(90, new TilesetTile()
-            {
-                Id = 90,
-                TileType = TileType.WallBorder5,
-            });
-            tileset.SetTilesetTile(80, new TilesetTile()
-            {
-                Id = 80,
-                TileType = TileType.WallBorder25,
-            });
-            tileset.SetTilesetTile(70, new TilesetTile()
-            {
-                Id = 70,
-                TileType = TileType.WallBorder258,
-            });
-            tileset.SetTilesetTile(60, new TilesetTile()
-            {
-                Id = 60,
-                TileType = TileType.WallBorder58,
-            });
-            tileset.SetTilesetTile(91, new TilesetTile()
-            {
-                Id = 91,
-                TileType = TileType.WallBorder56,
-            });
-            tileset.SetTilesetTile(92, new TilesetTile()
-            {
-                Id = 92,
-                TileType = TileType.WallBorder456,
-            });
-            tileset.SetTilesetTile(93, new TilesetTile()
-            {
-                Id = 93,
-                TileType = TileType.WallBorder45,
-            });
-            tileset.SetTilesetTile(81, new TilesetTile()
-            {
-                Id = 81,
-                TileType = TileType.WallBorder256,
-            });
-            tileset.SetTilesetTile(82, new TilesetTile()
-            {
-                Id = 82,
-                TileType = TileType.WallBorder2456,
-            });
-            tileset.SetTilesetTile(83, new TilesetTile()
-            {
-                Id = 83,
-                TileType = TileType.WallBorder245,
-            });
-            tileset.SetTilesetTile(71, new TilesetTile()
-            {
-                Id = 71,
-                TileType = TileType.WallBorder2568,
-            });
-            tileset.SetTilesetTile(72, new TilesetTile()
-            {
-                Id = 72,
-                TileType = TileType.WallBorder24568,
-            });
-            tileset.SetTilesetTile(73, new TilesetTile()
-            {
-                Id = 73,
-                TileType = TileType.WallBorder2458,
-            });
-            tileset.SetTilesetTile(61, new TilesetTile()
-            {
-                Id = 61,
-                TileType = TileType.WallBorder568,
-            });
-            tileset.SetTilesetTile(62, new TilesetTile()
-            {
-                Id = 72,
-                TileType = TileType.WallBorder4568,
-            });
-            tileset.SetTilesetTile(63, new TilesetTile()
-            {
-                Id = 63,
-                TileType = TileType.WallBorder458,
-            });
-            tileset.SetTilesetTile(66, new TilesetTile()
-            {
-                Id = 66,
-                TileType = TileType.WallBorder124568,
-            });
-            tileset.SetTilesetTile(76, new TilesetTile()
-            {
-                Id = 76,
-                TileType = TileType.WallBorder25689,
-            });
-            tileset.SetTilesetTile(86, new TilesetTile()
-            {
-                Id = 86,
-                TileType = TileType.WallBorder23568,
-            });
-            tileset.SetTilesetTile(96, new TilesetTile()
-            {
-                Id = 96,
-                TileType = TileType.WallBorder245678,
-            });
-            tileset.SetTilesetTile(67, new TilesetTile()
-            {
-                Id = 67,
-                TileType = TileType.WallBorder45689,
-            });
-            tileset.SetTilesetTile(77, new TilesetTile()
-            {
-                Id = 77,
-                TileType = TileType.WallBorder23456789,
-            });
-            tileset.SetTilesetTile(87, new TilesetTile()
-            {
-                Id = 87,
-                TileType = TileType.WallBorder12345689,
-            });
-            tileset.SetTilesetTile(97, new TilesetTile()
-            {
-                Id = 97,
-                TileType = TileType.WallBorder23456,
-            });
-            tileset.SetTilesetTile(68, new TilesetTile()
-            {
-                Id = 68,
-                TileType = TileType.WallBorder45678,
-            });
-            tileset.SetTilesetTile(78, new TilesetTile()
-            {
-                Id = 78,
-                TileType = TileType.WallBorder12456789,
-            });
-            tileset.SetTilesetTile(88, new TilesetTile()
-            {
-                Id = 88,
-                TileType = TileType.WallBorder12345678,
-            });
-            tileset.SetTilesetTile(98, new TilesetTile()
-            {
-                Id = 98,
-                TileType = TileType.WallBorder12456,
-            });
-            tileset.SetTilesetTile(69, new TilesetTile()
-            {
-                Id = 69,
-                TileType = TileType.WallBorder234568,
-            });
-            tileset.SetTilesetTile(79, new TilesetTile()
-            {
-                Id = 79,
-                TileType = TileType.WallBorder24578,
-            });
-            tileset.SetTilesetTile(89, new TilesetTile()
-            {
-                Id = 89,
-                TileType = TileType.WallBorder12458,
-            });
-            tileset.SetTilesetTile(99, new TilesetTile()
-            {
-                Id = 99,
-                TileType = TileType.WallBorder245689,
-            });
-            tileset.SetTilesetTile(6, new TilesetTile()
-            {
-                Id = 6,
-                TileType = TileType.WallBorder5689,
-            });
-            tileset.SetTilesetTile(16, new TilesetTile()
-            {
-                Id = 16,
-                TileType = TileType.WallBorder235689,
-            });
-            tileset.SetTilesetTile(26, new TilesetTile()
-            {
-                Id = 26,
-                TileType = TileType.WallBorder2345689,
-            });
-            tileset.SetTilesetTile(36, new TilesetTile()
-            {
-                Id = 36,
-                TileType = TileType.WallBorder2356,
-            });
-            tileset.SetTilesetTile(7, new TilesetTile()
-            {
-                Id = 7,
-                TileType = TileType.WallBorder2456789,
-            });
-            tileset.SetTilesetTile(17, new TilesetTile()
-            {
-                Id = 17,
-                TileType = TileType.WallBorder2345678,
-            });
-            tileset.SetTilesetTile(27, new TilesetTile()
-            {
-                Id = 27,
-                TileType = TileType.WallBorder123456789,
-            });
-            tileset.SetTilesetTile(37, new TilesetTile()
-            {
-                Id = 37,
-                TileType = TileType.WallBorder123456,
-            });
-            tileset.SetTilesetTile(8, new TilesetTile()
-            {
-                Id = 8,
-                TileType = TileType.WallBorder456789,
-            });
-            tileset.SetTilesetTile(28, new TilesetTile()
-            {
-                Id = 28,
-                TileType = TileType.WallBorder1245689,
-            });
-            tileset.SetTilesetTile(38, new TilesetTile()
-            {
-                Id = 38,
-                TileType = TileType.WallBorder1234568,
-            });
-            tileset.SetTilesetTile(9, new TilesetTile()
-            {
-                Id = 9,
-                TileType = TileType.WallBorder4578,
-            });
-            tileset.SetTilesetTile(19, new TilesetTile()
-            {
-                Id = 19,
-                TileType = TileType.WallBorder1245678,
-            });
-            tileset.SetTilesetTile(29, new TilesetTile()
-            {
-                Id = 29,
-                TileType = TileType.WallBorder124578,
-            });
-            tileset.SetTilesetTile(39, new TilesetTile()
-            {
-                Id = 39,
-                TileType = TileType.WallBorder1245,
-            });
+            tileset.SetTilesetTile(90, new TilesetTile(90, TileType.WallBorder5));
+            tileset.SetTilesetTile(80, new TilesetTile(80, TileType.WallBorder25));
+            tileset.SetTilesetTile(70, new TilesetTile(70, TileType.WallBorder258));
+            tileset.SetTilesetTile(60, new TilesetTile(60, TileType.WallBorder58));
+            tileset.SetTilesetTile(91, new TilesetTile(91, TileType.WallBorder56));
+            tileset.SetTilesetTile(92, new TilesetTile(92, TileType.WallBorder456));
+            tileset.SetTilesetTile(93, new TilesetTile(93, TileType.WallBorder45));
+            tileset.SetTilesetTile(81, new TilesetTile(81, TileType.WallBorder256));
+            tileset.SetTilesetTile(82, new TilesetTile(82, TileType.WallBorder2456));
+            tileset.SetTilesetTile(83, new TilesetTile(83, TileType.WallBorder245));
+            tileset.SetTilesetTile(71, new TilesetTile(71, TileType.WallBorder2568));
+            tileset.SetTilesetTile(72, new TilesetTile(72, TileType.WallBorder24568));
+            tileset.SetTilesetTile(73, new TilesetTile(73, TileType.WallBorder2458));
+            tileset.SetTilesetTile(61, new TilesetTile(61, TileType.WallBorder568));
+            tileset.SetTilesetTile(62, new TilesetTile(62, TileType.WallBorder4568));
+            tileset.SetTilesetTile(63, new TilesetTile(63, TileType.WallBorder458));
+            tileset.SetTilesetTile(66, new TilesetTile(66, TileType.WallBorder124568));
+            tileset.SetTilesetTile(76, new TilesetTile(76, TileType.WallBorder25689));
+            tileset.SetTilesetTile(86, new TilesetTile(86, TileType.WallBorder23568));
+            tileset.SetTilesetTile(96, new TilesetTile(96, TileType.WallBorder245678));
+            tileset.SetTilesetTile(67, new TilesetTile(67, TileType.WallBorder45689));
+            tileset.SetTilesetTile(77, new TilesetTile(77, TileType.WallBorder23456789));
+            tileset.SetTilesetTile(87, new TilesetTile(87, TileType.WallBorder12345689));
+            tileset.SetTilesetTile(97, new TilesetTile(97, TileType.WallBorder23456));
+            tileset.SetTilesetTile(68, new TilesetTile(68, TileType.WallBorder45678));
+            tileset.SetTilesetTile(78, new TilesetTile(78, TileType.WallBorder12456789));
+            tileset.SetTilesetTile(88, new TilesetTile(88, TileType.WallBorder12345678));
+            tileset.SetTilesetTile(98, new TilesetTile(98, TileType.WallBorder12456));
+            tileset.SetTilesetTile(69, new TilesetTile(69, TileType.WallBorder234568));
+            tileset.SetTilesetTile(79, new TilesetTile(79, TileType.WallBorder24578));
+            tileset.SetTilesetTile(89, new TilesetTile(89, TileType.WallBorder12458));
+            tileset.SetTilesetTile(99, new TilesetTile(99, TileType.WallBorder245689));
+            tileset.SetTilesetTile(6, new TilesetTile(6, TileType.WallBorder5689));
+            tileset.SetTilesetTile(16, new TilesetTile(16, TileType.WallBorder235689));
+            tileset.SetTilesetTile(26, new TilesetTile(26, TileType.WallBorder2345689));
+            tileset.SetTilesetTile(36, new TilesetTile(36, TileType.WallBorder2356));
+            tileset.SetTilesetTile(7, new TilesetTile(7, TileType.WallBorder2456789));
+            tileset.SetTilesetTile(17, new TilesetTile(17, TileType.WallBorder2345678));
+            tileset.SetTilesetTile(27, new TilesetTile(27, TileType.WallBorder123456789));
+            tileset.SetTilesetTile(37, new TilesetTile(37, TileType.WallBorder123456));
+            tileset.SetTilesetTile(8, new TilesetTile(8, TileType.WallBorder456789));
+            tileset.SetTilesetTile(28, new TilesetTile(28, TileType.WallBorder1245689));
+            tileset.SetTilesetTile(38, new TilesetTile(38, TileType.WallBorder1234568));
+            tileset.SetTilesetTile(9, new TilesetTile(9, TileType.WallBorder4578));
+            tileset.SetTilesetTile(19, new TilesetTile(19, TileType.WallBorder1245678));
+            tileset.SetTilesetTile(29, new TilesetTile(29, TileType.WallBorder124578));
+            tileset.SetTilesetTile(39, new TilesetTile(39, TileType.WallBorder1245));
 
 
 

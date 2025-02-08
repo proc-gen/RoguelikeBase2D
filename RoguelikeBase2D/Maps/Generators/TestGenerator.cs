@@ -50,6 +50,7 @@ namespace RoguelikeBase2D.Maps.Generators
                 for (int j = 0; j < map.Height; j++)
                 {
                     var tile = map.GetTileFromLayer(MapLayerType.Wall, i, j);
+
                     if (tile.TileType == TileType.Wall)
                     {
                         isWallOrBorder[0] = IsWallOrBorder(map, i - 1, j - 1);

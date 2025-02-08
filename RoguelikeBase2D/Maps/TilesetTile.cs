@@ -10,6 +10,13 @@ namespace RoguelikeBase2D.Maps
     public class TilesetTile
     {
         public int Id { get; set; }
-        public TileType TileType { get; set; }
+        public TileType[] TileTypes { get; set; }
+
+        public TilesetTile() { }
+        public TilesetTile(int id, params TileType[] tileTypes)
+        {
+            Id = id;
+            TileTypes = tileTypes;
+        }
     }
 }
