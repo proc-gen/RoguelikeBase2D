@@ -166,7 +166,7 @@ namespace RoguelikeBase2D.Maps.Generators
         {
             if(i < 0 || j < 0 || i >= map.Width || j >= map.Height)
             {
-                return false;
+                return true;
             }
 
             return map.GetTileFromLayer(MapLayerType.Wall, i, j).TileType.IsWallOrBorder();
@@ -176,7 +176,7 @@ namespace RoguelikeBase2D.Maps.Generators
         {
             if (i < 0 || j < 0 || i >= map.Width || j >= map.Height)
             {
-                return false;
+                return true;
             }
 
             return map.GetTileFromLayer(MapLayerType.Wall, i, j).TileType.IsBorder();
@@ -184,7 +184,7 @@ namespace RoguelikeBase2D.Maps.Generators
 
         public override Point GetPlayerStartingPosition(Map map)
         {
-            return new Point(map.Width / 2, map.Height / 2);
+            return new Point(map.Width / 4, map.Height / 4);
         }
     }
 }

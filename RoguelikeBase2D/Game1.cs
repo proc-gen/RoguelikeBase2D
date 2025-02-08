@@ -124,19 +124,32 @@ namespace RoguelikeBase2D
             tileset.SetTilesetTile(89, new TilesetTile(89, TileType.WallBorder12458));
             tileset.SetTilesetTile(99, new TilesetTile(99, TileType.WallBorder245689));
             tileset.SetTilesetTile(6, new TilesetTile(6, TileType.WallBorder5689));
-            tileset.SetTilesetTile(16, new TilesetTile(16, TileType.WallBorder235689));
+            tileset.SetTilesetTile(16, new TilesetTile(16, 
+                TileType.WallBorder235689,
+                TileType.WallBorder1235689,
+                TileType.WallBorder2356789));
+
             tileset.SetTilesetTile(26, new TilesetTile(26, TileType.WallBorder2345689));
             tileset.SetTilesetTile(36, new TilesetTile(36, TileType.WallBorder2356));
             tileset.SetTilesetTile(7, new TilesetTile(7, TileType.WallBorder2456789));
             tileset.SetTilesetTile(17, new TilesetTile(17, TileType.WallBorder2345678));
             tileset.SetTilesetTile(27, new TilesetTile(27, TileType.WallBorder123456789));
-            tileset.SetTilesetTile(37, new TilesetTile(37, TileType.WallBorder123456));
-            tileset.SetTilesetTile(8, new TilesetTile(8, TileType.WallBorder456789));
+            tileset.SetTilesetTile(37, new TilesetTile(37, 
+                TileType.WallBorder123456,
+                TileType.WallBorder1234567,
+                TileType.WallBorder1234569));
+            tileset.SetTilesetTile(8, new TilesetTile(8, 
+                TileType.WallBorder456789,
+                TileType.WallBorder1456789,
+                TileType.WallBorder3456789));
             tileset.SetTilesetTile(28, new TilesetTile(28, TileType.WallBorder1245689));
             tileset.SetTilesetTile(38, new TilesetTile(38, TileType.WallBorder1234568));
             tileset.SetTilesetTile(9, new TilesetTile(9, TileType.WallBorder4578));
             tileset.SetTilesetTile(19, new TilesetTile(19, TileType.WallBorder1245678));
-            tileset.SetTilesetTile(29, new TilesetTile(29, TileType.WallBorder124578));
+            tileset.SetTilesetTile(29, new TilesetTile(29, 
+                TileType.WallBorder124578,
+                TileType.WallBorder1234578,
+                TileType.WallBorder1245789));
             tileset.SetTilesetTile(39, new TilesetTile(39, TileType.WallBorder1245));
 
             tilesets = new Dictionary<string, Tileset>()
