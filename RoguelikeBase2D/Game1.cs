@@ -28,8 +28,9 @@ namespace RoguelikeBase2D
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.ApplyChanges();
             base.Initialize();
         }
 
@@ -37,6 +38,7 @@ namespace RoguelikeBase2D
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             LoadTextures();
+            LoadTilesets();
             GenerateMap();
         }
 
@@ -48,7 +50,7 @@ namespace RoguelikeBase2D
             };
         }
 
-        private void GenerateMap()
+        private void LoadTilesets()
         {
             var tileset = new Tileset("test-tileset", 480, 480, 48, 48);
             tileset.SetTilesetTile(30, new TilesetTile(30, TileType.WallBottomLeft, TileType.WallTopLeft));
@@ -61,8 +63,8 @@ namespace RoguelikeBase2D
 
             tileset.SetTilesetTile(90, new TilesetTile(90, TileType.WallBorder5));
             tileset.SetTilesetTile(80, new TilesetTile(80, TileType.WallBorder25));
-            tileset.SetTilesetTile(70, new TilesetTile(70, 
-                TileType.WallBorder258, 
+            tileset.SetTilesetTile(70, new TilesetTile(70,
+                TileType.WallBorder258,
                 TileType.WallBorder1258,
                 TileType.WallBorder12358,
                 TileType.WallBorder12578,
@@ -79,7 +81,7 @@ namespace RoguelikeBase2D
                 TileType.WallBorder25789));
             tileset.SetTilesetTile(60, new TilesetTile(60, TileType.WallBorder58));
             tileset.SetTilesetTile(91, new TilesetTile(91, TileType.WallBorder56));
-            tileset.SetTilesetTile(92, new TilesetTile(92, 
+            tileset.SetTilesetTile(92, new TilesetTile(92,
                 TileType.WallBorder456,
                 TileType.WallBorder1456,
                 TileType.WallBorder13456,
@@ -137,18 +139,18 @@ namespace RoguelikeBase2D
             tileset.SetTilesetTile(29, new TilesetTile(29, TileType.WallBorder124578));
             tileset.SetTilesetTile(39, new TilesetTile(39, TileType.WallBorder1245));
 
-
-
             tilesets = new Dictionary<string, Tileset>()
             {
                 {tileset.Name, tileset},
             };
+        }
 
+        private void GenerateMap()
+        {
             TestGenerator generator = new TestGenerator();
             TestPainter painter = new TestPainter();
-            map = generator.GenerateMap(10, 10);
+            map = generator.GenerateMap(40, 22);
             map = painter.PaintMap(map, tilesets["test-tileset"]);
-
         }
 
         protected override void Update(GameTime gameTime)

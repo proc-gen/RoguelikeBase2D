@@ -23,6 +23,12 @@ namespace RoguelikeBase2D.Maps.Generators
 
         private void PreProcessMap(Map map)
         {
+            CreateOuterWalls(map);
+            CreateDividerWalls(map);
+        }
+
+        private void CreateOuterWalls(Map map)
+        {
             for (int i = 0; i < map.Width; i++)
             {
                 for (int j = 0; j < map.Height; j++)
@@ -39,6 +45,29 @@ namespace RoguelikeBase2D.Maps.Generators
                         tile.TileType = TileType.Floor;
                         map.SetTileInLayer(MapLayerType.Floor, i, j, tile);
                     }
+                }
+            }
+        }
+
+        private void CreateDividerWalls(Map map)
+        {
+            for (int i = 0; i < map.Width; i++)
+            {
+                if (i != map.Width / 4 && i != map.Width * 3 / 4)
+                {
+                    var tile = map.GetTileFromLayer(MapLayerType.Wall, i, map.Height / 2);
+                    tile.TileType = TileType.Wall;
+                    map.SetTileInLayer(MapLayerType.Wall, i, map.Height / 2, tile);
+                }
+            }
+
+            for (int j = 0; j < map.Height; j++)
+            {
+                if (j < map.Height / 4 - 1 || (j > map.Height / 4 + 1 && j < map.Height * 3 / 4 - 1) || j > map.Height * 3 / 4 + 1)
+                {
+                    var tile = map.GetTileFromLayer(MapLayerType.Wall, map.Width / 2, j);
+                    tile.TileType = TileType.Wall;
+                    map.SetTileInLayer(MapLayerType.Wall, map.Width / 2, j, tile);
                 }
             }
         }
@@ -100,19 +129,21 @@ namespace RoguelikeBase2D.Maps.Generators
                             var tile9 = IsBorder(map, i + 1, j + 1);
 
                             if((tile7 && tile9) || 
-                                (!tile7 && !tile9) || 
+                                (!tile4 && !tile6 && !tile7 && !tile9) || 
                                 (!tile4 && !tile7 && tile9) || 
                                 (!tile6 && tile7 && !tile9))
                             {
-                                tileBelow1.TileType = TileType.WallTopMiddle;
-                                tileBelow2.TileType = TileType.WallBottomMiddle;
+                                tileBelow1.TileType = TileType.WallTopSingle;
+                                tileBelow2.TileType = TileType.WallBottomSingle;
                             }
-                            else if (tile6 && tile7 && !tile9)
+                            else if ((tile6 && tile7 && !tile9) ||
+                                        (!tile4 && tile6 && !tile7))
                             {
                                 tileBelow1.TileType = TileType.WallTopLeft;
                                 tileBelow2.TileType = TileType.WallBottomLeft;
                             }
-                            else if (tile4 && !tile7 && tile9)
+                            else if ((tile4 && !tile7 && tile9) ||
+                                        (tile4 && !tile6 && !tile9))
                             {
                                 tileBelow1.TileType = TileType.WallTopRight;
                                 tileBelow2.TileType = TileType.WallBottomRight;
