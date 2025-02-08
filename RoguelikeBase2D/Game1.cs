@@ -160,7 +160,7 @@ namespace RoguelikeBase2D
 
         private void GenerateMap()
         {
-            TestGenerator generator = new TestGenerator();
+            RandomGenerator generator = new RandomGenerator();
             TestPainter painter = new TestPainter();
             map = generator.GenerateMap(40, 22);
             map = painter.PaintMap(map, tilesets["test-tileset"]);
