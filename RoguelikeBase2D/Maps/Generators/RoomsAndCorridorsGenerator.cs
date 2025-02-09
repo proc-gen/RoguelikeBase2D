@@ -17,8 +17,8 @@ namespace RoguelikeBase2D.Maps.Generators
         {
             Map map = new Map(width, height);
             Rooms = new List<Rectangle>();
-            // random = new SeededRandom(506787069);
-            random = new SeededRandom(Random.Shared.Next());
+            random = new SeededRandom(1235827919);
+            // random = new SeededRandom(Random.Shared.Next());
             map.Seed = random.Seed;
             
             PreProcessMap(map);
@@ -177,7 +177,7 @@ namespace RoguelikeBase2D.Maps.Generators
                             }
                         }
 
-                        if (i == 11 && j == 8)
+                        if (i == 21 && j == 10)
                         {
                             Console.WriteLine("Debug");
                         }

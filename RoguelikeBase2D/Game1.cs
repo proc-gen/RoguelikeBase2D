@@ -114,9 +114,13 @@ namespace RoguelikeBase2D
                 TileType.WallBorder145,
                 TileType.WallBorder457,
                 TileType.WallBorder1457));
-            tileset.SetTilesetTile(81, new TilesetTile(81, TileType.WallBorder256));
+            tileset.SetTilesetTile(81, new TilesetTile(81, 
+                TileType.WallBorder256,
+                TileType.WallBorder1256));
             tileset.SetTilesetTile(82, new TilesetTile(82, TileType.WallBorder2456));
-            tileset.SetTilesetTile(83, new TilesetTile(83, TileType.WallBorder245));
+            tileset.SetTilesetTile(83, new TilesetTile(83, 
+                TileType.WallBorder245,
+                TileType.WallBorder2345));
             tileset.SetTilesetTile(71, new TilesetTile(71, TileType.WallBorder2568));
             tileset.SetTilesetTile(72, new TilesetTile(72, TileType.WallBorder24568));
             tileset.SetTilesetTile(73, new TilesetTile(73, TileType.WallBorder2458));
@@ -127,7 +131,9 @@ namespace RoguelikeBase2D
             tileset.SetTilesetTile(76, new TilesetTile(76, 
                 TileType.WallBorder25689,
                 TileType.WallBorder256789));
-            tileset.SetTilesetTile(86, new TilesetTile(86, TileType.WallBorder23568));
+            tileset.SetTilesetTile(86, new TilesetTile(86, 
+                TileType.WallBorder23568,
+                TileType.WallBorder235678));
             tileset.SetTilesetTile(96, new TilesetTile(96, TileType.WallBorder245678));
             tileset.SetTilesetTile(67, new TilesetTile(67, 
                 TileType.WallBorder45689,
@@ -136,7 +142,9 @@ namespace RoguelikeBase2D
                 TileType.WallBorder1345689));
             tileset.SetTilesetTile(77, new TilesetTile(77, TileType.WallBorder23456789));
             tileset.SetTilesetTile(87, new TilesetTile(87, TileType.WallBorder12345689));
-            tileset.SetTilesetTile(97, new TilesetTile(97, TileType.WallBorder23456));
+            tileset.SetTilesetTile(97, new TilesetTile(97, 
+                TileType.WallBorder23456,
+                TileType.WallBorder234569));
             tileset.SetTilesetTile(68, new TilesetTile(68, TileType.WallBorder45678));
             tileset.SetTilesetTile(78, new TilesetTile(78, TileType.WallBorder12456789));
             tileset.SetTilesetTile(88, new TilesetTile(88, TileType.WallBorder12345678));
@@ -151,7 +159,8 @@ namespace RoguelikeBase2D
                 TileType.WallBorder245789));
             tileset.SetTilesetTile(89, new TilesetTile(89, 
                 TileType.WallBorder12458,
-                TileType.WallBorder123458));
+                TileType.WallBorder123458,
+                TileType.WallBorder124589));
             tileset.SetTilesetTile(99, new TilesetTile(99, TileType.WallBorder245689));
             tileset.SetTilesetTile(6, new TilesetTile(6, 
                 TileType.WallBorder5689,
@@ -185,7 +194,8 @@ namespace RoguelikeBase2D
                 TileType.WallBorder4578,
                 TileType.WallBorder14578,
                 TileType.WallBorder45789,
-                TileType.WallBorder145789));
+                TileType.WallBorder145789,
+                TileType.WallBorder4589));
             tileset.SetTilesetTile(19, new TilesetTile(19, TileType.WallBorder1245678));
             tileset.SetTilesetTile(29, new TilesetTile(29, 
                 TileType.WallBorder124578,
