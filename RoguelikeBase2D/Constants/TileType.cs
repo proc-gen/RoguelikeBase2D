@@ -41,8 +41,12 @@ namespace RoguelikeBase2D.Constants
         WallBottomSingle = 10,
 
         WallBorder5 = 32,
+
         WallBorder25 = 36,
-        
+        WallBorder125 = 38,
+        WallBorder235 = 44,
+        WallBorder1235 = 46,
+
         // Vertical double sided wall
         WallBorder258 = 292,
         WallBorder1258 = 294,
@@ -61,7 +65,14 @@ namespace RoguelikeBase2D.Constants
         WallBorder25789 = 932,
 
         WallBorder58 = 288,
+        WallBorder578 = 416,
+        WallBorder589 = 800,
+        WallBorder5789 = 928,
+
         WallBorder56 = 96,
+        WallBorder356 = 104,
+        WallBorder569 = 608,
+        WallBorder3569 = 616,
 
         // Horizontal double sided wall
         WallBorder456 = 112,
@@ -81,6 +92,10 @@ namespace RoguelikeBase2D.Constants
         WallBorder45679 = 752,
 
         WallBorder45 = 48,
+        WallBorder145 = 50,
+        WallBorder457 = 176,
+        WallBorder1457 = 178,
+
         WallBorder256 = 100,
         WallBorder2456 = 116,
         WallBorder245 = 52,
@@ -91,20 +106,38 @@ namespace RoguelikeBase2D.Constants
         WallBorder4568 = 368,
         WallBorder458 = 304,
         WallBorder124568 = 374,
+        
         WallBorder25689 = 868,
+        WallBorder256789 = 996,
+
         WallBorder23568 = 364,
         WallBorder245678 = 500,
+
         WallBorder45689 = 880,
+        WallBorder145689 = 882,
+        WallBorder345689 = 888,
+        WallBorder1345689 = 890,
+
         WallBorder23456789 = 1020,
         WallBorder12345689 = 894,
         WallBorder23456 = 124,
         WallBorder45678 = 496,
         WallBorder12456789 = 1014,
         WallBorder12345678 = 510,
+        
         WallBorder12456 = 118,
+        WallBorder124569 = 630,
+        WallBorder124567 = 246,
+        WallBorder1245679 = 758,
+
         WallBorder234568 = 380,
+        
         WallBorder24578 = 436,
+        WallBorder245789 = 948,
+
         WallBorder12458 = 310,
+        WallBorder123458 = 318,
+
         WallBorder245689 = 884,
 
         WallBorder5689 = 864,
@@ -152,8 +185,9 @@ namespace RoguelikeBase2D.Constants
 
         WallBorder1245 = 54,
         WallBorder12345 = 62,
-        WallBorder23457 = 182,
-        WallBorder123457 = 184,
+        WallBorder23457 = 188,
+        WallBorder123457 = 190,
+        WallBorder12457 = 182,
     }
 
     public static class TileTypeExtensions
@@ -168,7 +202,11 @@ namespace RoguelikeBase2D.Constants
             switch (tileType)
             {
                 case TileType.WallBorder5:
+
                 case TileType.WallBorder25:
+                case TileType.WallBorder125:
+                case TileType.WallBorder235:
+                case TileType.WallBorder1235:
 
                 case TileType.WallBorder258:
                 case TileType.WallBorder1258:
@@ -187,7 +225,14 @@ namespace RoguelikeBase2D.Constants
                 case TileType.WallBorder25789:
 
                 case TileType.WallBorder58:
+                case TileType.WallBorder578:
+                case TileType.WallBorder589:
+                case TileType.WallBorder5789:
+
                 case TileType.WallBorder56:
+                case TileType.WallBorder356:
+                case TileType.WallBorder569:
+                case TileType.WallBorder3569:
 
                 case TileType.WallBorder456:
                 case TileType.WallBorder1456:
@@ -206,6 +251,10 @@ namespace RoguelikeBase2D.Constants
                 case TileType.WallBorder45679:
 
                 case TileType.WallBorder45:
+                case TileType.WallBorder145:
+                case TileType.WallBorder457:
+                case TileType.WallBorder1457:
+
                 case TileType.WallBorder256:
                 case TileType.WallBorder2456:
                 case TileType.WallBorder245:
@@ -216,20 +265,38 @@ namespace RoguelikeBase2D.Constants
                 case TileType.WallBorder4568:
                 case TileType.WallBorder458:
                 case TileType.WallBorder124568:
+
                 case TileType.WallBorder25689:
+                case TileType.WallBorder256789:
+
                 case TileType.WallBorder23568:
                 case TileType.WallBorder245678:
+
                 case TileType.WallBorder45689:
+                case TileType.WallBorder145689:
+                case TileType.WallBorder345689:
+                case TileType.WallBorder1345689:
+
                 case TileType.WallBorder23456789:
                 case TileType.WallBorder12345689:
                 case TileType.WallBorder23456:
                 case TileType.WallBorder45678:
                 case TileType.WallBorder12456789:
                 case TileType.WallBorder12345678:
+
                 case TileType.WallBorder12456:
+                case TileType.WallBorder124569:
+                case TileType.WallBorder124567:
+                case TileType.WallBorder1245679:
+
                 case TileType.WallBorder234568:
+
                 case TileType.WallBorder24578:
+                case TileType.WallBorder245789:
+
                 case TileType.WallBorder12458:
+                case TileType.WallBorder123458:
+
                 case TileType.WallBorder245689:
 
                 case TileType.WallBorder5689:
@@ -278,6 +345,7 @@ namespace RoguelikeBase2D.Constants
                 case TileType.WallBorder12345:
                 case TileType.WallBorder23457:
                 case TileType.WallBorder123457:
+                case TileType.WallBorder12457:
                     return true;
             }
 
@@ -300,7 +368,11 @@ namespace RoguelikeBase2D.Constants
                 case TileType.WallBottomSingle:
 
                 case TileType.WallBorder5:
+
                 case TileType.WallBorder25:
+                case TileType.WallBorder125:
+                case TileType.WallBorder235:
+                case TileType.WallBorder1235:
 
                 case TileType.WallBorder258:
                 case TileType.WallBorder1258:
@@ -319,7 +391,14 @@ namespace RoguelikeBase2D.Constants
                 case TileType.WallBorder25789:
 
                 case TileType.WallBorder58:
+                case TileType.WallBorder578:
+                case TileType.WallBorder589:
+                case TileType.WallBorder5789:
+
                 case TileType.WallBorder56:
+                case TileType.WallBorder356:
+                case TileType.WallBorder569:
+                case TileType.WallBorder3569:
 
                 case TileType.WallBorder456:
                 case TileType.WallBorder1456:
@@ -338,6 +417,10 @@ namespace RoguelikeBase2D.Constants
                 case TileType.WallBorder45679:
 
                 case TileType.WallBorder45:
+                case TileType.WallBorder145:
+                case TileType.WallBorder457:
+                case TileType.WallBorder1457:
+
                 case TileType.WallBorder256:
                 case TileType.WallBorder2456:
                 case TileType.WallBorder245:
@@ -348,20 +431,38 @@ namespace RoguelikeBase2D.Constants
                 case TileType.WallBorder4568:
                 case TileType.WallBorder458:
                 case TileType.WallBorder124568:
+
                 case TileType.WallBorder25689:
+                case TileType.WallBorder256789:
+
                 case TileType.WallBorder23568:
                 case TileType.WallBorder245678:
+
                 case TileType.WallBorder45689:
+                case TileType.WallBorder145689:
+                case TileType.WallBorder345689:
+                case TileType.WallBorder1345689:
+
                 case TileType.WallBorder23456789:
                 case TileType.WallBorder12345689:
                 case TileType.WallBorder23456:
                 case TileType.WallBorder45678:
                 case TileType.WallBorder12456789:
                 case TileType.WallBorder12345678:
+
                 case TileType.WallBorder12456:
+                case TileType.WallBorder124569:
+                case TileType.WallBorder124567:
+                case TileType.WallBorder1245679:
+
                 case TileType.WallBorder234568:
+
                 case TileType.WallBorder24578:
+                case TileType.WallBorder245789:
+
                 case TileType.WallBorder12458:
+                case TileType.WallBorder123458:
+
                 case TileType.WallBorder245689:
 
                 case TileType.WallBorder5689:
@@ -410,6 +511,7 @@ namespace RoguelikeBase2D.Constants
                 case TileType.WallBorder12345:
                 case TileType.WallBorder23457:
                 case TileType.WallBorder123457:
+                case TileType.WallBorder12457:
                     return true;
             }
 

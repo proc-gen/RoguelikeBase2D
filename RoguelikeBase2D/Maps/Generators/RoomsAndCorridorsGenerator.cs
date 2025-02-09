@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using RoguelikeBase2D.Constants;
+using RoguelikeBase2D.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,18 @@ namespace RoguelikeBase2D.Maps.Generators
     public class RoomsAndCorridorsGenerator : Generator
     {
         List<Rectangle> Rooms;
+        SeededRandom random;
         public override Map GenerateMap(int width, int height)
         {
             Map map = new Map(width, height);
             Rooms = new List<Rectangle>();
-
+            // random = new SeededRandom(506787069);
+            random = new SeededRandom(Random.Shared.Next());
+            map.Seed = random.Seed;
+            
             PreProcessMap(map);
             ProcessWallBorders(map);
-            ProcessWalls(map);
+            //ProcessWalls(map);
 
             return map;
         }
@@ -48,7 +53,6 @@ namespace RoguelikeBase2D.Maps.Generators
 
         private void CreateRooms(Map map)
         {
-            Random random = new Random();
             int maxRooms = 30, minSize = 6, maxSize = 8;
 
             for (int i = 0; i < maxRooms; i++)
@@ -173,9 +177,16 @@ namespace RoguelikeBase2D.Maps.Generators
                             }
                         }
 
+                        if (i == 11 && j == 8)
+                        {
+                            Console.WriteLine("Debug");
+                        }
+
                         tile.TileType = (TileType)sum;
                         map.SetTileInLayer(MapLayerType.Wall, i, j, tile);
                     }
+
+                    
                 }
             }
         }

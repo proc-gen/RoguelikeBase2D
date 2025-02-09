@@ -62,7 +62,11 @@ namespace RoguelikeBase2D
             tileset.SetTilesetTile(41, new TilesetTile(41, TileType.Floor));
 
             tileset.SetTilesetTile(90, new TilesetTile(90, TileType.WallBorder5));
-            tileset.SetTilesetTile(80, new TilesetTile(80, TileType.WallBorder25));
+            tileset.SetTilesetTile(80, new TilesetTile(80, 
+                TileType.WallBorder25,
+                TileType.WallBorder125,
+                TileType.WallBorder235,
+                TileType.WallBorder1235));
             tileset.SetTilesetTile(70, new TilesetTile(70,
                 TileType.WallBorder258,
                 TileType.WallBorder1258,
@@ -79,8 +83,16 @@ namespace RoguelikeBase2D
                 TileType.WallBorder2578,
                 TileType.WallBorder2589,
                 TileType.WallBorder25789));
-            tileset.SetTilesetTile(60, new TilesetTile(60, TileType.WallBorder58));
-            tileset.SetTilesetTile(91, new TilesetTile(91, TileType.WallBorder56));
+            tileset.SetTilesetTile(60, new TilesetTile(60, 
+                TileType.WallBorder58,
+                TileType.WallBorder578,
+                TileType.WallBorder589,
+                TileType.WallBorder5789));
+            tileset.SetTilesetTile(91, new TilesetTile(91, 
+                TileType.WallBorder56,
+                TileType.WallBorder356,
+                TileType.WallBorder569,
+                TileType.WallBorder3569));
             tileset.SetTilesetTile(92, new TilesetTile(92,
                 TileType.WallBorder456,
                 TileType.WallBorder1456,
@@ -97,7 +109,11 @@ namespace RoguelikeBase2D
                 TileType.WallBorder4567,
                 TileType.WallBorder4569,
                 TileType.WallBorder45679));
-            tileset.SetTilesetTile(93, new TilesetTile(93, TileType.WallBorder45));
+            tileset.SetTilesetTile(93, new TilesetTile(93, 
+                TileType.WallBorder45,
+                TileType.WallBorder145,
+                TileType.WallBorder457,
+                TileType.WallBorder1457));
             tileset.SetTilesetTile(81, new TilesetTile(81, TileType.WallBorder256));
             tileset.SetTilesetTile(82, new TilesetTile(82, TileType.WallBorder2456));
             tileset.SetTilesetTile(83, new TilesetTile(83, TileType.WallBorder245));
@@ -108,20 +124,34 @@ namespace RoguelikeBase2D
             tileset.SetTilesetTile(62, new TilesetTile(62, TileType.WallBorder4568));
             tileset.SetTilesetTile(63, new TilesetTile(63, TileType.WallBorder458));
             tileset.SetTilesetTile(66, new TilesetTile(66, TileType.WallBorder124568));
-            tileset.SetTilesetTile(76, new TilesetTile(76, TileType.WallBorder25689));
+            tileset.SetTilesetTile(76, new TilesetTile(76, 
+                TileType.WallBorder25689,
+                TileType.WallBorder256789));
             tileset.SetTilesetTile(86, new TilesetTile(86, TileType.WallBorder23568));
             tileset.SetTilesetTile(96, new TilesetTile(96, TileType.WallBorder245678));
-            tileset.SetTilesetTile(67, new TilesetTile(67, TileType.WallBorder45689));
+            tileset.SetTilesetTile(67, new TilesetTile(67, 
+                TileType.WallBorder45689,
+                TileType.WallBorder145689,
+                TileType.WallBorder345689,
+                TileType.WallBorder1345689));
             tileset.SetTilesetTile(77, new TilesetTile(77, TileType.WallBorder23456789));
             tileset.SetTilesetTile(87, new TilesetTile(87, TileType.WallBorder12345689));
             tileset.SetTilesetTile(97, new TilesetTile(97, TileType.WallBorder23456));
             tileset.SetTilesetTile(68, new TilesetTile(68, TileType.WallBorder45678));
             tileset.SetTilesetTile(78, new TilesetTile(78, TileType.WallBorder12456789));
             tileset.SetTilesetTile(88, new TilesetTile(88, TileType.WallBorder12345678));
-            tileset.SetTilesetTile(98, new TilesetTile(98, TileType.WallBorder12456));
+            tileset.SetTilesetTile(98, new TilesetTile(98, 
+                TileType.WallBorder12456,
+                TileType.WallBorder124569,
+                TileType.WallBorder124567,
+                TileType.WallBorder1245679));
             tileset.SetTilesetTile(69, new TilesetTile(69, TileType.WallBorder234568));
-            tileset.SetTilesetTile(79, new TilesetTile(79, TileType.WallBorder24578));
-            tileset.SetTilesetTile(89, new TilesetTile(89, TileType.WallBorder12458));
+            tileset.SetTilesetTile(79, new TilesetTile(79, 
+                TileType.WallBorder24578,
+                TileType.WallBorder245789));
+            tileset.SetTilesetTile(89, new TilesetTile(89, 
+                TileType.WallBorder12458,
+                TileType.WallBorder123458));
             tileset.SetTilesetTile(99, new TilesetTile(99, TileType.WallBorder245689));
             tileset.SetTilesetTile(6, new TilesetTile(6, 
                 TileType.WallBorder5689,
@@ -165,7 +195,8 @@ namespace RoguelikeBase2D
                 TileType.WallBorder1245,
                 TileType.WallBorder12345,
                 TileType.WallBorder23457,
-                TileType.WallBorder123457));
+                TileType.WallBorder123457,
+                TileType.WallBorder12457));
 
             tilesets = new Dictionary<string, Tileset>()
             {
@@ -179,12 +210,21 @@ namespace RoguelikeBase2D
             TestPainter painter = new TestPainter();
             map = generator.GenerateMap(40, 22);
             map = painter.PaintMap(map, tilesets["test-tileset"]);
+
+            Window.Title = string.Format("RoguelikeBase2D - Seed: {0}", map.Seed);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            var kState = Keyboard.GetState();
+            if (kState.IsKeyDown(Keys.Escape))
+            {
                 Exit();
+            }
+            else if(kState.IsKeyDown(Keys.R))
+            {
+                GenerateMap();
+            }
 
             // TODO: Add your update logic here
 

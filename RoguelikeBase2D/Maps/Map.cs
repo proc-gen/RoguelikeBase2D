@@ -14,6 +14,7 @@ namespace RoguelikeBase2D.Maps
         public Dictionary<MapLayerType, MapLayer> MapLayers { get; private set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public int Seed { get; set; }
 
         public Map(int width, int height) 
         {
