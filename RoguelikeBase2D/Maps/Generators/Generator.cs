@@ -11,7 +11,7 @@ namespace RoguelikeBase2D.Maps.Generators
 {
     public abstract class Generator
     {
-        protected SeededRandom random;
+        protected SeededRandom SeededRandom;
 
         public Generator() { }
 
@@ -135,5 +135,73 @@ namespace RoguelikeBase2D.Maps.Generators
             return map.GetTileFromLayer(MapLayerType.Wall, i, j).TileType.IsBorder();
         }
 
+        protected void ApplyRoomToMap(Map map, Rectangle room)
+        {
+            for (int i = room.X + 1; i <= room.X + room.Width; i++)
+            {
+                for (int j = room.Y + 1; j <= room.Y + room.Height; j++)
+                {
+                    var tile = map.GetTileFromLayer(MapLayerType.Wall, i, j);
+                    tile.TileType = TileType.None;
+                    map.SetTileInLayer(MapLayerType.Wall, i, j, tile);
+                }
+            }
+        }
+
+        protected void ApplyRandomCorridorToMap(Map map, Point newCenter, Point oldCenter)
+        {
+            if (SeededRandom.Next(0, 2) == 1)
+            {
+                ApplyHorizontalTunnel(map, oldCenter.X, newCenter.X, oldCenter.Y);
+                ApplyVerticalTunnel(map, oldCenter.Y, newCenter.Y, newCenter.X);
+            }
+            else
+            {
+                ApplyVerticalTunnel(map, oldCenter.Y, newCenter.Y, oldCenter.X);
+                ApplyHorizontalTunnel(map, oldCenter.X, newCenter.X, newCenter.Y);
+            }
+        }
+
+        protected void ApplyEfficienctCorridorToMap(Map map, Point newCenter, Point oldCenter)
+        {
+            if (Math.Abs(newCenter.X - oldCenter.X) > Math.Abs(newCenter.Y - oldCenter.Y))
+            {
+                ApplyHorizontalTunnel(map, oldCenter.X, newCenter.X, oldCenter.Y);
+                ApplyVerticalTunnel(map, oldCenter.Y, newCenter.Y, newCenter.X);
+            }
+            else
+            {
+                ApplyVerticalTunnel(map, oldCenter.Y, newCenter.Y, oldCenter.X);
+                ApplyHorizontalTunnel(map, oldCenter.X, newCenter.X, newCenter.Y);
+            }
+        }
+
+        protected void ApplyHorizontalTunnel(Map map, int x1, int x2, int y)
+        {
+            for (int i = Math.Min(x1, x2); i <= Math.Max(x1, x2); i++)
+            {
+                var tile = map.GetTileFromLayer(MapLayerType.Wall, i, y);
+                var tile2 = map.GetTileFromLayer(MapLayerType.Wall, i, y - 1);
+                var tile8 = map.GetTileFromLayer(MapLayerType.Wall, i, y + 1);
+
+                tile.TileType = TileType.None;
+                tile2.TileType = TileType.None;
+                tile8.TileType = TileType.None;
+
+                map.SetTileInLayer(MapLayerType.Wall, i, y, tile);
+                map.SetTileInLayer(MapLayerType.Wall, i, y - 1, tile2);
+                map.SetTileInLayer(MapLayerType.Wall, i, y + 1, tile8);
+            }
+        }
+
+        protected void ApplyVerticalTunnel(Map map, int y1, int y2, int x)
+        {
+            for (int j = Math.Min(y1, y2); j <= Math.Max(y1, y2); j++)
+            {
+                var tile = map.GetTileFromLayer(MapLayerType.Wall, x, j);
+                tile.TileType = TileType.None;
+                map.SetTileInLayer(MapLayerType.Wall, x, j, tile);
+            }
+        }
     }
 }

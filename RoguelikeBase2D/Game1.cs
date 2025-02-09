@@ -216,7 +216,7 @@ namespace RoguelikeBase2D
 
         private void GenerateMap()
         {
-            RoomsAndCorridorsGenerator generator = new RoomsAndCorridorsGenerator();
+            Generator generator = new BspInteriorGenerator();
             TestPainter painter = new TestPainter();
             map = generator.GenerateMap(40, 22);
             map = painter.PaintMap(map, tilesets["test-tileset"]);

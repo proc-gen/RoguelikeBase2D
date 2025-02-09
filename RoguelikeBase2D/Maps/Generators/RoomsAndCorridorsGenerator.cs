@@ -16,9 +16,9 @@ namespace RoguelikeBase2D.Maps.Generators
         {
             Map map = new Map(width, height);
             Rooms = new List<Rectangle>();
-            random = new SeededRandom(1235827919);
+            SeededRandom = new SeededRandom(1235827919);
             // random = new SeededRandom(Random.Shared.Next());
-            map.Seed = random.Seed;
+            map.Seed = SeededRandom.Seed;
             
             PreProcessMap(map);
             ProcessWallBorders(map);
@@ -56,96 +56,30 @@ namespace RoguelikeBase2D.Maps.Generators
 
             for (int i = 0; i < maxRooms; i++)
             {
-                int roomWidth = random.Next(minSize, maxSize);
-                int roomHeight = random.Next(minSize, maxSize);
-                int x = random.Next(1, map.Width - roomWidth - 1) - 1;
-                int y = random.Next(1, map.Height - roomHeight - 1) - 1;
+                int roomWidth = SeededRandom.Next(minSize, maxSize);
+                int roomHeight = SeededRandom.Next(minSize, maxSize);
+                int x = SeededRandom.Next(1, map.Width - roomWidth - 1) - 1;
+                int y = SeededRandom.Next(1, map.Height - roomHeight - 1) - 1;
 
                 Rectangle room = new Rectangle(x, y, roomWidth, roomHeight);
                 Rectangle compareRoom = new Rectangle(x, y, roomWidth, roomHeight);
                 compareRoom.Inflate(1, 1);
 
-                bool canAdd = true;
-                
                 if (Rooms.Any() && Rooms.Exists(a => a.Intersects(compareRoom)))
-                {
-                    canAdd = false;
-                }
-
-                if (canAdd)
                 {
                     ApplyRoomToMap(map, room);
                     if (Rooms.Any())
                     {
-                        ApplyCorridorToMap(map, room, random);
+                        ApplyRandomCorridorToMap(map, room.Center, Rooms.Last().Center);
                     }
                     Rooms.Add(room);
                 }
             }
 
-            ApplyCorridorToMap(map, Rooms.First(), random);
+            ApplyRandomCorridorToMap(map, Rooms.First().Center, Rooms.Last().Center);
         }
 
-        private void ApplyRoomToMap(Map map, Rectangle room)
-        {
-            for (int i = room.X + 1; i <= room.X + room.Width; i++)
-            {
-                for (int j = room.Y + 1; j <= room.Y + room.Height; j++)
-                {
-                    var tile = map.GetTileFromLayer(MapLayerType.Wall, i, j);
-                    tile.TileType = TileType.None;
-                    map.SetTileInLayer(MapLayerType.Wall, i, j, tile);
-                }
-            }
-        }
-
-        private void ApplyCorridorToMap(Map map, Rectangle room, Random random)
-        {
-            
-                Point newCenter = room.Center;
-                Point oldCenter = Rooms.Last().Center;
-
-                if (random.Next(0, 2) == 1)
-                {
-                    ApplyHorizontalTunnel(map, oldCenter.X, newCenter.X, oldCenter.Y);
-                    ApplyVerticalTunnel(map, oldCenter.Y, newCenter.Y, newCenter.X);
-                }
-                else
-                {
-                    ApplyVerticalTunnel(map, oldCenter.Y, newCenter.Y, oldCenter.X);
-                    ApplyHorizontalTunnel(map, oldCenter.X, newCenter.X, newCenter.Y);
-                }
-            
-        }
-
-        private void ApplyHorizontalTunnel(Map map, int x1, int x2, int y)
-        {
-            for (int i = Math.Min(x1, x2); i <= Math.Max(x1, x2); i++)
-            {
-                var tile = map.GetTileFromLayer(MapLayerType.Wall, i, y);
-                var tile2 = map.GetTileFromLayer(MapLayerType.Wall, i, y - 1);
-                var tile8 = map.GetTileFromLayer(MapLayerType.Wall, i, y + 1);
-                
-                tile.TileType = TileType.None;
-                tile2.TileType = TileType.None;
-                tile8.TileType = TileType.None;
-
-                map.SetTileInLayer(MapLayerType.Wall, i, y, tile);
-                map.SetTileInLayer(MapLayerType.Wall, i, y - 1, tile2);
-                map.SetTileInLayer(MapLayerType.Wall, i, y + 1, tile8);
-            }
-        }
-
-        private void ApplyVerticalTunnel(Map map, int y1, int y2, int x)
-        {
-            for (int j = Math.Min(y1, y2); j <= Math.Max(y1, y2); j++)
-            {
-                var tile = map.GetTileFromLayer(MapLayerType.Wall, x, j);
-                tile.TileType = TileType.None;
-                map.SetTileInLayer(MapLayerType.Wall, x, j, tile);
-            }
-        }
-
+        
         public override Point GetPlayerStartingPosition(Map map)
         {
             return Rooms.First().Center;
