@@ -28,6 +28,7 @@ namespace RoguelikeBase2D.Maps.Generators
         {
             FillMap(map);
             CreateRooms(map);
+            FixGaps(map);
         }
 
         private void FillMap(Map map)
@@ -110,6 +111,28 @@ namespace RoguelikeBase2D.Maps.Generators
             var tile = map.GetTileFromLayer(MapLayerType.Wall, i, j);
             tile.TileType = TileType.None;
             map.SetTileInLayer(MapLayerType.Wall, i, j, tile);
+        }
+
+        private void FixGaps(Map map)
+        {
+            for (int i = 0; i < map.Width; i++)
+            {
+                for (int j = 0; j < map.Height; j++)
+                {
+                    var tile = map.GetTileFromLayer(MapLayerType.Wall, i, j);
+                    if(tile.TileType == TileType.None)
+                    {
+                        var tile2 = map.GetTileFromLayer(MapLayerType.Wall, i, j - 1);
+                        var tile8 = map.GetTileFromLayer(MapLayerType.Wall, i, j + 1);
+
+                        if(tile2.TileType == TileType.Wall && tile8.TileType == TileType.Wall)
+                        {
+                            tile.TileType = TileType.Wall;
+                            map.SetTileInLayer(MapLayerType.Wall, i, j, tile);
+                        }
+                    }
+                }
+            }
         }
 
         public override Point GetPlayerStartingPosition(Map map)
