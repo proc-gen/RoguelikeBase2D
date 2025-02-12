@@ -16,13 +16,12 @@ namespace RoguelikeBase2D.Maps.Generators
         {
             Map map = new Map(width, height);
             Rooms = new List<Rectangle>();
-            SeededRandom = new SeededRandom(1235827919);
-            // random = new SeededRandom(Random.Shared.Next());
+            SeededRandom = new SeededRandom(Random.Shared.Next());
             map.Seed = SeededRandom.Seed;
             
             PreProcessMap(map);
             ProcessWallBorders(map);
-            //ProcessWalls(map);
+            ProcessWalls(map);
 
             return map;
         }
@@ -79,7 +78,6 @@ namespace RoguelikeBase2D.Maps.Generators
             ApplyRandomCorridorToMap(map, Rooms.First().Center, Rooms.Last().Center);
         }
 
-        
         public override Point GetPlayerStartingPosition(Map map)
         {
             return Rooms.First().Center;

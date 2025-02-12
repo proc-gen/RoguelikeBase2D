@@ -11,13 +11,12 @@ namespace RoguelikeBase2D.Maps.Generators
 {
     public class BspInteriorGenerator : Generator
     {
-        const int MinRoomSize = 8;
+        const int MinRoomSize = 10;
         List<Rectangle> Rooms;
         public override Map GenerateMap(int width, int height)
         {
             Map map = new Map(width, height);
             Rooms = new List<Rectangle>();
-            // SeededRandom = new SeededRandom(1235827919);
             SeededRandom = new SeededRandom(Random.Shared.Next());
             map.Seed = SeededRandom.Seed;
 

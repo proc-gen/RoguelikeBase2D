@@ -48,11 +48,6 @@ namespace RoguelikeBase2D.Maps.Generators
                             }
                         }
 
-                        if (i == 21 && j == 10)
-                        {
-                            Console.WriteLine("Debug");
-                        }
-
                         tile.TileType = (TileType)sum;
                         map.SetTileInLayer(MapLayerType.Wall, i, j, tile);
                     }
