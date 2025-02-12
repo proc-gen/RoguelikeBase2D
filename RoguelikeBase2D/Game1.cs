@@ -243,7 +243,7 @@ namespace RoguelikeBase2D
 
         private void GenerateMap()
         {
-            Generator generator = new BspRoomGenerator();
+            Generator generator = new DrunkardWalkGenerator();
             TestPainter painter = new TestPainter();
             map = generator.GenerateMap(40, 22);
             map = painter.PaintMap(map, tilesets["test-tileset"]);
