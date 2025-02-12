@@ -11,7 +11,7 @@ namespace RoguelikeBase2D.Maps.Generators
 {
     public class BspInteriorGenerator : Generator
     {
-        const int MinRoomSize = 10;
+        const int MinRoomSize = 9;
         List<Rectangle> Rooms;
         public override Map GenerateMap(int width, int height)
         {
@@ -52,7 +52,7 @@ namespace RoguelikeBase2D.Maps.Generators
 
         private void CreateRooms(Map map)
         {
-            var first = new Rectangle(1, 1, map.Width - 2, map.Height - 2);
+            var first = new Rectangle(0, 1, map.Width - 2, map.Height - 2);
             Rooms.Add(first);
             AddSubrectangles(first);
 
@@ -61,6 +61,7 @@ namespace RoguelikeBase2D.Maps.Generators
                 ApplyRoomToMap(map, Rooms[i]);
                 ApplyEfficienctCorridorToMap(map, Rooms[i].Center, Rooms[i + 1].Center);
             }
+            ApplyRoomToMap(map, Rooms.Last());
         }
 
         private void AddSubrectangles(Rectangle parentRectangle)
@@ -74,18 +75,19 @@ namespace RoguelikeBase2D.Maps.Generators
                 height = parentRectangle.Height,
                 halfWidth = parentRectangle.Width / 2,
                 halfHeight = parentRectangle.Height / 2,
-                split = SeededRandom.Next(4);
+                split = SeededRandom.Next(100);
 
-            if (split < 2)
+            if (split < 50)
             {
                 var h1 = new Rectangle(parentRectangle.X, parentRectangle.Y, halfWidth - 1, height);
+                var h2 = new Rectangle(parentRectangle.X + halfWidth, parentRectangle.Y, halfWidth, height);
+
                 Rooms.Add(h1);
                 if (halfWidth > MinRoomSize)
                 {
                     AddSubrectangles(h1);
                 }
 
-                var h2 = new Rectangle(parentRectangle.X + halfWidth, parentRectangle.Y, halfWidth, height);
                 Rooms.Add(h2);
                 if (halfWidth > MinRoomSize)
                 {
@@ -95,13 +97,14 @@ namespace RoguelikeBase2D.Maps.Generators
             else
             {
                 var v1 = new Rectangle(parentRectangle.X, parentRectangle.Y, width, halfHeight - 1);
+                var v2 = new Rectangle(parentRectangle.X, parentRectangle.Y + halfHeight, width, halfHeight);
+
                 Rooms.Add(v1);
                 if (halfHeight > MinRoomSize)
                 {
                     AddSubrectangles(v1);
                 }
 
-                var v2 = new Rectangle(parentRectangle.X, parentRectangle.Y + halfHeight, width, halfHeight);
                 Rooms.Add(v2);
                 if (halfHeight > MinRoomSize)
                 {
