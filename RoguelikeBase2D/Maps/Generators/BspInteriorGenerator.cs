@@ -11,7 +11,8 @@ namespace RoguelikeBase2D.Maps.Generators
 {
     public class BspInteriorGenerator : Generator
     {
-        const int MinRoomSize = 9;
+        const int MinRoomWidth = 6;
+        const int MinRoomHeight = 12;
         List<Rectangle> Rooms;
         public override Map GenerateMap(int width, int height)
         {
@@ -83,13 +84,13 @@ namespace RoguelikeBase2D.Maps.Generators
                 var h2 = new Rectangle(parentRectangle.X + halfWidth, parentRectangle.Y, halfWidth, height);
 
                 Rooms.Add(h1);
-                if (halfWidth > MinRoomSize)
+                if (halfWidth > MinRoomWidth && height > MinRoomHeight)
                 {
                     AddSubrectangles(h1);
                 }
 
                 Rooms.Add(h2);
-                if (halfWidth > MinRoomSize)
+                if (halfWidth > MinRoomWidth && height > MinRoomHeight)
                 {
                     AddSubrectangles(h2);
                 }
@@ -100,13 +101,13 @@ namespace RoguelikeBase2D.Maps.Generators
                 var v2 = new Rectangle(parentRectangle.X, parentRectangle.Y + halfHeight, width, halfHeight);
 
                 Rooms.Add(v1);
-                if (halfHeight > MinRoomSize)
+                if (halfHeight > MinRoomHeight && width > MinRoomWidth)
                 {
                     AddSubrectangles(v1);
                 }
 
                 Rooms.Add(v2);
-                if (halfHeight > MinRoomSize)
+                if (halfHeight > MinRoomHeight && width > MinRoomWidth)
                 {
                     AddSubrectangles(v2);
                 }
