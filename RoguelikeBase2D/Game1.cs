@@ -56,6 +56,8 @@ namespace RoguelikeBase2D
             {
                 { "test-tileset", Content.Load<Texture2D>(Path.Combine("Tilesets", "test-tileset")) },
                 { "player", Content.Load<Texture2D>(Path.Combine("Sprites", "Player")) },
+                { "goblin", Content.Load<Texture2D>(Path.Combine("Sprites", "Goblin")) },
+                { "ogre", Content.Load<Texture2D>(Path.Combine("Sprites", "Ogre")) },
             };
         }
 
