@@ -23,8 +23,9 @@ namespace RoguelikeBase2D
         InputDelayHelper inputDelayHelper;
         Map map;
         Point playerPosition;
-        Keys[] arrowKeys = [Keys.Up, Keys.Down, Keys.Left, Keys.Right];
 
+        int width = 1920, height = 1080, halfWidth = 960, halfHeight = 540;
+        Vector2 offset = new Vector2(960, 540);
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -325,6 +326,7 @@ namespace RoguelikeBase2D
 
         private void RenderLayer(MapLayerType layerType)
         {
+            var calcPlayerPosition = playerPosition.ToVector2() * 48;
             for (int i = 0; i < map.Width; i++)
             {
                 for (int j = 0; j < map.Height; j++)
@@ -336,7 +338,7 @@ namespace RoguelikeBase2D
                         var sourceRect = tileset.GetRectangleForTilesetTile(tile.TilesetTileId);
                         var tileX = i * tileset.TileWidth;
                         var tileY = j * tileset.TileHeight;
-                        _spriteBatch.Draw(textures[tile.TilesetName], new Vector2(tileX, tileY), sourceRect, Color.White);
+                        _spriteBatch.Draw(textures[tile.TilesetName], new Vector2(tileX, tileY) + offset, sourceRect, Color.White, 0f, calcPlayerPosition, 1f, SpriteEffects.None, 1f);
                     } 
                 }
             }
@@ -344,7 +346,7 @@ namespace RoguelikeBase2D
 
         private void RenderPlayer()
         {
-            _spriteBatch.Draw(textures["player"], playerPosition.ToVector2() * 48, new Rectangle(0,0,48,48), Color.White);
+            _spriteBatch.Draw(textures["player"], offset, new Rectangle(0,0,48,48), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
         }
     }
 }
