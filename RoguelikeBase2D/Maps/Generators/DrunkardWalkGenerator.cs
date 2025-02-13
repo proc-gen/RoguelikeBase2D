@@ -137,7 +137,17 @@ namespace RoguelikeBase2D.Maps.Generators
 
         public override Point GetPlayerStartingPosition(Map map)
         {
-            return new Point(map.Width / 4, map.Height / 4);
+            Point pos = new Point(map.Width / 2, map.Height / 2);
+            Point down = new Point(0, 1);
+
+            var tile = map.GetTileFromLayer(MapLayerType.Wall, pos);
+            while (tile.TileType.IsWallOrBorder())
+            {
+                pos += down;
+                tile = map.GetTileFromLayer(MapLayerType.Wall, pos);
+            }
+
+            return pos;
         }
     }
 }

@@ -80,7 +80,17 @@ namespace RoguelikeBase2D.Maps.Generators
 
         public override Point GetPlayerStartingPosition(Map map)
         {
-            return Rooms.First().Center;
+            Point pos = Rooms.First().Center;
+            Point down = new Point(0, 1);
+
+            var tile = map.GetTileFromLayer(MapLayerType.Wall, pos);
+            while (tile.TileType.IsWallOrBorder())
+            {
+                pos += down;
+                tile = map.GetTileFromLayer(MapLayerType.Wall, pos);
+            }
+
+            return pos;
         }
     }
 }

@@ -5,9 +5,12 @@ using RoguelikeBase2D.Constants;
 using RoguelikeBase2D.Maps;
 using RoguelikeBase2D.Maps.Generators;
 using RoguelikeBase2D.Maps.Painters;
+using RoguelikeBase2D.Utils;
 using RoguelikeBase2D.Utils.Rendering;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using static System.Net.WebRequestMethods;
 
 namespace RoguelikeBase2D
 {
@@ -17,7 +20,10 @@ namespace RoguelikeBase2D
         private SpriteBatch _spriteBatch;
         Dictionary<string, Texture2D> textures;
         Dictionary<string, Tileset> tilesets;
+        InputDelayHelper inputDelayHelper;
         Map map;
+        Point playerPosition;
+        Keys[] arrowKeys = [Keys.Up, Keys.Down, Keys.Left, Keys.Right];
 
         public Game1()
         {
@@ -37,6 +43,7 @@ namespace RoguelikeBase2D
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            inputDelayHelper = new InputDelayHelper();
             LoadTextures();
             LoadTilesets();
             GenerateMap();
@@ -47,6 +54,7 @@ namespace RoguelikeBase2D
             textures = new Dictionary<string, Texture2D>()
             {
                 { "test-tileset", Content.Load<Texture2D>(Path.Combine("Tilesets", "test-tileset")) },
+                { "player", Content.Load<Texture2D>(Path.Combine("Sprites", "Player")) },
             };
         }
 
@@ -243,27 +251,62 @@ namespace RoguelikeBase2D
 
         private void GenerateMap()
         {
-            Generator generator = new DrunkardWalkGenerator();
+            Generator generator = new BspRoomGenerator();
             TestPainter painter = new TestPainter();
             map = generator.GenerateMap(40, 22);
             map = painter.PaintMap(map, tilesets["test-tileset"]);
+            playerPosition = generator.GetPlayerStartingPosition(map);
 
             Window.Title = string.Format("RoguelikeBase2D - Seed: {0}", map.Seed);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            var kState = Keyboard.GetState();
-            if (kState.IsKeyDown(Keys.Escape))
+            if (inputDelayHelper.ReadyForInput)
             {
-                Exit();
-            }
-            else if(kState.IsKeyDown(Keys.R))
-            {
-                GenerateMap();
+                var kState = Keyboard.GetState();
+                if (kState.IsKeyDown(Keys.Escape))
+                {
+                    Exit();
+                }
+                else if (kState.IsKeyDown(Keys.R))
+                {
+                    GenerateMap();
+                    inputDelayHelper.Reset();
+                }
+                else if(kState.IsKeyDown(Keys.Up))
+                {
+                    MovePlayer(new Point(0, -1));
+                }
+                else if (kState.IsKeyDown(Keys.Down))
+                {
+                    MovePlayer(new Point(0, 1));
+                }
+                else if (kState.IsKeyDown(Keys.Left))
+                {
+                    MovePlayer(new Point(-1, 0));
+                }
+                else if (kState.IsKeyDown(Keys.Right))
+                {
+                    MovePlayer(new Point(1, 0));
+                }
+
             }
 
+            inputDelayHelper.Update(gameTime);
+
             base.Update(gameTime);
+        }
+
+        private void MovePlayer(Point direction)
+        {
+            var newPosition = playerPosition + direction;
+            var tile = map.GetTileFromLayer(MapLayerType.Wall, newPosition);
+            if (!tile.TileType.IsWallOrBorder())
+            {
+                playerPosition = newPosition;
+                inputDelayHelper.Reset();
+            }
         }
 
         protected override void Draw(GameTime gameTime)
@@ -272,7 +315,9 @@ namespace RoguelikeBase2D
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend, transformMatrix: Matrix.Identity);
             RenderLayer(MapLayerType.Floor);
+            RenderPlayer();
             RenderLayer(MapLayerType.Wall);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -295,6 +340,11 @@ namespace RoguelikeBase2D
                     } 
                 }
             }
+        }
+
+        private void RenderPlayer()
+        {
+            _spriteBatch.Draw(textures["player"], playerPosition.ToVector2() * 48, new Rectangle(0,0,48,48), Color.White);
         }
     }
 }
