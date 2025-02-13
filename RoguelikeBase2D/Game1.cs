@@ -23,9 +23,8 @@ namespace RoguelikeBase2D
         InputDelayHelper inputDelayHelper;
         Map map;
         Point playerPosition;
-
-        int width = 1920, height = 1080, halfWidth = 960, halfHeight = 540;
         Vector2 offset = new Vector2(960, 540);
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
