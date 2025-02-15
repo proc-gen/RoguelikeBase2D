@@ -271,6 +271,7 @@ namespace RoguelikeBase2D
             renderSystems = new List<IRenderSystem>()
             {
                 new RenderMapSystem(world, tilesets, textures),
+                new RenderEntitySystem(world, textures),
             };
         }
 
@@ -377,20 +378,11 @@ namespace RoguelikeBase2D
                 {
                     system.Render(gameTime, _spriteBatch, layer);
                 }
-                if (layer == MapLayerType.Floor)
-                {
-                    RenderPlayer();
-                }
             }
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-        private void RenderPlayer()
-        {
-            _spriteBatch.Draw(textures["player"], CenterOffset, new Rectangle(0,0,48,48), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
         }
     }
 }
