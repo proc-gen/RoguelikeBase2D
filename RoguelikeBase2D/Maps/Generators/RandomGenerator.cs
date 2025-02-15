@@ -90,5 +90,14 @@ namespace RoguelikeBase2D.Maps.Generators
         {
             return new Point(map.Width / 2, map.Height / 2);
         }
+
+        public override HashSet<Point> GetEnemySpawnPoints(Map map)
+        {
+            HashSet<Point> points = new HashSet<Point>();
+
+            var playerStart = GetPlayerStartingPosition(map);
+
+            return points;
+        }
     }
 }

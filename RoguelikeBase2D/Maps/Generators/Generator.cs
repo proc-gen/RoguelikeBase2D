@@ -17,6 +17,8 @@ namespace RoguelikeBase2D.Maps.Generators
 
         public abstract Map GenerateMap(int width, int height);
         public abstract Point GetPlayerStartingPosition(Map map);
+        public abstract HashSet<Point> GetEnemySpawnPoints(Map map);
+
 
         protected void ProcessWallBorders(Map map)
         {

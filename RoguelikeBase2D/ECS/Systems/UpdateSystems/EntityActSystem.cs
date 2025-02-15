@@ -45,8 +45,13 @@ namespace RoguelikeBase2D.ECS.Systems.UpdateSystems
             var tile = World.Map.GetTileFromLayer(MapLayerType.Wall, newPosition);
             if (!tile.TileType.IsWallOrBorder())
             {
-                World.PhysicsWorld.MoveEntity(entity, position.Point, newPosition);
-                position.Point = newPosition;
+                var entitiesAtPosition = World.PhysicsWorld.GetEntitiesAtLocation(newPosition);
+
+                if (entitiesAtPosition == null || !entitiesAtPosition.Any(a => a.Entity.Has<Blocker>()))
+                {
+                    World.PhysicsWorld.MoveEntity(entity, position.Point, newPosition);
+                    position.Point = newPosition;
+                }
             }
         }
     }

@@ -31,7 +31,7 @@ namespace RoguelikeBase2D.ECS.Systems.RenderSystems
 
                 World.World.Query(in EntityQuery, (ref Position position, ref SpriteInfo spriteInfo) =>
                 {
-                    var renderPosition = (position.Point - playerPosition.Point).ToVector2() + RogueGame.CenterOffset;
+                    var renderPosition = (position.Point - playerPosition.Point).ToVector2() * 48 + RogueGame.CenterOffset;
                     spriteBatch.Draw(Textures[spriteInfo.Sprite], renderPosition, new Rectangle(0, 0, spriteInfo.Width, spriteInfo.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
                 });
             }

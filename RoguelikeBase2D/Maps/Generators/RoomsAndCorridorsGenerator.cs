@@ -92,5 +92,35 @@ namespace RoguelikeBase2D.Maps.Generators
 
             return pos;
         }
+
+        public override HashSet<Point> GetEnemySpawnPoints(Map map)
+        {
+            HashSet<Point> points = new HashSet<Point>();
+
+            var playerStart = GetPlayerStartingPosition(map);
+
+            foreach (var room in Rooms)
+            {
+                int numSpawns = SeededRandom.Next(0, 4);
+                int tries = 0;
+                HashSet<Point> spawnsForRoom = new HashSet<Point>();
+                while (spawnsForRoom.Count < numSpawns && tries < 30)
+                {
+                    var spawn = new Point(room.X + SeededRandom.Next(1, room.Width), room.Y + SeededRandom.Next(1, room.Height));
+                    var tile = map.GetTileFromLayer(MapLayerType.Wall, spawn);
+                    if (spawn != playerStart && !tile.TileType.IsWallOrBorder())
+                    {
+                        spawnsForRoom.Add(spawn);
+                    }
+                }
+
+                foreach (var spawn in spawnsForRoom)
+                {
+                    points.Add(spawn);
+                }
+            }
+
+            return points;
+        }
     }
 }

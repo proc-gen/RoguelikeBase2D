@@ -284,6 +284,9 @@ namespace RoguelikeBase2D
 
             PlayerSpawner playerSpawner = new PlayerSpawner();
             playerSpawner.SpawnEntityForPoint(world, generator.GetPlayerStartingPosition(map));
+            EnemySpawner enemySpawner = new EnemySpawner();
+            enemySpawner.SpawnEntitiesForPoints(world, generator.GetEnemySpawnPoints(map));
+
             world.SetMap(map);
             
             Window.Title = string.Format("RoguelikeBase2D - Seed: {0}", map.Seed);
