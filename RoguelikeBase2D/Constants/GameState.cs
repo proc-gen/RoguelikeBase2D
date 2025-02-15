@@ -11,7 +11,7 @@ namespace RoguelikeBase2D.Constants
         Loading,
         AwaitingPlayerInput,
         PlayerTurn,
-        MonsterTurn,
+        ComputerTurn,
         ShowInventory,
         PlayerDeath,
     }

@@ -26,7 +26,8 @@ namespace RoguelikeBase2D.Maps.Spawners
             {
                 world.PlayerRef = world.World.Create(
                     new Player(),
-                    new Position() { Point = point }
+                    new Position() { Point = point },
+                    new Input()
                 ).Reference();
             }
             else

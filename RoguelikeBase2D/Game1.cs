@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using RoguelikeBase2D.Constants;
 using RoguelikeBase2D.Containers;
 using RoguelikeBase2D.ECS.Components;
+using RoguelikeBase2D.ECS.Systems.UpdateSystems;
 using RoguelikeBase2D.Maps;
 using RoguelikeBase2D.Maps.Generators;
 using RoguelikeBase2D.Maps.Painters;
@@ -27,6 +28,7 @@ namespace RoguelikeBase2D
         InputDelayHelper inputDelayHelper;
         GameWorld world;
         Vector2 offset = new Vector2(960, 540);
+        List<IUpdateSystem> updateSystems;
 
         public Game1()
         {
@@ -48,8 +50,10 @@ namespace RoguelikeBase2D
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             inputDelayHelper = new InputDelayHelper();
             world = new GameWorld();
+
             LoadTextures();
             LoadTilesets();
+            InitSystems();
             GenerateMap();
         }
 
@@ -255,6 +259,14 @@ namespace RoguelikeBase2D
             };
         }
 
+        private void InitSystems()
+        {
+            updateSystems = new List<IUpdateSystem>()
+            {
+                new EntityActSystem(world),
+            };
+        }
+
         private void GenerateMap()
         {
             Generator generator = new BspRoomGenerator();
@@ -277,14 +289,19 @@ namespace RoguelikeBase2D
                 HandleKeyboard();
             }
             else if(world.CurrentState == GameState.PlayerTurn
-                    || world.CurrentState == GameState.MonsterTurn)
+                    || world.CurrentState == GameState.ComputerTurn)
             {
+                foreach (var system in updateSystems)
+                {
+                    system.Update(gameTime);
+                }
+
                 switch (world.CurrentState)
                 {
                     case GameState.PlayerTurn:
-                        world.CurrentState = GameState.MonsterTurn;
+                        world.CurrentState = GameState.ComputerTurn;
                         break;
-                    case GameState.MonsterTurn:
+                    case GameState.ComputerTurn:
                         world.CurrentState = GameState.AwaitingPlayerInput;
                         break;
                     case GameState.PlayerDeath:
@@ -329,23 +346,16 @@ namespace RoguelikeBase2D
                 {
                     MovePlayer(new Point(1, 0));
                 }
-
             }
         }
 
         private void MovePlayer(Point direction)
         {
-            var position = world.PlayerRef.Entity.Get<Position>();
-
-            var newPosition = position.Point + direction;
-            var tile = world.Map.GetTileFromLayer(MapLayerType.Wall, newPosition);
-            if (!tile.TileType.IsWallOrBorder())
-            {
-                position.Point = newPosition;
-                world.PlayerRef.Entity.Set(position);
-                world.CurrentState = GameState.PlayerTurn;
-                inputDelayHelper.Reset();
-            }
+            var input = world.PlayerRef.Entity.Get<Input>();
+            input.Direction = direction;
+            world.PlayerRef.Entity.Set(input);
+            world.CurrentState = GameState.PlayerTurn;
+            inputDelayHelper.Reset();
         }
 
         protected override void Draw(GameTime gameTime)
