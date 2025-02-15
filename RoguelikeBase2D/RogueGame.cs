@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using RoguelikeBase2D.Constants;
 using RoguelikeBase2D.Containers;
 using RoguelikeBase2D.ECS.Components;
+using RoguelikeBase2D.ECS.Systems.RenderSystems;
 using RoguelikeBase2D.ECS.Systems.UpdateSystems;
 using RoguelikeBase2D.Maps;
 using RoguelikeBase2D.Maps.Generators;
@@ -15,22 +16,23 @@ using RoguelikeBase2D.Utils.Rendering;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using static System.Net.WebRequestMethods;
 
 namespace RoguelikeBase2D
 {
-    public class Game1 : Game
+    public class RogueGame : Game
     {
+        public static Vector2 CenterOffset = new Vector2(960, 540);
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         Dictionary<string, Texture2D> textures;
         Dictionary<string, Tileset> tilesets;
         InputDelayHelper inputDelayHelper;
         GameWorld world;
-        Vector2 offset = new Vector2(960, 540);
         List<IUpdateSystem> updateSystems;
+        List<IRenderSystem> renderSystems;
 
-        public Game1()
+        public RogueGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -265,6 +267,11 @@ namespace RoguelikeBase2D
             {
                 new EntityActSystem(world),
             };
+
+            renderSystems = new List<IRenderSystem>()
+            {
+                new RenderMapSystem(world, tilesets, textures),
+            };
         }
 
         private void GenerateMap()
@@ -363,40 +370,27 @@ namespace RoguelikeBase2D
             GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend, transformMatrix: Matrix.Identity);
-            RenderLayer(MapLayerType.Floor);
-            RenderPlayer();
-            RenderLayer(MapLayerType.Wall);
+
+            foreach (var layer in MapLayerTypeExtensions.AllLayers)
+            {
+                foreach (var system in renderSystems)
+                {
+                    system.Render(gameTime, _spriteBatch, layer);
+                }
+                if (layer == MapLayerType.Floor)
+                {
+                    RenderPlayer();
+                }
+            }
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
-        private void RenderLayer(MapLayerType layerType)
-        {
-            var position = world.PlayerRef.Entity.Get<Position>();
-            var calcPlayerPosition = position.Point.ToVector2() * 48;
-
-            for (int i = 0; i < world.Map.Width; i++)
-            {
-                for (int j = 0; j < world.Map.Height; j++)
-                {
-                    var tile = world.Map.GetTileFromLayer(layerType, i, j);
-                    if (tile.TileType != TileType.None) 
-                    {
-                        var tileset = tilesets[tile.TilesetName];
-                        var sourceRect = tileset.GetRectangleForTilesetTile(tile.TilesetTileId);
-                        var tileX = i * tileset.TileWidth;
-                        var tileY = j * tileset.TileHeight;
-                        _spriteBatch.Draw(textures[tile.TilesetName], new Vector2(tileX, tileY) + offset, sourceRect, Color.White, 0f, calcPlayerPosition, 1f, SpriteEffects.None, 1f);
-                    } 
-                }
-            }
-        }
-
         private void RenderPlayer()
         {
-            _spriteBatch.Draw(textures["player"], offset, new Rectangle(0,0,48,48), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+            _spriteBatch.Draw(textures["player"], CenterOffset, new Rectangle(0,0,48,48), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
         }
     }
 }

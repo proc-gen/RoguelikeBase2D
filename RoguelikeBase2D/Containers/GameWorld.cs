@@ -45,18 +45,6 @@ namespace RoguelikeBase2D.Containers
             PhysicsWorld.Populate(World);
         }
 
-        public void StartPlayerTurn(Point direction)
-        {
-            /*
-            var input = PlayerRef.Entity.Get<Input>();
-            input.Direction = direction;
-            input.SkipTurn = direction == Point.Zero;
-            input.Processed = false;
-            PlayerRef.Entity.Set(input);
-            CurrentState = GameState.PlayerTurn;
-            */
-        }
-
         public void RemoveAllNonPlayerOwnedEntities()
         {
             /* PhysicsWorld.Clear();

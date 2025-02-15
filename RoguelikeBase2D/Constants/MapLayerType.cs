@@ -11,4 +11,9 @@ namespace RoguelikeBase2D.Constants
         Floor,
         Wall,
     }
+
+    public static class MapLayerTypeExtensions
+    {
+        public static MapLayerType[] AllLayers { get; private set; } = [MapLayerType.Floor, MapLayerType.Wall];
+    }
 }
