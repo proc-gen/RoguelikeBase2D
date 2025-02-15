@@ -1,10 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Arch.Core.Extensions;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RoguelikeBase2D.Constants;
+using RoguelikeBase2D.Containers;
+using RoguelikeBase2D.ECS.Components;
 using RoguelikeBase2D.Maps;
 using RoguelikeBase2D.Maps.Generators;
 using RoguelikeBase2D.Maps.Painters;
+using RoguelikeBase2D.Maps.Spawners;
 using RoguelikeBase2D.Utils;
 using RoguelikeBase2D.Utils.Rendering;
 using System.Collections.Generic;
@@ -21,8 +25,7 @@ namespace RoguelikeBase2D
         Dictionary<string, Texture2D> textures;
         Dictionary<string, Tileset> tilesets;
         InputDelayHelper inputDelayHelper;
-        Map map;
-        Point playerPosition;
+        GameWorld world;
         Vector2 offset = new Vector2(960, 540);
 
         public Game1()
@@ -44,6 +47,7 @@ namespace RoguelikeBase2D
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             inputDelayHelper = new InputDelayHelper();
+            world = new GameWorld();
             LoadTextures();
             LoadTilesets();
             GenerateMap();
@@ -255,10 +259,13 @@ namespace RoguelikeBase2D
         {
             Generator generator = new BspRoomGenerator();
             TestPainter painter = new TestPainter();
-            map = generator.GenerateMap(40, 22);
+            var map = generator.GenerateMap(40, 22);
             map = painter.PaintMap(map, tilesets["test-tileset"]);
-            playerPosition = generator.GetPlayerStartingPosition(map);
 
+            PlayerSpawner playerSpawner = new PlayerSpawner();
+            playerSpawner.SpawnEntityForPoint(world, generator.GetPlayerStartingPosition(map));
+            world.SetMap(map);
+            
             Window.Title = string.Format("RoguelikeBase2D - Seed: {0}", map.Seed);
         }
 
@@ -302,11 +309,14 @@ namespace RoguelikeBase2D
 
         private void MovePlayer(Point direction)
         {
-            var newPosition = playerPosition + direction;
-            var tile = map.GetTileFromLayer(MapLayerType.Wall, newPosition);
+            var position = world.PlayerRef.Entity.Get<Position>();
+
+            var newPosition = position.Point + direction;
+            var tile = world.Map.GetTileFromLayer(MapLayerType.Wall, newPosition);
             if (!tile.TileType.IsWallOrBorder())
             {
-                playerPosition = newPosition;
+                position.Point = newPosition;
+                world.PlayerRef.Entity.Set(position);
                 inputDelayHelper.Reset();
             }
         }
@@ -327,12 +337,14 @@ namespace RoguelikeBase2D
 
         private void RenderLayer(MapLayerType layerType)
         {
-            var calcPlayerPosition = playerPosition.ToVector2() * 48;
-            for (int i = 0; i < map.Width; i++)
+            var position = world.PlayerRef.Entity.Get<Position>();
+            var calcPlayerPosition = position.Point.ToVector2() * 48;
+
+            for (int i = 0; i < world.Map.Width; i++)
             {
-                for (int j = 0; j < map.Height; j++)
+                for (int j = 0; j < world.Map.Height; j++)
                 {
-                    var tile = map.GetTileFromLayer(layerType, i, j);
+                    var tile = world.Map.GetTileFromLayer(layerType, i, j);
                     if (tile.TileType != TileType.None) 
                     {
                         var tileset = tilesets[tile.TilesetName];

@@ -3,6 +3,7 @@ using Arch.Core.Extensions;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using RoguelikeBase2D.Constants;
+using RoguelikeBase2D.ECS.Components;
 using RoguelikeBase2D.Maps;
 using RoguelikeBase2D.Pathfinding;
 using RoguelikeBase2D.Serializaton;
@@ -22,24 +23,26 @@ namespace RoguelikeBase2D.Containers
         public PhysicsWorld PhysicsWorld { get; set; }
         [JsonIgnore]
         public EntityReference PlayerRef { get; set; }
-
         public SerializableWorld SerializableWorld { get; set; }
-
         public GameState CurrentState { get; set; }
         public List<string> GameLog { get; set; }
-        public Dictionary<string, Map> Maps { get; set; }
-        public string CurrentMap { get; set; }
+        public Map Map { get; set; }
         public HashSet<Point> PlayerFov { get; set; }
+
         public GameWorld() 
         {
             World = World.Create();
             PhysicsWorld = new PhysicsWorld();
             CurrentState = GameState.Loading;
             GameLog = new List<string>();
-            Maps = new Dictionary<string, Map>();
-            CurrentMap = string.Empty;
             PlayerFov = new HashSet<Point>();
             PlayerRef = EntityReference.Null;
+        }
+
+        public void SetMap(Map map)
+        {
+            Map = map;
+            PhysicsWorld.Populate(World);
         }
 
         public void StartPlayerTurn(Point direction)
@@ -101,22 +104,6 @@ namespace RoguelikeBase2D.Containers
 
             PopulatePhysicsWorld();
             GameLog.Add("Welcome back traveler");
-            */
-        }
-
-        private void PopulatePhysicsWorld()
-        {
-            /*
-            QueryDescription query = new QueryDescription().WithAll<Position>();
-            World.Query(in query, (Entity entity, ref Position pos) =>
-            {
-                var reference = entity.Reference();
-                PhysicsWorld.AddEntity(reference, pos.Point);
-                if (entity.Has<Player>())
-                {
-                    PlayerRef = reference;
-                }
-            });
             */
         }
     }

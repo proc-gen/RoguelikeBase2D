@@ -1,5 +1,7 @@
 ﻿using Arch.Core;
+using Arch.Core.Extensions;
 using Microsoft.Xna.Framework;
+using RoguelikeBase2D.ECS.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,17 @@ namespace RoguelikeBase2D.Pathfinding
         public void Clear()
         {
             EntityLocations.Clear();
+        }
+
+        public void Populate(World world)
+        {
+            Clear();
+            QueryDescription query = new QueryDescription().WithAll<Position>();
+            world.Query(in query, (Entity entity, ref Position pos) =>
+            {
+                var reference = entity.Reference();
+                AddEntity(reference, pos.Point);
+            });
         }
 
         public void AddEntity(EntityReference entity, Point point)

@@ -29,13 +29,13 @@ namespace RoguelikeBase2D.Pathfinding
 
         public bool InBounds(Location id)
         {
-            return 0 <= id.Point.X && id.Point.X < World.Maps[World.CurrentMap].Width
-                && 0 <= id.Point.Y && id.Point.Y < World.Maps[World.CurrentMap].Height;
+            return 0 <= id.Point.X && id.Point.X < World.Map.Width
+                && 0 <= id.Point.Y && id.Point.Y < World.Map.Height;
         }
 
         public bool Passable(Location id)
         {
-            var tile = World.Maps[World.CurrentMap].GetTileFromLayer(MapLayerType.Wall, id.Point);
+            var tile = World.Map.GetTileFromLayer(MapLayerType.Wall, id.Point);
             if(tile.TileType.IsWallOrBorder())
             {
                 return false;
