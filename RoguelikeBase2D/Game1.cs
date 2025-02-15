@@ -267,9 +267,39 @@ namespace RoguelikeBase2D
             world.SetMap(map);
             
             Window.Title = string.Format("RoguelikeBase2D - Seed: {0}", map.Seed);
+            world.CurrentState = GameState.AwaitingPlayerInput;
         }
 
         protected override void Update(GameTime gameTime)
+        {
+            if (world.CurrentState == GameState.AwaitingPlayerInput)
+            {
+                HandleKeyboard();
+            }
+            else if(world.CurrentState == GameState.PlayerTurn
+                    || world.CurrentState == GameState.MonsterTurn)
+            {
+                switch (world.CurrentState)
+                {
+                    case GameState.PlayerTurn:
+                        world.CurrentState = GameState.MonsterTurn;
+                        break;
+                    case GameState.MonsterTurn:
+                        world.CurrentState = GameState.AwaitingPlayerInput;
+                        break;
+                    case GameState.PlayerDeath:
+                        GenerateMap();
+                        break;
+
+                }
+            }
+
+            inputDelayHelper.Update(gameTime);
+
+            base.Update(gameTime);
+        }
+
+        private void HandleKeyboard()
         {
             if (inputDelayHelper.ReadyForInput)
             {
@@ -283,7 +313,7 @@ namespace RoguelikeBase2D
                     GenerateMap();
                     inputDelayHelper.Reset();
                 }
-                else if(kState.IsKeyDown(Keys.Up))
+                else if (kState.IsKeyDown(Keys.Up))
                 {
                     MovePlayer(new Point(0, -1));
                 }
@@ -301,10 +331,6 @@ namespace RoguelikeBase2D
                 }
 
             }
-
-            inputDelayHelper.Update(gameTime);
-
-            base.Update(gameTime);
         }
 
         private void MovePlayer(Point direction)
@@ -317,6 +343,7 @@ namespace RoguelikeBase2D
             {
                 position.Point = newPosition;
                 world.PlayerRef.Entity.Set(position);
+                world.CurrentState = GameState.PlayerTurn;
                 inputDelayHelper.Reset();
             }
         }
