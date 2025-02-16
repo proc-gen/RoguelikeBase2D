@@ -288,7 +288,8 @@ namespace RoguelikeBase2D
             enemySpawner.SpawnEntitiesForPoints(world, generator.GetEnemySpawnPoints(map));
 
             world.SetMap(map);
-            
+            FieldOfView.CalculatePlayerFOV(world);
+
             Window.Title = string.Format("RoguelikeBase2D - Seed: {0}", map.Seed);
             world.CurrentState = GameState.AwaitingPlayerInput;
         }

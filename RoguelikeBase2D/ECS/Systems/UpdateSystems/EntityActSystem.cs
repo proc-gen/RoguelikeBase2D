@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using RoguelikeBase2D.Constants;
 using RoguelikeBase2D.Containers;
 using RoguelikeBase2D.ECS.Components;
+using RoguelikeBase2D.Maps;
 using RoguelikeBase2D.Utils;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,7 @@ namespace RoguelikeBase2D.ECS.Systems.UpdateSystems
             var playerRefs = World.PlayerRef.Entity.Get<Position, Input>();
             TryAct(World.PlayerRef, ref playerRefs.t0, ref playerRefs.t1);
             World.PlayerRef.Entity.Set(playerRefs.t0, playerRefs.t1);
+            FieldOfView.CalculatePlayerFOV(World);
         }
 
         private void TryAct(EntityReference entity, ref Position position, ref Input input)

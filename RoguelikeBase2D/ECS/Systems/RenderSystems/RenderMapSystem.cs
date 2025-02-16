@@ -43,7 +43,19 @@ namespace RoguelikeBase2D.ECS.Systems.RenderSystems
                         var sourceRect = tileset.GetRectangleForTilesetTile(tile.TilesetTileId);
                         var tileX = i * tileset.TileWidth;
                         var tileY = j * tileset.TileHeight;
-                        spriteBatch.Draw(Textures[tile.TilesetName], new Vector2(tileX, tileY) + RogueGame.CenterOffset, sourceRect, Color.White, 0f, calcPlayerPosition, 1f, SpriteEffects.None, 1f);
+
+                        float shading = 0f;
+
+                        if(World.PlayerFov.Contains(new Point(i, j)))
+                        {
+                            shading = 1f;
+                        }
+                        else if (tile.IsExplored)
+                        {
+                            shading = 0.5f;
+                        }
+
+                        spriteBatch.Draw(Textures[tile.TilesetName], new Vector2(tileX, tileY) + RogueGame.CenterOffset, sourceRect, Color.White * shading, 0f, calcPlayerPosition, 1f, SpriteEffects.None, 1f);
                     }
                 }
             }

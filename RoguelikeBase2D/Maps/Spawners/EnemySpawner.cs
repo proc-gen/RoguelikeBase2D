@@ -26,6 +26,7 @@ namespace RoguelikeBase2D.Maps.Spawners
                     new Blocker(),
                     new Enemy(),
                     new Position() { Point = point },
+                    new ViewDistance() { Distance = 5 },
                     new Input(),
                     new SpriteInfo() { Sprite = "goblin", Width = 48, Height = 48 }
                 ).Reference();

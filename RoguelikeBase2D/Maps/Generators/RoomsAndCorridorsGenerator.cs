@@ -22,6 +22,7 @@ namespace RoguelikeBase2D.Maps.Generators
             PreProcessMap(map);
             ProcessWallBorders(map);
             ProcessWalls(map);
+            RemoveHiddenFloors(map);
 
             return map;
         }

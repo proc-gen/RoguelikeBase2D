@@ -112,6 +112,23 @@ namespace RoguelikeBase2D.Maps.Generators
             }
         }
 
+        protected void RemoveHiddenFloors(Map map)
+        {
+            for (int i = 0; i < map.Width; i++)
+            {
+                for (int j = 0; j < map.Height; j++)
+                {
+                    var wall = map.GetTileFromLayer(MapLayerType.Wall, i, j);
+                    if (wall.TileType.IsWallOrBorder())
+                    {
+                        var floor = map.GetTileFromLayer(MapLayerType.Floor, i, j);
+                        floor.TileType = TileType.None;
+                        map.SetTileInLayer(MapLayerType.Floor, i, j, floor);
+                    }
+                }
+            }
+        }
+
         private bool IsWallOrBorder(Map map, int i, int j)
         {
             if (i < 0 || j < 0 || i >= map.Width || j >= map.Height)
