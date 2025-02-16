@@ -333,6 +333,7 @@ namespace RoguelikeBase2D
                         world.CurrentState = GameState.AwaitingPlayerInput;
                         break;
                     case GameState.PlayerDeath:
+                        world.HandlePlayerDeath();
                         GenerateMap();
                         break;
 
