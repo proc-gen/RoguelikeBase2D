@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Myra;
+using Myra.Graphics2D.UI;
 using RoguelikeBase2D.Constants;
 using RoguelikeBase2D.Containers;
 using RoguelikeBase2D.ECS.Components;
@@ -31,6 +33,8 @@ namespace RoguelikeBase2D
         GameWorld world;
         List<IUpdateSystem> updateSystems;
         List<IRenderSystem> renderSystems;
+        Desktop desktop;
+        Windows.Generated.GameWindow gameWindow;
 
         public RogueGame()
         {
@@ -50,6 +54,11 @@ namespace RoguelikeBase2D
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            MyraEnvironment.Game = this;
+            desktop = new Desktop();
+            gameWindow = new Windows.Generated.GameWindow();
+            desktop.Root = gameWindow;
+
             inputDelayHelper = new InputDelayHelper();
             world = new GameWorld();
 
@@ -389,6 +398,7 @@ namespace RoguelikeBase2D
             }
 
             _spriteBatch.End();
+            desktop.Render();
 
             base.Draw(gameTime);
         }
