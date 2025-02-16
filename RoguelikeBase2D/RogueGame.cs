@@ -265,6 +265,7 @@ namespace RoguelikeBase2D
         {
             updateSystems = new List<IUpdateSystem>()
             {
+                new ComputerInputSystem(world),
                 new EntityActSystem(world),
             };
 

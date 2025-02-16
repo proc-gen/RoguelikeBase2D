@@ -16,6 +16,8 @@ namespace RoguelikeBase2D.ECS.Systems.UpdateSystems
 {
     internal class EntityActSystem : ArchSystem, IUpdateSystem
     {
+        QueryDescription nonPlayerQuery = new QueryDescription().WithAll<Position, Input>().WithNone<Player>();
+
         public EntityActSystem(GameWorld world)
             : base(world)
         {
@@ -29,6 +31,7 @@ namespace RoguelikeBase2D.ECS.Systems.UpdateSystems
                     HandlePlayerTurn();
                     break;
                 case GameState.ComputerTurn:
+                    HandleComputerTurn();
                     break;
             }
         }
@@ -39,6 +42,14 @@ namespace RoguelikeBase2D.ECS.Systems.UpdateSystems
             TryAct(World.PlayerRef, ref playerRefs.t0, ref playerRefs.t1);
             World.PlayerRef.Entity.Set(playerRefs.t0, playerRefs.t1);
             FieldOfView.CalculatePlayerFOV(World);
+        }
+
+        private void HandleComputerTurn()
+        {
+            World.World.Query(in nonPlayerQuery, (Entity entity, ref Position position, ref Input input) =>
+            {
+                TryAct(entity.Reference(), ref position, ref input);
+            });
         }
 
         private void TryAct(EntityReference entity, ref Position position, ref Input input)
