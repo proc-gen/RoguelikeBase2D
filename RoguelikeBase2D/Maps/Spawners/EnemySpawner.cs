@@ -28,7 +28,17 @@ namespace RoguelikeBase2D.Maps.Spawners
                     new Position() { Point = point },
                     new ViewDistance() { Distance = 5 },
                     new Input(),
-                    new SpriteInfo() { Sprite = "goblin", Width = 48, Height = 48 }
+                    new SpriteInfo() { Sprite = "goblin", Width = 48, Height = 48 },
+                    new CombatStats()
+                    {
+                        MaxHealth = 5,
+                        CurrentHealth = 5,
+                        BaseStrength = 12,
+                        CurrentStrength = 12,
+                        BaseArmor = 0,
+                        CurrentArmor = 0,
+                    },
+                    new CombatEquipment()
                 ).Reference();
         }
     }

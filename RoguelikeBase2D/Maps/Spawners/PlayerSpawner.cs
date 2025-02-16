@@ -30,7 +30,17 @@ namespace RoguelikeBase2D.Maps.Spawners
                     new Position() { Point = point },
                     new ViewDistance() { Distance = 7 },
                     new Input(),
-                    new SpriteInfo() { Sprite = "player", Width = 48, Height = 48 }
+                    new SpriteInfo() { Sprite = "player", Width = 48, Height = 48 },
+                    new CombatStats()
+                    {
+                        MaxHealth = 30,
+                        CurrentHealth = 30,
+                        BaseStrength = 14,
+                        CurrentStrength = 14,
+                        BaseArmor = 0,
+                        CurrentArmor = 0,
+                    },
+                    new CombatEquipment()
                 ).Reference();
             }
             else
