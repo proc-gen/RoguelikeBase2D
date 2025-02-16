@@ -267,6 +267,8 @@ namespace RoguelikeBase2D
             {
                 new ComputerInputSystem(world),
                 new EntityActSystem(world),
+                new MeleeAttackSystem(world),
+                new DeathSystem(world),
             };
 
             renderSystems = new List<IRenderSystem>()
@@ -278,6 +280,7 @@ namespace RoguelikeBase2D
 
         private void GenerateMap()
         {
+            world.RemoveAllNonPlayerOwnedEntities();
             Generator generator = new BspRoomGenerator();
             TestPainter painter = new TestPainter();
             var map = generator.GenerateMap(40, 22);

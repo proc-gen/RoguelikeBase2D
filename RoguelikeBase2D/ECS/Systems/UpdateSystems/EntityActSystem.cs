@@ -65,6 +65,10 @@ namespace RoguelikeBase2D.ECS.Systems.UpdateSystems
                     World.PhysicsWorld.MoveEntity(entity, position.Point, newPosition);
                     position.Point = newPosition;
                 }
+                else
+                {
+                    World.World.Create(new MeleeAttack() { Source = entity, Target = entitiesAtPosition.Where(a => a.Entity.Has<Blocker>()).First() });
+                }
             }
         }
     }

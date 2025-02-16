@@ -47,27 +47,24 @@ namespace RoguelikeBase2D.Containers
 
         public void RemoveAllNonPlayerOwnedEntities()
         {
-            /* PhysicsWorld.Clear();
-            List<Entity> entities = new List<Entity>();
-            World.GetEntities(new QueryDescription(), entities);
+            PhysicsWorld.Clear();
+            var ownerQuery = new QueryDescription().WithAll<Owner>();
+            var nonPlayerQuery = new QueryDescription().WithNone<Player, Owner>();
 
-            foreach(var entity in entities)
+            World.Query(in ownerQuery, (Entity entity, ref Owner owner) =>
             {
-                if (entity.Has<Owner>())
+                if (!owner.OwnerReference.Entity.Has<Player>())
                 {
-                    if (entity.Get<Owner>().OwnerReference != PlayerRef)
-                    {
-                        entity.Add(new Remove());
-                    }
+                    entity.Add<Remove>();
                 }
-                else if(entity.Reference() != PlayerRef)
-                {
-                    entity.Add(new Remove());
-                }
-            }
+            });
+
+            World.Query(in nonPlayerQuery, (Entity entity) =>
+            {
+                entity.Add<Remove>();
+            });
 
             World.Destroy(new QueryDescription().WithAll<Remove>());
-            */
         }
 
         public void SaveGame()
