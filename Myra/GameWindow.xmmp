@@ -3,7 +3,7 @@
   <Panel Id="GamePanel">
     <Panel HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="960" Height="162" BorderThickness="2" Background="#202020C0" Border="#42260BFF" Id="LogWindow">
       <Panel VerticalAlignment="Top" Width="956" Height="24" BorderThickness="2" Border="#611612FF">
-        <Panel HorizontalAlignment="Center" VerticalAlignment="Center" Width="952" Height="20" Background="#FE3930FF" />
+        <Panel HorizontalAlignment="Left" VerticalAlignment="Center" Width="952" Height="20" Background="#FE3930FF" Id="PlayerHealthBar" />
         <Label Text="0 / 0" TextAlign="Center" HorizontalAlignment="Center" Id="PlayerHealthLabel" />
       </Panel>
       <TextBox Multiline="True" Wrap="True" Readonly="True" Margin="0, 32, 0, 0" VerticalAlignment="Stretch" Background="#00000000" Id="Log" />

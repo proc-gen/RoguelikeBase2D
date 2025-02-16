@@ -18,6 +18,8 @@ using RoguelikeBase2D.Utils.Rendering;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using GameWindow = RoguelikeBase2D.Windows.Generated.GameWindow;
+
 
 namespace RoguelikeBase2D
 {
@@ -34,7 +36,7 @@ namespace RoguelikeBase2D
         List<IUpdateSystem> updateSystems;
         List<IRenderSystem> renderSystems;
         Desktop desktop;
-        Windows.Generated.GameWindow gameWindow;
+        GameWindow gameWindow;
 
         public RogueGame()
         {
@@ -56,7 +58,7 @@ namespace RoguelikeBase2D
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             MyraEnvironment.Game = this;
             desktop = new Desktop();
-            gameWindow = new Windows.Generated.GameWindow();
+            gameWindow = new GameWindow();
             desktop.Root = gameWindow;
 
             inputDelayHelper = new InputDelayHelper();
@@ -284,6 +286,7 @@ namespace RoguelikeBase2D
             {
                 new RenderMapSystem(world, tilesets, textures),
                 new RenderEntitySystem(world, textures),
+                new RenderHudSystem(world, gameWindow),
             };
         }
 
