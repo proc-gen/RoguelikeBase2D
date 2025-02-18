@@ -15,6 +15,7 @@ using RoguelikeBase2D.Maps.Painters;
 using RoguelikeBase2D.Maps.Spawners;
 using RoguelikeBase2D.Utils;
 using RoguelikeBase2D.Utils.Rendering;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace RoguelikeBase2D
         public static Vector2 CenterOffset = new Vector2(960, 540);
 
         private GraphicsDeviceManager _graphics;
+        RenderTarget2D renderTarget;
         private SpriteBatch _spriteBatch;
         Dictionary<string, Texture2D> textures;
         Dictionary<string, Tileset> tilesets;
@@ -50,7 +52,17 @@ namespace RoguelikeBase2D
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.ApplyChanges();
+            Window.AllowUserResizing = true;
+            Window.ClientSizeChanged += OnResize;
+            renderTarget = new RenderTarget2D(_graphics.GraphicsDevice, 1920, 1080);
+
             base.Initialize();
+        }
+
+        protected void OnResize(object sender, EventArgs e)
+        {
+            _graphics.PreferredBackBufferWidth = Window.ClientBounds.Width;
+            _graphics.PreferredBackBufferHeight = Window.ClientBounds.Height;
         }
 
         protected override void LoadContent()
@@ -389,6 +401,7 @@ namespace RoguelikeBase2D
 
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.SetRenderTarget(renderTarget);
             GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend, transformMatrix: Matrix.Identity);
@@ -402,6 +415,16 @@ namespace RoguelikeBase2D
             }
 
             _spriteBatch.End();
+            GraphicsDevice.SetRenderTarget(null);
+
+            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,
+                                    SamplerState.LinearClamp, DepthStencilState.Default,
+                                    RasterizerState.CullNone);
+
+            _spriteBatch.Draw(renderTarget, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth,_graphics.PreferredBackBufferHeight), Color.White);
+
+            _spriteBatch.End();
+
             desktop.Render();
 
             base.Draw(gameTime);
