@@ -25,6 +25,7 @@ namespace RoguelikeBase2D.Maps.Spawners
             world.World.Create(
                     new Blocker(),
                     new Enemy(),
+                    new Identity() { Name = "Goblin" },
                     new Position() { Point = point },
                     new ViewDistance() { Distance = 5 },
                     new Input(),

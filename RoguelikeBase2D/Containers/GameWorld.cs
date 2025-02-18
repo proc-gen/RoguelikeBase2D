@@ -41,6 +41,7 @@ namespace RoguelikeBase2D.Containers
 
         public void SetMap(Map map)
         {
+            LogEntry(string.Format("Now entering: {0}", map.Seed));
             Map = map;
             PhysicsWorld.Populate(World);
         }
@@ -69,6 +70,8 @@ namespace RoguelikeBase2D.Containers
 
         public void HandlePlayerDeath()
         {
+            LogEntry("You died.");
+
             var ownerQuery = new QueryDescription().WithAll<Owner>();
             World.Query(in ownerQuery, (Entity entity, ref Owner owner) =>
             {
@@ -80,6 +83,11 @@ namespace RoguelikeBase2D.Containers
 
             World.Destroy(PlayerRef);
             PlayerRef = EntityReference.Null;
+        }
+
+        public void LogEntry(string entry)
+        {
+            GameLog.Add(string.Format("{0}: {1}", DateTime.Now, entry));
         }
 
         public void SaveGame()

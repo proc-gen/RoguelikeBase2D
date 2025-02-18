@@ -26,6 +26,7 @@ namespace RoguelikeBase2D.Maps.Spawners
             {
                 world.PlayerRef = world.World.Create(
                     new Player(),
+                    new Identity() { Name = "Player" },
                     new Blocker(),
                     new Position() { Point = point },
                     new ViewDistance() { Distance = 7 },
