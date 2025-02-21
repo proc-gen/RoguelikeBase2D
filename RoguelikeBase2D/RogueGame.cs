@@ -96,6 +96,7 @@ namespace RoguelikeBase2D
         private void LoadTilesets()
         {
             var tileset = new Tileset("test-tileset", 480, 480, 48, 48);
+            tileset.SetTilesetTile(44, new TilesetTile(44, TileType.Exit));
             tileset.SetTilesetTile(30, new TilesetTile(30, TileType.WallBottomLeft, TileType.WallTopLeft));
             tileset.SetTilesetTile(31, new TilesetTile(31, TileType.WallBottomMiddle, TileType.WallTopMiddle));
             tileset.SetTilesetTile(32, new TilesetTile(32, TileType.WallBottomRight, TileType.WallTopRight));

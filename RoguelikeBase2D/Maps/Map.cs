@@ -18,11 +18,12 @@ namespace RoguelikeBase2D.Maps
 
         public Map(int width, int height) 
         {
-            MapLayers = new Dictionary<MapLayerType, MapLayer>()
+            MapLayers = new Dictionary<MapLayerType, MapLayer>();
+            foreach (var layer in MapLayerTypeExtensions.AllLayers)
             {
-                { MapLayerType.Wall, new MapLayer(MapLayerType.Wall.ToString(), width, height) },
-                { MapLayerType.Floor, new MapLayer(MapLayerType.Floor.ToString(), width, height) },
-            };
+                MapLayers.Add(layer, new MapLayer(layer.ToString(), width, height));
+            }
+
             Width = width;
             Height = height;
         }

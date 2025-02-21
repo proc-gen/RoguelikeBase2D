@@ -23,6 +23,15 @@ namespace RoguelikeBase2D.Maps.Painters
                         map.SetTileInLayer(Constants.MapLayerType.Floor, i, j, floorTile);
                     }
 
+                    var floorDecorationTile = map.GetTileFromLayer(Constants.MapLayerType.FloorDecorations, i, j);
+                    if(floorDecorationTile.TileType != Constants.TileType.None)
+                    {
+                        floorDecorationTile.TilesetName = tileset.Name;
+                        var tilesetTile = tileset.TilesetTiles.Where(a => a != null && a.TileTypes.Contains(floorDecorationTile.TileType)).FirstOrDefault();
+                        floorDecorationTile.TilesetTileId = tilesetTile.Id;
+                        map.SetTileInLayer(Constants.MapLayerType.FloorDecorations, i, j, floorDecorationTile);
+                    }
+
                     var wallTile = map.GetTileFromLayer(Constants.MapLayerType.Wall, i, j);
                     if (wallTile.TileType != Constants.TileType.None)
                     {

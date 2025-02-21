@@ -39,6 +39,7 @@ namespace RoguelikeBase2D.Constants
         WallBottomMiddle = 8,
         WallTopSingle = 9,
         WallBottomSingle = 10,
+        Exit = 11,
 
         WallBorder5 = 32,
 
@@ -235,7 +236,7 @@ namespace RoguelikeBase2D.Constants
     {
         public static bool IsPassable(this TileType tileType)
         {
-            return tileType == TileType.Floor;
+            return !IsWallOrBorder(tileType);
         }
 
         public static bool IsBorder(this TileType tileType)

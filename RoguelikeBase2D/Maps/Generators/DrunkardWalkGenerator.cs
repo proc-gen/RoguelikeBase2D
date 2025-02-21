@@ -159,5 +159,7 @@ namespace RoguelikeBase2D.Maps.Generators
 
             return points;
         }
+
+        public override Point GetMapExit(Map map) => throw new NotImplementedException();
     }
 }

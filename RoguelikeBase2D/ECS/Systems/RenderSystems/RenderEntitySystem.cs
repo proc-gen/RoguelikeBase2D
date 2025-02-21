@@ -25,7 +25,7 @@ namespace RoguelikeBase2D.ECS.Systems.RenderSystems
 
         public void Render(GameTime gameTime, SpriteBatch spriteBatch, MapLayerType layerType)
         {
-            if(layerType == MapLayerType.Floor)
+            if(layerType == MapLayerType.FloorDecorations)
             {
                 var playerPosition = World.PlayerRef.Entity.Get<Position>();
 

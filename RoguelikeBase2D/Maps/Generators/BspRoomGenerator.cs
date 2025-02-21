@@ -25,6 +25,7 @@ namespace RoguelikeBase2D.Maps.Generators
             ProcessWallBorders(map);
             ProcessWalls(map);
             RemoveHiddenFloors(map);
+            SetMapExit(map);
 
             return map;
         }
@@ -178,6 +179,32 @@ namespace RoguelikeBase2D.Maps.Generators
             }
 
             return points;
+        }
+
+        public override Point GetMapExit(Map map)
+        {
+            var lastRoom = Rooms.Last();
+            var point = lastRoom.Center;
+            var tile = map.GetTileFromLayer(MapLayerType.Wall, point);
+            while (tile.TileType.IsWallOrBorder())
+            {
+                point = new Point(
+                    SeededRandom.Next(lastRoom.X + 1, lastRoom.X + lastRoom.Width - 1),
+                    SeededRandom.Next(lastRoom.Y + 1, lastRoom.Y + lastRoom.Height - 1)
+                    );
+                tile = map.GetTileFromLayer(MapLayerType.Wall, point);
+            }
+
+            return point;
+        }
+
+        private void SetMapExit(Map map)
+        {
+            var exitPoint = GetMapExit(map);
+
+            var tile = map.GetTileFromLayer(MapLayerType.FloorDecorations, exitPoint);
+            tile.TileType = TileType.Exit;
+            map.SetTileInLayer(MapLayerType.FloorDecorations, exitPoint, tile);
         }
     }
 }

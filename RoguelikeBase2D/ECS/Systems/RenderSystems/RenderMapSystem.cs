@@ -39,6 +39,10 @@ namespace RoguelikeBase2D.ECS.Systems.RenderSystems
                     var tile = World.Map.GetTileFromLayer(layerType, i, j);
                     if (tile.TileType != TileType.None)
                     {
+                        if(tile.TileType == TileType.Exit)
+                        {
+                            Console.WriteLine();
+                        }
                         var tileset = Tilesets[tile.TilesetName];
                         var sourceRect = tileset.GetRectangleForTilesetTile(tile.TilesetTileId);
                         var tileX = i * tileset.TileWidth;
