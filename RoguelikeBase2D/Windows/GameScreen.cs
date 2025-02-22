@@ -27,7 +27,6 @@ namespace RoguelikeBase2D.Windows
     {
         Dictionary<string, Texture2D> textures;
         Dictionary<string, Tileset> tilesets;
-        InputDelayHelper inputDelayHelper;
         GameWorld world;
         List<IUpdateSystem> updateSystems;
         List<IRenderSystem> renderSystems;
@@ -38,7 +37,6 @@ namespace RoguelikeBase2D.Windows
         {
             MyraWindow = new GameWindow();
 
-            inputDelayHelper = new InputDelayHelper();
             world = new GameWorld();
             random = SeededRandom.New();
 
@@ -311,6 +309,11 @@ namespace RoguelikeBase2D.Windows
             }
         }
 
+        public override void SetActive()
+        {
+
+        }
+
         public override void Update(GameTime gameTime)
         {
             if (world.CurrentState == GameState.AwaitingPlayerInput)
@@ -341,12 +344,12 @@ namespace RoguelikeBase2D.Windows
                 }
             }
 
-            inputDelayHelper.Update(gameTime);
+            base.Update(gameTime);
         }
 
         private void HandleKeyboard()
         {
-            if (inputDelayHelper.ReadyForInput)
+            if (InputDelayHelper.ReadyForInput)
             {
                 var kState = Keyboard.GetState();
                 if (kState.IsKeyDown(Keys.Escape))
@@ -357,7 +360,7 @@ namespace RoguelikeBase2D.Windows
                 {
                     world.HandlePlayerDeathOrRestart(false);
                     GenerateMap(false);
-                    inputDelayHelper.Reset();
+                    InputDelayHelper.Reset();
                 }
                 else if (kState.IsKeyDown(Keys.Up))
                 {
@@ -392,7 +395,7 @@ namespace RoguelikeBase2D.Windows
             input.Direction = direction;
             world.PlayerRef.Entity.Set(input);
             world.CurrentState = GameState.PlayerTurn;
-            inputDelayHelper.Reset();
+            InputDelayHelper.Reset();
         }
 
         private void CheckForExit()
@@ -407,7 +410,7 @@ namespace RoguelikeBase2D.Windows
             {
                 world.LogEntry("The exit isn't here");
             }
-            inputDelayHelper.Reset();
+            InputDelayHelper.Reset();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) 

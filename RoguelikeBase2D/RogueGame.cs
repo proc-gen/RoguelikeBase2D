@@ -49,8 +49,9 @@ namespace RoguelikeBase2D
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             MyraEnvironment.Game = this;
             desktop = new Desktop();
-            currentScreen = new GameScreen(this, false);
+            currentScreen = new MainMenuScreen(this);
             desktop.Root = currentScreen.MyraWindow;
+            currentScreen.SetActive();
         }
 
         protected override void Update(GameTime gameTime)
