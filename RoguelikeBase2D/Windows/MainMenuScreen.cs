@@ -20,8 +20,11 @@ namespace RoguelikeBase2D.Windows
         public MainMenuScreen(RogueGame game) 
             : base(game) 
         {
-            MyraWindow = new MainMenuWindow();    
-            
+            MyraWindow = new MainMenuWindow();
+            ((MainMenuWindow)MyraWindow).NewButton.Click += NewGameButtonClick;
+            ((MainMenuWindow)MyraWindow).ContinueButton.Click += ContinueGameButtonClick;
+            ((MainMenuWindow)MyraWindow).ExitButton.Click += ExitButtonClick;
+
             Buttons = MyraWindow.FindAllWidgetsOfType<ImageTextButton>();
         }
 
@@ -44,6 +47,20 @@ namespace RoguelikeBase2D.Windows
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) 
         {
 
+        }
+
+        protected void NewGameButtonClick(object e, EventArgs eventArgs)
+        {
+            Game.SetScreen(new GameScreen(Game, false));
+        }
+
+        protected void ContinueGameButtonClick(object e, EventArgs eventArgs)
+        {
+        }
+
+        protected void ExitButtonClick(object e, EventArgs eventArgs)
+        {
+            Game.Exit();
         }
     }
 }

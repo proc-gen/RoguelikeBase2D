@@ -337,8 +337,7 @@ namespace RoguelikeBase2D.Windows
                         world.CurrentState = GameState.AwaitingPlayerInput;
                         break;
                     case GameState.PlayerDeath:
-                        world.HandlePlayerDeathOrRestart(true);
-                        GenerateMap();
+                        Game.SetScreen(new MainMenuScreen(Game));
                         break;
 
                 }
@@ -354,13 +353,7 @@ namespace RoguelikeBase2D.Windows
                 var kState = Keyboard.GetState();
                 if (kState.IsKeyDown(Keys.Escape))
                 {
-                    Game.Exit();
-                }
-                else if (kState.IsKeyDown(Keys.R))
-                {
-                    world.HandlePlayerDeathOrRestart(false);
-                    GenerateMap(false);
-                    InputDelayHelper.Reset();
+                    Game.SetScreen(new MainMenuScreen(Game));
                 }
                 else if (kState.IsKeyDown(Keys.Up))
                 {
