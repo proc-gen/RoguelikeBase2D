@@ -56,6 +56,7 @@ namespace RoguelikeBase2D.Windows
 
         protected void ContinueGameButtonClick(object e, EventArgs eventArgs)
         {
+            Game.SetScreen(new GameScreen(Game, true));
         }
 
         protected void ExitButtonClick(object e, EventArgs eventArgs)

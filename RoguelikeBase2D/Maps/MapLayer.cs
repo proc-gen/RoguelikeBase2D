@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace RoguelikeBase2D.Maps
@@ -12,6 +14,7 @@ namespace RoguelikeBase2D.Maps
         public string Name { get; set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
+        [JsonProperty]
         protected Tile[] Grid { get; private set; }
         public MapLayer(string name, int width, int height)
         {

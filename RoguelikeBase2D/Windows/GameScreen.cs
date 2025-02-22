@@ -36,14 +36,25 @@ namespace RoguelikeBase2D.Windows
             : base(game)
         {
             MyraWindow = new GameWindow();
-
-            world = new GameWorld();
             random = SeededRandom.New();
+
+            if (continueGame)
+            {
+                world = SaveGameManager.LoadGame();
+            }
+            else
+            {
+                world = SaveGameManager.NewGame();
+            }
 
             LoadTextures();
             LoadTilesets();
             InitSystems();
-            GenerateMap();
+
+            if (!continueGame)
+            {
+                GenerateMap();
+            }
         }
 
 
@@ -337,6 +348,7 @@ namespace RoguelikeBase2D.Windows
                         world.CurrentState = GameState.AwaitingPlayerInput;
                         break;
                     case GameState.PlayerDeath:
+                        SaveGameManager.DeleteSaveData();
                         Game.SetScreen(new MainMenuScreen(Game));
                         break;
 
@@ -353,6 +365,7 @@ namespace RoguelikeBase2D.Windows
                 var kState = Keyboard.GetState();
                 if (kState.IsKeyDown(Keys.Escape))
                 {
+                    SaveGameManager.SaveGame(world);
                     Game.SetScreen(new MainMenuScreen(Game));
                 }
                 else if (kState.IsKeyDown(Keys.Up))
