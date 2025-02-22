@@ -68,9 +68,16 @@ namespace RoguelikeBase2D.Containers
             World.Destroy(new QueryDescription().WithAll<Remove>());
         }
 
-        public void HandlePlayerDeath()
+        public void HandlePlayerDeathOrRestart(bool isDead)
         {
-            LogEntry("You died.");
+            if (isDead)
+            {
+                LogEntry("You died.");
+            }
+            else
+            {
+                LogEntry("You end your journey to start anew");
+            }
 
             var ownerQuery = new QueryDescription().WithAll<Owner>();
             World.Query(in ownerQuery, (Entity entity, ref Owner owner) =>

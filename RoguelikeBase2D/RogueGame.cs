@@ -1,4 +1,5 @@
-﻿using Arch.Core.Extensions;
+﻿using Arch.Core;
+using Arch.Core.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -303,7 +304,7 @@ namespace RoguelikeBase2D
             };
         }
 
-        private void GenerateMap()
+        private void GenerateMap(bool nextLevel = false)
         {
             world.RemoveAllNonPlayerOwnedEntities();
             Generator generator = new BspRoomGenerator();
@@ -316,6 +317,11 @@ namespace RoguelikeBase2D
             EnemySpawner enemySpawner = new EnemySpawner();
             enemySpawner.SpawnEntitiesForPoints(world, generator.GetEnemySpawnPoints(map));
 
+            if (nextLevel)
+            {
+                world.LogEntry("You descend to the next level...");
+            }
+            
             world.SetMap(map);
             FieldOfView.CalculatePlayerFOV(world);
 
@@ -346,7 +352,7 @@ namespace RoguelikeBase2D
                         world.CurrentState = GameState.AwaitingPlayerInput;
                         break;
                     case GameState.PlayerDeath:
-                        world.HandlePlayerDeath();
+                        world.HandlePlayerDeathOrRestart(true);
                         GenerateMap();
                         break;
 
@@ -369,7 +375,8 @@ namespace RoguelikeBase2D
                 }
                 else if (kState.IsKeyDown(Keys.R))
                 {
-                    GenerateMap();
+                    world.HandlePlayerDeathOrRestart(false);
+                    GenerateMap(false);
                     inputDelayHelper.Reset();
                 }
                 else if (kState.IsKeyDown(Keys.Up))
@@ -388,6 +395,14 @@ namespace RoguelikeBase2D
                 {
                     MovePlayer(new Point(1, 0));
                 }
+                else if (kState.IsKeyDown(Keys.Enter))
+                {
+                    MovePlayer(Point.Zero);
+                }
+                else if (kState.IsKeyDown(Keys.E))
+                {
+                    CheckForExit();
+                }
             }
         }
 
@@ -397,6 +412,21 @@ namespace RoguelikeBase2D
             input.Direction = direction;
             world.PlayerRef.Entity.Set(input);
             world.CurrentState = GameState.PlayerTurn;
+            inputDelayHelper.Reset();
+        }
+
+        private void CheckForExit()
+        {
+            var position = world.PlayerRef.Entity.Get<Position>();
+            var exitTile = world.Map.GetTileFromLayer(MapLayerType.FloorDecorations, position.Point);
+            if (exitTile.TileType == TileType.Exit)
+            {
+                GenerateMap(true);
+            }
+            else
+            {
+                world.LogEntry("The exit isn't here");
+            }
             inputDelayHelper.Reset();
         }
 

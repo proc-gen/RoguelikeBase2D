@@ -55,22 +55,25 @@ namespace RoguelikeBase2D.ECS.Systems.UpdateSystems
         private void TryAct(EntityReference entity, ref Position position, ref Input input)
         {
             var newPosition = position.Point + input.Direction;
-            var tile = World.Map.GetTileFromLayer(MapLayerType.Wall, newPosition);
-            if (!tile.TileType.IsWallOrBorder())
+            if (newPosition != position.Point)
             {
-                var entitiesAtPosition = World.PhysicsWorld.GetEntitiesAtLocation(newPosition);
+                var tile = World.Map.GetTileFromLayer(MapLayerType.Wall, newPosition);
+                if (!tile.TileType.IsWallOrBorder())
+                {
+                    var entitiesAtPosition = World.PhysicsWorld.GetEntitiesAtLocation(newPosition);
 
-                if (entitiesAtPosition == null || !entitiesAtPosition.Any(a => a.Entity.Has<Blocker>()))
-                {
-                    World.PhysicsWorld.MoveEntity(entity, position.Point, newPosition);
-                    position.Point = newPosition;
-                }
-                else
-                {
-                    var target = entitiesAtPosition.Where(a => a.Entity.Has<Blocker>()).First();
-                    if (entity.Entity.Has<Player>() || target.Entity.Has<Player>())
+                    if (entitiesAtPosition == null || !entitiesAtPosition.Any(a => a.Entity.Has<Blocker>()))
                     {
-                        World.World.Create(new MeleeAttack() { Source = entity, Target = target });
+                        World.PhysicsWorld.MoveEntity(entity, position.Point, newPosition);
+                        position.Point = newPosition;
+                    }
+                    else
+                    {
+                        var target = entitiesAtPosition.Where(a => a.Entity.Has<Blocker>()).First();
+                        if (entity.Entity.Has<Player>() || target.Entity.Has<Player>())
+                        {
+                            World.World.Create(new MeleeAttack() { Source = entity, Target = target });
+                        }
                     }
                 }
             }
