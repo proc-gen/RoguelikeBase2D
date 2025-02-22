@@ -63,9 +63,18 @@ namespace RoguelikeBase2D.Windows
             textures = new Dictionary<string, Texture2D>()
             {
                 { "test-tileset", Game.Content.Load<Texture2D>(Path.Combine("Tilesets", "test-tileset")) },
+
                 { "player", Game.Content.Load<Texture2D>(Path.Combine("Sprites", "Player")) },
                 { "goblin", Game.Content.Load<Texture2D>(Path.Combine("Sprites", "Goblin")) },
                 { "ogre", Game.Content.Load<Texture2D>(Path.Combine("Sprites", "Ogre")) },
+
+                { "crate", Game.Content.Load<Texture2D>(Path.Combine("Objects", "crate")) },
+                { "bow", Game.Content.Load<Texture2D>(Path.Combine("Objects", "bow")) },
+                { "cloth-armor", Game.Content.Load<Texture2D>(Path.Combine("Objects", "cloth-armor")) },
+                { "leather-armor", Game.Content.Load<Texture2D>(Path.Combine("Objects", "leather-armor")) },
+                { "health-potion", Game.Content.Load<Texture2D>(Path.Combine("Objects", "health-potion")) },
+                { "dagger", Game.Content.Load<Texture2D>(Path.Combine("Objects", "dagger")) },
+                { "sword", Game.Content.Load<Texture2D>(Path.Combine("Objects", "sword")) },
             };
         }
 
