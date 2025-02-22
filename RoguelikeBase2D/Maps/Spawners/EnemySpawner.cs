@@ -1,7 +1,9 @@
 ﻿using Arch.Core.Extensions;
 using Microsoft.Xna.Framework;
 using RoguelikeBase2D.Containers;
+using RoguelikeBase2D.Datasets;
 using RoguelikeBase2D.ECS.Components;
+using RoguelikeBase2D.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,30 +16,39 @@ namespace RoguelikeBase2D.Maps.Spawners
     {
         public void SpawnEntitiesForPoints(GameWorld world, HashSet<Point> points)
         {
+            var enemyContainers = EnemyDataset.GetEnemyContainersForDepth(world.Depth);
+            SeededRandom random = SeededRandom.New();
+
             foreach (var point in points)
             {
-                SpawnEntityForPoint(world, point);
+                SpawnEntityForPoint(world, random, enemyContainers, point);
             }
         }
 
-        public void SpawnEntityForPoint(GameWorld world, Point point)
+        public void SpawnEntityForPoint(GameWorld world, SeededRandom random, List<EnemyContainer> enemyContainers, Point point)
         {
+            EnemyContainer enemyContainer = enemyContainers.FirstOrDefault();
+            if(enemyContainers.Count > 1)
+            {
+                enemyContainer = enemyContainers[random.Next(0, enemyContainers.Count)];
+            }
+
             world.World.Create(
                     new Blocker(),
                     new Enemy(),
-                    new Identity() { Name = "Goblin" },
+                    new Identity() { Name = enemyContainer.Name },
                     new Position() { Point = point },
-                    new ViewDistance() { Distance = 5 },
+                    new ViewDistance() { Distance = enemyContainer.ViewDistance },
                     new Input(),
-                    new SpriteInfo() { Sprite = "goblin", Width = 48, Height = 48 },
+                    new SpriteInfo() { Sprite = enemyContainer.Sprite, Width = 48, Height = 48 },
                     new CombatStats()
                     {
-                        MaxHealth = 5,
-                        CurrentHealth = 5,
-                        BaseStrength = 12,
-                        CurrentStrength = 12,
-                        BaseArmor = 0,
-                        CurrentArmor = 0,
+                        MaxHealth = enemyContainer.Health,
+                        CurrentHealth = enemyContainer.Health,
+                        BaseStrength = enemyContainer.Strength,
+                        CurrentStrength = enemyContainer.Strength,
+                        BaseArmor = enemyContainer.Armor,
+                        CurrentArmor = enemyContainer.Armor,
                     },
                     new CombatEquipment()
                 ).Reference();
