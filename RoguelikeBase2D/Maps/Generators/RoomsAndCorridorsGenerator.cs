@@ -16,7 +16,7 @@ namespace RoguelikeBase2D.Maps.Generators
         {
             Map map = new Map(width, height);
             Rooms = new List<Rectangle>();
-            SeededRandom = new SeededRandom(Random.Shared.Next());
+            SeededRandom = SeededRandom.New();
             map.Seed = SeededRandom.Seed;
             
             PreProcessMap(map);
@@ -66,7 +66,7 @@ namespace RoguelikeBase2D.Maps.Generators
                 Rectangle compareRoom = new Rectangle(x, y, roomWidth, roomHeight);
                 compareRoom.Inflate(1, 1);
 
-                if (Rooms.Any() && Rooms.Exists(a => a.Intersects(compareRoom)))
+                if (!Rooms.Any() || !Rooms.Exists(a => a.Intersects(compareRoom)))
                 {
                     ApplyRoomToMap(map, room);
                     if (Rooms.Any())

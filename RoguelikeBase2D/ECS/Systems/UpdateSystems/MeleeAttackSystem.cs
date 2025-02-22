@@ -20,7 +20,7 @@ namespace RoguelikeBase2D.ECS.Systems.UpdateSystems
         public MeleeAttackSystem(GameWorld world)
             : base(world)
         {
-            SeededRandom = new SeededRandom(Random.Shared.Next());
+            SeededRandom = SeededRandom.New();
         }
 
         public void Update(GameTime gameTime)

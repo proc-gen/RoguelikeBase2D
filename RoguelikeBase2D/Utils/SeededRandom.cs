@@ -10,6 +10,11 @@ namespace RoguelikeBase2D.Utils
     {
         public int Seed { get; private set; }
  
+        public static SeededRandom New()
+        {
+            return new SeededRandom(Shared.Next());
+        }
+
         public SeededRandom(int seed) : base(seed) 
         {
             Seed = seed;

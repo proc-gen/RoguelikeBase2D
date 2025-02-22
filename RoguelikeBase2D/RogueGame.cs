@@ -40,6 +40,7 @@ namespace RoguelikeBase2D
         List<IRenderSystem> renderSystems;
         Desktop desktop;
         GameWindow gameWindow;
+        SeededRandom random;
 
         public RogueGame()
         {
@@ -76,6 +77,7 @@ namespace RoguelikeBase2D
 
             inputDelayHelper = new InputDelayHelper();
             world = new GameWorld();
+            random = SeededRandom.New();
 
             LoadTextures();
             LoadTilesets();
@@ -307,7 +309,7 @@ namespace RoguelikeBase2D
         private void GenerateMap(bool nextLevel = false)
         {
             world.RemoveAllNonPlayerOwnedEntities();
-            Generator generator = new BspRoomGenerator();
+            Generator generator = PickGenerator();
             TestPainter painter = new TestPainter();
             var map = generator.GenerateMap(40, 22);
             map = painter.PaintMap(map, tilesets["test-tileset"]);
@@ -327,6 +329,19 @@ namespace RoguelikeBase2D
 
             Window.Title = string.Format("RoguelikeBase2D - Seed: {0}", map.Seed);
             world.CurrentState = GameState.AwaitingPlayerInput;
+        }
+
+        private Generator PickGenerator()
+        {
+            switch (random.Next(0, 3))
+            {
+                case 0:
+                    return new BspInteriorGenerator();
+                case 1:
+                    return new BspRoomGenerator();
+                default:
+                    return new RoomsAndCorridorsGenerator();
+            }
         }
 
         protected override void Update(GameTime gameTime)

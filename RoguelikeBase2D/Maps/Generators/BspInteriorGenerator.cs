@@ -18,7 +18,7 @@ namespace RoguelikeBase2D.Maps.Generators
         {
             Map map = new Map(width, height);
             Rooms = new List<Rectangle>();
-            SeededRandom = new SeededRandom(Random.Shared.Next());
+            SeededRandom = SeededRandom.New();
             map.Seed = SeededRandom.Seed;
 
             PreProcessMap(map);

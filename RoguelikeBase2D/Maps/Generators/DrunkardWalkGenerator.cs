@@ -14,7 +14,7 @@ namespace RoguelikeBase2D.Maps.Generators
         public override Map GenerateMap(int width, int height)
         {
             Map map = new Map(width, height);
-            SeededRandom = new SeededRandom(Random.Shared.Next());
+            SeededRandom = SeededRandom.New();
             map.Seed = SeededRandom.Seed;
             
             PreProcessMap(map);
