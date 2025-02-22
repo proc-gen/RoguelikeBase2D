@@ -3,9 +3,9 @@
   <Panel Id="MainMenuPanel">
     <Label Text="RoguelikeBase2D" TextAlign="Center" Margin="0, 84, 0, 0" HorizontalAlignment="Center" Scale="4, 3" Id="TitleLabel" />
     <VerticalStackPanel HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="2" Background="#202020C0" Border="#42260BFF" Id="MenuPanel">
-      <ImageTextButton Text="New Game" ContentHorizontalAlignment="Center" Margin="8" Padding="8" HorizontalAlignment="Stretch" FocusedBorder="#8C8C8CFF" Id="NewButton" />
-      <ImageTextButton Text="Continue Game" ContentHorizontalAlignment="Center" Margin="8" Padding="8" HorizontalAlignment="Stretch" FocusedBorder="#8C8C8CFF" Id="ContinueButton" />
-      <ImageTextButton Text="Exit" LabelHorizontalAlignment="Stretch" ContentHorizontalAlignment="Center" Margin="8" Padding="8" HorizontalAlignment="Stretch" FocusedBorder="#8C8C8CFF" Id="ExitButton" />
+      <ImageTextButton Text="New Game" ContentHorizontalAlignment="Center" Margin="8" BorderThickness="2" Padding="8" HorizontalAlignment="Stretch" FocusedBorder="#8C8C8CFF" Id="NewButton" />
+      <ImageTextButton Text="Continue Game" ContentHorizontalAlignment="Center" Margin="8" BorderThickness="2" Padding="8" HorizontalAlignment="Stretch" FocusedBorder="#8C8C8CFF" Id="ContinueButton" />
+      <ImageTextButton Text="Exit" LabelHorizontalAlignment="Stretch" ContentHorizontalAlignment="Center" Margin="8" BorderThickness="2" Padding="8" HorizontalAlignment="Stretch" FocusedBorder="#8C8C8CFF" Id="ExitButton" />
     </VerticalStackPanel>
   </Panel>
 </Project>
