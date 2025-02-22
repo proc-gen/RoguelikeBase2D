@@ -27,6 +27,7 @@ namespace RoguelikeBase2D.Containers
         public GameState CurrentState { get; set; }
         public List<string> GameLog { get; set; }
         public Map Map { get; set; }
+        public int Depth { get; set; }
         public HashSet<Point> PlayerFov { get; set; }
 
         public GameWorld() 
@@ -37,10 +38,12 @@ namespace RoguelikeBase2D.Containers
             GameLog = new List<string>();
             PlayerFov = new HashSet<Point>();
             PlayerRef = EntityReference.Null;
+            Depth = 0;
         }
 
         public void SetMap(Map map)
         {
+            Depth++;
             LogEntry(string.Format("Now entering: {0}", map.Seed));
             Map = map;
             PhysicsWorld.Populate(World);
@@ -78,6 +81,7 @@ namespace RoguelikeBase2D.Containers
             {
                 LogEntry("You end your journey to start anew");
             }
+            Depth = 0;
 
             var ownerQuery = new QueryDescription().WithAll<Owner>();
             World.Query(in ownerQuery, (Entity entity, ref Owner owner) =>

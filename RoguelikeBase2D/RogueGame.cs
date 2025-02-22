@@ -311,7 +311,10 @@ namespace RoguelikeBase2D
             world.RemoveAllNonPlayerOwnedEntities();
             Generator generator = PickGenerator();
             TestPainter painter = new TestPainter();
-            var map = generator.GenerateMap(40, 22);
+            int width = random.Next(30, 30 + 5 * world.Depth);
+            int height = random.Next(30, 30 + 5 * world.Depth);
+
+            var map = generator.GenerateMap(width, height);
             map = painter.PaintMap(map, tilesets["test-tileset"]);
 
             PlayerSpawner playerSpawner = new PlayerSpawner();
@@ -327,7 +330,7 @@ namespace RoguelikeBase2D
             world.SetMap(map);
             FieldOfView.CalculatePlayerFOV(world);
 
-            Window.Title = string.Format("RoguelikeBase2D - Seed: {0}", map.Seed);
+            Window.Title = string.Format("RoguelikeBase2D - Depth: {0} - Seed: {1}", world.Depth, map.Seed);
             world.CurrentState = GameState.AwaitingPlayerInput;
         }
 

@@ -55,7 +55,7 @@ namespace RoguelikeBase2D.Maps.Generators
 
         private void CreateRooms(Map map)
         {
-            var first = new Rectangle(0, 1, map.Width - 2, map.Height - 2);
+            var first = new Rectangle(2, 2, map.Width - 3, map.Height - 3);
             Rooms.Add(first);
             AddSubrectangles(first);
 

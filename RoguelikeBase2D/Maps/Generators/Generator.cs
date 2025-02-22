@@ -151,9 +151,9 @@ namespace RoguelikeBase2D.Maps.Generators
 
         protected void ApplyRoomToMap(Map map, Rectangle room)
         {
-            for (int i = room.X + 1; i <= room.X + room.Width; i++)
+            for (int i = room.X + 1; i < room.X + room.Width; i++)
             {
-                for (int j = room.Y + 1; j <= room.Y + room.Height; j++)
+                for (int j = room.Y + 1; j < room.Y + room.Height; j++)
                 {
                     var tile = map.GetTileFromLayer(MapLayerType.Wall, i, j);
                     tile.TileType = TileType.None;
