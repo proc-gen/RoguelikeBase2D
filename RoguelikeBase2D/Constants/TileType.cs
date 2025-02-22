@@ -647,5 +647,24 @@ namespace RoguelikeBase2D.Constants
 
             return false;
         }
+
+        public static bool IsWall(this TileType tileType)
+        {
+            switch (tileType)
+            {
+                case TileType.Wall:
+
+                case TileType.WallTopLeft:
+                case TileType.WallTopRight:
+                case TileType.WallBottomLeft:
+                case TileType.WallBottomRight:
+                case TileType.WallTopMiddle:
+                case TileType.WallBottomMiddle:
+                case TileType.WallTopSingle:
+                case TileType.WallBottomSingle:
+                    return true;
+            }
+            return false;
+        }
     }
 }

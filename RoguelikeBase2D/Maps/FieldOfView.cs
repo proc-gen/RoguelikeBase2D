@@ -137,7 +137,7 @@ namespace RoguelikeBase2D.Maps
             foreach (Point point in pointsToCheck)
             {
                 if (!fov.Contains(point)
-                    && map.GetTileFromLayer(MapLayerType.Wall, point).TileType.IsBorder())
+                    && map.GetTileFromLayer(MapLayerType.Wall, point).TileType.IsWall())
                 {
                     int x1 = point.X;
                     int y1 = point.Y;
@@ -167,10 +167,10 @@ namespace RoguelikeBase2D.Maps
                     Point point3 = new Point(x2, y1);
                     Point point4 = new Point(x1, y2);
 
-                    if ((map.GetTileFromLayer(MapLayerType.Wall, point1).TileType.IsBorder() && fov.Contains(point1))
-                        || (map.GetTileFromLayer(MapLayerType.Wall, point2).TileType.IsBorder() && fov.Contains(point2))
-                        || (map.GetTileFromLayer(MapLayerType.Wall, point3).TileType.IsBorder() && fov.Contains(point3))
-                        || (map.GetTileFromLayer(MapLayerType.Wall, point4).TileType.IsBorder() && fov.Contains(point4)))
+                    if ((map.GetTileFromLayer(MapLayerType.Wall, point1).TileType.IsWall() && fov.Contains(point1))
+                        || (map.GetTileFromLayer(MapLayerType.Wall, point2).TileType.IsWall() && fov.Contains(point2))
+                        || (map.GetTileFromLayer(MapLayerType.Wall, point3).TileType.IsWall() && fov.Contains(point3))
+                        || (map.GetTileFromLayer(MapLayerType.Wall, point4).TileType.IsWall() && fov.Contains(point4)))
                     {
                         fov.Add(point);
                     }
