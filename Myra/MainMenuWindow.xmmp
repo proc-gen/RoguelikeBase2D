@@ -1,0 +1,11 @@
+<Project>
+  <Project.ExportOptions Namespace="RoguelikeBase2D.Windows.Generated" Class="MainMenuWindow" OutputPath="C:\Repos\proc-gen\RoguelikeBase2D\Myra" />
+  <Panel Id="MainMenuPanel">
+    <Label Text="RoguelikeBase2D" TextAlign="Center" Margin="0, 84, 0, 0" HorizontalAlignment="Center" Scale="4, 3" Id="TitleLabel" />
+    <VerticalStackPanel HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="2" Background="#202020C0" Border="#42260BFF" Id="MenuPanel">
+      <TextButton Text="New Game" Margin="8" Padding="8" HorizontalAlignment="Stretch" Id="NewButton" />
+      <TextButton Text="Continue Game" Margin="8" Padding="8" HorizontalAlignment="Stretch" Id="ContinueButton" />
+      <TextButton Text="Exit" Margin="8" Padding="8" HorizontalAlignment="Stretch" Id="ExitButton" />
+    </VerticalStackPanel>
+  </Panel>
+</Project>
