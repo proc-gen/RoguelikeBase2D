@@ -401,6 +401,11 @@ namespace RoguelikeBase2D.Windows
                 {
                     CheckForExit();
                 }
+                else if (kState.IsKeyDown(Keys.I))
+                {
+                    ((GameWindow)MyraWindow).InventoryPanel.Visible = !((GameWindow)MyraWindow).InventoryPanel.Visible;
+                    InputDelayHelper.Reset();
+                }
             }
         }
 

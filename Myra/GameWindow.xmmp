@@ -8,5 +8,18 @@
       </Panel>
       <TextBox Multiline="True" Wrap="True" Readonly="True" Margin="0, 32, 0, 0" VerticalAlignment="Stretch" Background="#00000000" Id="Log" />
     </Panel>
+    <VerticalStackPanel HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="2" Visible="False" Background="#202020C0" Border="#42260BFF" Id="InventoryPanel" >
+      <Label Text="Inventory" Margin="8" HorizontalAlignment="Center" />
+      <HorizontalStackPanel>
+        <VerticalStackPanel Margin="8">
+          <Label Text="Backpack" Margin="8" />
+          <TextBox Multiline="True" Readonly="True" Margin="8" Background="#00000000" Id="BackpackTextbox" />
+        </VerticalStackPanel>
+        <VerticalStackPanel Margin="8">
+          <Label Text="Equipment" Margin="8" />
+          <TextBox Multiline="True" Readonly="True" Margin="8" Background="#00000000" Id="EquipmentTextbox" />
+        </VerticalStackPanel>
+      </HorizontalStackPanel>
+    </VerticalStackPanel>
   </Panel>
 </Project>
