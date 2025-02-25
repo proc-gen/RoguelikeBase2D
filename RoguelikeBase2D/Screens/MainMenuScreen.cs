@@ -4,14 +4,14 @@ using Microsoft.Xna.Framework.Input;
 using Myra.Graphics2D.UI;
 using RoguelikeBase2D.Utils;
 using RoguelikeBase2D.Utils.Myra;
-using RoguelikeBase2D.Windows.Generated;
+using RoguelikeBase2D.Screens.Generated;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RoguelikeBase2D.Windows
+namespace RoguelikeBase2D.Screens
 {
     public class MainMenuScreen : Screen
     {

@@ -9,7 +9,7 @@ using FontStashSharp.RichText;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace RoguelikeBase2D.Windows.Generated
+namespace RoguelikeBase2D.Screens.Generated
 {
     partial class GameWindow : Panel
     {

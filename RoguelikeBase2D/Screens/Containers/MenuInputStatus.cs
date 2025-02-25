@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RoguelikeBase2D.Windows.Containers
+namespace RoguelikeBase2D.Screens.Containers
 {
     public struct MenuInputStatus
     {

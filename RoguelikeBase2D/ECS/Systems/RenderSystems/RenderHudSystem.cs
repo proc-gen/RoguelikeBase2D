@@ -9,8 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using RoguelikeBase2D.ECS.Components;
 using Arch.Core.Extensions;
-using RoguelikeBase2D.Windows.Generated;
-using GameWindow = RoguelikeBase2D.Windows.Generated.GameWindow;
+using RoguelikeBase2D.Screens.Generated;
+using GameWindow = RoguelikeBase2D.Screens.Generated.GameWindow;
 
 namespace RoguelikeBase2D.ECS.Systems.RenderSystems
 {

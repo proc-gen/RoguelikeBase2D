@@ -12,6 +12,7 @@ using RoguelikeBase2D.Maps;
 using RoguelikeBase2D.Maps.Generators;
 using RoguelikeBase2D.Maps.Painters;
 using RoguelikeBase2D.Maps.Spawners;
+using RoguelikeBase2D.Screens.Windows;
 using RoguelikeBase2D.Utils;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameWindow = RoguelikeBase2D.Windows.Generated.GameWindow;
+using GameWindow = RoguelikeBase2D.Screens.Generated.GameWindow;
 
-namespace RoguelikeBase2D.Windows
+namespace RoguelikeBase2D.Screens
 {
     public class GameScreen : Screen
     {
@@ -31,7 +32,7 @@ namespace RoguelikeBase2D.Windows
         List<IUpdateSystem> updateSystems;
         List<IRenderSystem> renderSystems;
         SeededRandom random;
-
+        InventoryWindow inventoryWindow;
         public GameScreen(RogueGame game, bool continueGame)
             : base(game)
         {
@@ -286,6 +287,8 @@ namespace RoguelikeBase2D.Windows
                 new RenderEntitySystem(world, textures),
                 new RenderHudSystem(world, MyraWindow as GameWindow),
             };
+
+            inventoryWindow = new InventoryWindow(this, world);
         }
 
         private void GenerateMap(bool nextLevel = false)
@@ -372,44 +375,64 @@ namespace RoguelikeBase2D.Windows
             if (InputDelayHelper.ReadyForInput)
             {
                 var kState = Keyboard.GetState();
-                if (kState.IsKeyDown(Keys.Escape))
+                if (inventoryWindow.IsOpen)
                 {
-                    SaveGameManager.SaveGame(world);
-                    Game.SetScreen(new MainMenuScreen(Game));
+                    inventoryWindow.HandleKeyboard(kState);
                 }
-                else if (kState.IsKeyDown(Keys.Up))
+                else
                 {
-                    MovePlayer(new Point(0, -1));
-                }
-                else if (kState.IsKeyDown(Keys.Down))
-                {
-                    MovePlayer(new Point(0, 1));
-                }
-                else if (kState.IsKeyDown(Keys.Left))
-                {
-                    MovePlayer(new Point(-1, 0));
-                }
-                else if (kState.IsKeyDown(Keys.Right))
-                {
-                    MovePlayer(new Point(1, 0));
-                }
-                else if (kState.IsKeyDown(Keys.Enter))
-                {
-                    MovePlayer(Point.Zero);
-                }
-                else if (kState.IsKeyDown(Keys.E))
-                {
-                    CheckForExit();
-                }
-                else if (kState.IsKeyDown(Keys.I))
-                {
-                    ((GameWindow)MyraWindow).InventoryPanel.Visible = !((GameWindow)MyraWindow).InventoryPanel.Visible;
-                    InputDelayHelper.Reset();
+                    HandleInGameKeyboard(kState);
                 }
             }
         }
 
-        private void MovePlayer(Point direction)
+        private void HandleInGameKeyboard(KeyboardState kState)
+        {
+            if (kState.IsKeyDown(Keys.Escape))
+            {
+                SaveGameManager.SaveGame(world);
+                Game.SetScreen(new MainMenuScreen(Game));
+            }
+            else if (kState.IsKeyDown(Keys.Up))
+            {
+                MovePlayer(new Point(0, -1));
+            }
+            else if (kState.IsKeyDown(Keys.Down))
+            {
+                MovePlayer(new Point(0, 1));
+            }
+            else if (kState.IsKeyDown(Keys.Left))
+            {
+                MovePlayer(new Point(-1, 0));
+            }
+            else if (kState.IsKeyDown(Keys.Right))
+            {
+                MovePlayer(new Point(1, 0));
+            }
+            else if (kState.IsKeyDown(Keys.Enter))
+            {
+                MovePlayer(Point.Zero);
+            }
+            else if (kState.IsKeyDown(Keys.E))
+            {
+                CheckForExit();
+            }
+            else if (kState.IsKeyDown(Keys.I))
+            {
+                ((GameWindow)MyraWindow).InventoryPanel.Visible = true;
+                inventoryWindow.OpenWindow();
+                InputDelayHelper.Reset();
+            }
+        }
+
+        public void CloseInventory()
+        {
+            ((GameWindow)MyraWindow).InventoryPanel.Visible = false;
+            inventoryWindow.CloseWindow();
+            InputDelayHelper.Reset();
+        }
+
+        public void MovePlayer(Point direction)
         {
             var input = world.PlayerRef.Entity.Get<Input>();
             input.Direction = direction;

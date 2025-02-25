@@ -4,14 +4,14 @@ using Microsoft.Xna.Framework.Input;
 using Myra.Graphics2D.UI;
 using RoguelikeBase2D.Utils;
 using RoguelikeBase2D.Utils.Myra;
-using RoguelikeBase2D.Windows.Containers;
+using RoguelikeBase2D.Screens.Containers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RoguelikeBase2D.Windows
+namespace RoguelikeBase2D.Screens
 {
     public abstract class Screen
     {

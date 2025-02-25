@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Myra;
 using Myra.Graphics2D.UI;
-using RoguelikeBase2D.Windows;
+using RoguelikeBase2D.Screens;
 using System;
 
 
