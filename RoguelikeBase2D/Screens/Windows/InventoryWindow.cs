@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameWindow = RoguelikeBase2D.Screens.Generated.GameWindow;
 
 namespace RoguelikeBase2D.Screens.Windows
 {
@@ -64,6 +65,18 @@ namespace RoguelikeBase2D.Screens.Windows
                     InventoryItems.Add(entity.Reference());
                 }
             });
+
+            if (InventoryItems.Count > 0)
+            {
+                var window = (GameWindow)GameScreen.MyraWindow;
+                window.BackpackList.Items.Clear();
+                for (int i = 0; i < InventoryItems.Count; i++)
+                {
+                    var item = InventoryItems[i];
+                    window.BackpackList.Items.Add(new Myra.Graphics2D.UI.ListItem(item.Entity.Get<Identity>().Name, null, item));
+                }
+                window.BackpackList.Items.First().IsSelected = true;
+            }
         }
     }
 }

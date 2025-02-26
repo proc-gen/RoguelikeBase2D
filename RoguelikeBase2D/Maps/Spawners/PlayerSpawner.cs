@@ -2,6 +2,7 @@
 using Arch.Core.Extensions;
 using Microsoft.Xna.Framework;
 using RoguelikeBase2D.Containers;
+using RoguelikeBase2D.Datasets;
 using RoguelikeBase2D.ECS.Components;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,11 @@ namespace RoguelikeBase2D.Maps.Spawners
                     },
                     new CombatEquipment()
                 ).Reference();
+
+                for(int i = 0; i < 3; i++)
+                {
+                    ItemDataset.SpawnEntityForOwner(world, "Health Potion", world.PlayerRef);
+                }
             }
             else
             {
