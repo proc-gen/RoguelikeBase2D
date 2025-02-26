@@ -17,7 +17,7 @@ namespace RoguelikeBase2D.Screens
     {
         public Widget MyraWindow { get; set; }
         public RogueGame Game { get; set; }
-        protected InputDelayHelper InputDelayHelper;
+        public InputDelayHelper InputDelayHelper;
 
         public Screen(RogueGame game) 
         { 

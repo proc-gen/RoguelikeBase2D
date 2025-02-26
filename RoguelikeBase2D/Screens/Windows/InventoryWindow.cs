@@ -48,16 +48,28 @@ namespace RoguelikeBase2D.Screens.Windows
             else if (kState.IsKeyDown(Keys.Up))
             {
                 selectedItem = Math.Max(selectedItem - 1, 0);
+                SetSelectedItem();
             }
             else if (kState.IsKeyDown(Keys.Down))
             {
-                selectedItem = Math.Min(selectedItem + 1, 11);
+                selectedItem = Math.Min(selectedItem + 1, InventoryItems.Count - 1);
+                SetSelectedItem();
             }
+        }
+
+        private void SetSelectedItem()
+        {
+            var window = (GameWindow)GameScreen.MyraWindow;
+            window.BackpackList.Items[selectedItem].IsSelected = true;
+            GameScreen.InputDelayHelper.Reset();
         }
 
         private void UpdateInventoryItems()
         {
             InventoryItems.Clear();
+            var window = (GameWindow)GameScreen.MyraWindow;
+            window.BackpackList.Items.Clear();
+
             World.World.Query(in ownedItemsQuery, (Entity entity, ref Owner owner) =>
             {
                 if (owner.OwnerReference == World.PlayerRef && !entity.Has<Equipped>())
@@ -67,15 +79,14 @@ namespace RoguelikeBase2D.Screens.Windows
             });
 
             if (InventoryItems.Count > 0)
-            {
-                var window = (GameWindow)GameScreen.MyraWindow;
-                window.BackpackList.Items.Clear();
+            {                 
                 for (int i = 0; i < InventoryItems.Count; i++)
                 {
                     var item = InventoryItems[i];
                     window.BackpackList.Items.Add(new Myra.Graphics2D.UI.ListItem(item.Entity.Get<Identity>().Name, null, item));
                 }
                 window.BackpackList.Items.First().IsSelected = true;
+                selectedItem = 0;
             }
         }
     }
