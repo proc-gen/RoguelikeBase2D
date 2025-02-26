@@ -1,5 +1,5 @@
 <Project>
-  <Project.ExportOptions Namespace="RoguelikeBase2D.Windows.Generated" Class="GameWindow" OutputPath="C:\Repos\proc-gen\RoguelikeBase2D\Myra" />
+  <Project.ExportOptions Namespace="RoguelikeBase2D.Screens.Generated" Class="GameWindow" OutputPath="C:\Repos\proc-gen\RoguelikeBase2D\Myra" />
   <Panel Id="GamePanel">
     <Panel HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="960" Height="162" BorderThickness="2" Background="#202020C0" Border="#42260BFF" Id="LogWindow">
       <Panel VerticalAlignment="Top" Width="956" Height="24" BorderThickness="2" Border="#611612FF">
@@ -8,15 +8,15 @@
       </Panel>
       <TextBox Multiline="True" Wrap="True" Readonly="True" Margin="0, 32, 0, 0" VerticalAlignment="Stretch" Background="#00000000" Id="Log" />
     </Panel>
-    <VerticalStackPanel HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="2" Visible="False" Background="#202020C0" Border="#42260BFF" Id="InventoryPanel" >
+    <VerticalStackPanel HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="2" Visible="False" Background="#202020C0" Border="#42260BFF" Id="InventoryPanel">
       <Label Text="Inventory" Margin="8" HorizontalAlignment="Center" />
       <HorizontalStackPanel>
-        <VerticalStackPanel Margin="8">
-          <Label Text="Backpack" Margin="8" />
-          <TextBox Multiline="True" Readonly="True" Margin="8" Background="#00000000" Id="BackpackTextbox" />
+        <VerticalStackPanel Width="160" Margin="8">
+          <Label Text="Backpack" Margin="8" HorizontalAlignment="Center" />
+          <ListBox Height="160" Margin="8" Id="BackpackList" />
         </VerticalStackPanel>
-        <VerticalStackPanel Margin="8">
-          <Label Text="Equipment" Margin="8" />
+        <VerticalStackPanel Width="160" Margin="8">
+          <Label Text="Equipment" Margin="8" HorizontalAlignment="Center" />
           <TextBox Multiline="True" Readonly="True" Margin="8" Background="#00000000" Id="EquipmentTextbox" />
         </VerticalStackPanel>
       </HorizontalStackPanel>
