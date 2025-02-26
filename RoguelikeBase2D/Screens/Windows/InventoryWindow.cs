@@ -2,13 +2,16 @@
 using Arch.Core.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using RoguelikeBase2D.Constants;
 using RoguelikeBase2D.Containers;
 using RoguelikeBase2D.ECS.Components;
+using RoguelikeBase2D.Maps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using GameWindow = RoguelikeBase2D.Screens.Generated.GameWindow;
 
 namespace RoguelikeBase2D.Screens.Windows
@@ -59,11 +62,58 @@ namespace RoguelikeBase2D.Screens.Windows
             {
                 if (kState.IsKeyDown(Keys.U))
                 {
-                    InventoryItems[selectedItem].Entity.Add(new WantToUseItem());
-                    GameScreen.MovePlayer(Point.Zero);
-                    CloseInventory();
+                    UseItem();
+                }
+                else if (kState.IsKeyDown(Keys.D))
+                {
+                    DropItem();
                 }
             }
+        }
+
+        private void UseItem()
+        {
+            InventoryItems[selectedItem].Entity.Add(new WantToUseItem());
+            GameScreen.MovePlayer(Point.Zero);
+            CloseInventory();
+        }
+
+        private void DropItem()
+        {
+            var item = InventoryItems[selectedItem];
+
+            var ownerPosition = item.Entity.Get<Owner>().OwnerReference.Entity.Get<Position>();
+            var ownerName = item.Entity.Get<Owner>().OwnerReference.Entity.Get<Identity>();
+            var itemName = item.Entity.Get<Identity>();
+
+            Point targetPosition = Point.Zero;
+            int fovDistanceForDrop = 0;
+            do
+            {
+                var pointsToCheck = FieldOfView.CalculateFOV(World, ownerPosition.Point, fovDistanceForDrop);
+                foreach (var point in pointsToCheck)
+                {
+                    var tile = World.Map.GetTileFromLayer(Constants.MapLayerType.Wall, point);
+                    if (targetPosition == Point.Zero
+                        && tile.TileType.IsPassable())
+                    {
+                        var entitiesAtLocation = World.PhysicsWorld.GetEntitiesAtLocation(point);
+                        if (entitiesAtLocation == null || !entitiesAtLocation.Any(a => a.Entity.Has<Item>()))
+                        {
+                            targetPosition = point;
+                        }
+                    }
+                }
+                fovDistanceForDrop++;
+            } while (targetPosition == Point.Zero);
+
+            item.Entity.Remove<Owner>();
+            item.Entity.Add(new Position() { Point = targetPosition });
+            World.PhysicsWorld.AddEntity(item, targetPosition);
+
+            World.LogEntry(string.Format("{0} dropped {1}", ownerName.Name, itemName.Name));
+            GameScreen.MovePlayer(Point.Zero);
+            CloseInventory();
         }
 
         private void CloseInventory()
