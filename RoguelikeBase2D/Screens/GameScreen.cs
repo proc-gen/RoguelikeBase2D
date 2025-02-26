@@ -276,6 +276,7 @@ namespace RoguelikeBase2D.Screens
             updateSystems = new List<IUpdateSystem>()
             {
                 new ComputerInputSystem(world),
+                new UseItemSystem(world),
                 new EntityActSystem(world),
                 new MeleeAttackSystem(world),
                 new DeathSystem(world),

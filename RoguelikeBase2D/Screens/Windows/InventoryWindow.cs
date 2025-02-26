@@ -43,7 +43,7 @@ namespace RoguelikeBase2D.Screens.Windows
         {
             if (kState.IsKeyDown(Keys.Escape) || kState.IsKeyDown(Keys.I))
             {
-                GameScreen.CloseInventory();
+                CloseInventory();
             }
             else if (kState.IsKeyDown(Keys.Up))
             {
@@ -55,6 +55,20 @@ namespace RoguelikeBase2D.Screens.Windows
                 selectedItem = Math.Min(selectedItem + 1, InventoryItems.Count - 1);
                 SetSelectedItem();
             }
+            else if (InventoryItems.Count > 0)
+            {
+                if (kState.IsKeyDown(Keys.U))
+                {
+                    InventoryItems[selectedItem].Entity.Add(new WantToUseItem());
+                    GameScreen.MovePlayer(Point.Zero);
+                    CloseInventory();
+                }
+            }
+        }
+
+        private void CloseInventory()
+        {
+            GameScreen.CloseInventory();
         }
 
         private void SetSelectedItem()
