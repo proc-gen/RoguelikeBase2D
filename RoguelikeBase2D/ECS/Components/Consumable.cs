@@ -5,13 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RoguelikeBase2D.Containers
+namespace RoguelikeBase2D.ECS.Components
 {
-    public class ItemContainer : Container
+    public struct Consumable
     {
-        public bool Consumable { get; set; }
         public ConsumableType ConsumableType { get; set; }
-        public string Effect { get; set; }
-        public int EffectAmount { get; set; }
+        public int Amount { get; set; }
     }
 }

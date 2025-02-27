@@ -1,7 +1,10 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
+using CommunityToolkit.HighPerformance;
+using RoguelikeBase2D.Constants;
 using RoguelikeBase2D.Containers;
 using RoguelikeBase2D.ECS.Components;
+using RoguelikeBase2D.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +19,9 @@ namespace RoguelikeBase2D.Datasets
             new ItemContainer(){
                 Name = "Health Potion",
                 Sprite = "health-potion",
+                Consumable = true,
+                ConsumableType = ConsumableType.Health,
+                EffectAmount = 5,
                 MinDepthSpawn = 0,
                 MaxDepthSpawn = 999,
             }
@@ -31,12 +37,19 @@ namespace RoguelikeBase2D.Datasets
             var item = itemContainers.Where(a => a.Name == name).FirstOrDefault();
             if (item != null) 
             {
-                return world.World.Create(
+                List<object> components = [
                     new Item(),
                     new Identity() { Name = name },
                     new Owner() { OwnerReference = owner },
                     new SpriteInfo() { Height = 48, Width = 48, Sprite = item.Sprite }
-                ).Reference();
+                ];
+
+                if (item.Consumable)
+                {
+                    components.Add(new Consumable() { ConsumableType = item.ConsumableType, Amount = item.EffectAmount });
+                }
+                
+                return world.World.CreateFromArray(components.ToArray()).Reference();
             }
 
             return EntityReference.Null;

@@ -93,7 +93,7 @@ namespace RoguelikeBase2D.Screens.Windows
                 var pointsToCheck = FieldOfView.CalculateFOV(World, ownerPosition.Point, fovDistanceForDrop);
                 foreach (var point in pointsToCheck)
                 {
-                    var tile = World.Map.GetTileFromLayer(Constants.MapLayerType.Wall, point);
+                    var tile = World.Map.GetTileFromLayer(MapLayerType.Wall, point);
                     if (targetPosition == Point.Zero
                         && tile.TileType.IsPassable())
                     {

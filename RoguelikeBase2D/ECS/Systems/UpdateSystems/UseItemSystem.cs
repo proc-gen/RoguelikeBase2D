@@ -13,7 +13,9 @@ namespace RoguelikeBase2D.ECS.Systems.UpdateSystems
 {
     public class UseItemSystem : ArchSystem, IUpdateSystem
     {
-        QueryDescription itemsToUseQuery = new QueryDescription().WithAll<WantToUseItem>();
+        QueryDescription usedItemsToRemoveQuery = new QueryDescription().WithAll<WantToUseItem, Remove>();
+        QueryDescription consumablesToUseQuery = new QueryDescription().WithAll<WantToUseItem, Consumable>().WithNone<Remove>();
+
 
         public UseItemSystem(GameWorld world)
             : base(world)
@@ -23,14 +25,41 @@ namespace RoguelikeBase2D.ECS.Systems.UpdateSystems
 
         public void Update(GameTime gameTime)
         {
-            World.World.Query(in itemsToUseQuery, (Entity entity, ref Identity identity, ref Owner owner) =>
+            World.World.Query(in consumablesToUseQuery, (Entity entity, ref Identity identity, ref Owner owner, ref Consumable consumable) =>
             {
                 var ownerIdentity = owner.OwnerReference.Entity.Get<Identity>();
+                var ownerStats = owner.OwnerReference.Entity.Get<CombatStats>();
+                bool consumed = false;
+                switch (consumable.ConsumableType)
+                {
+                    case Constants.ConsumableType.Health:
+                        if (ownerStats.CurrentHealth < ownerStats.MaxHealth)
+                        {
+                            int healAmount = Math.Min(consumable.Amount, ownerStats.MaxHealth - ownerStats.CurrentHealth);
+                            ownerStats.CurrentHealth += healAmount;
+                            consumed = true;
 
-                World.LogEntry(string.Format("{0} used {1}", ownerIdentity.Name, identity.Name));
+                            World.LogEntry(string.Concat(ownerIdentity.Name, " drank a ", identity.Name, " and healed for ", healAmount, "hp"));
+                        }
+                        else
+                        {
+                            World.LogEntry(string.Concat(ownerIdentity.Name, " is already at full health!"));
+                        }
+                        break;
+                }
+
+                if (consumed)
+                {
+                    owner.OwnerReference.Entity.Set(ownerStats);
+                    entity.Add(new Remove());
+                }
+                else
+                {
+                    entity.Remove<WantToUseItem>();
+                }
             });
 
-            World.World.Destroy(in itemsToUseQuery);
+            World.World.Destroy(in usedItemsToRemoveQuery);
         }
     }
 }
