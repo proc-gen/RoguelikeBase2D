@@ -88,5 +88,6 @@ namespace RoguelikeBase2D.Maps.Generators
         }
 
         public override Point GetMapExit(Map map) => throw new NotImplementedException();
+        public override HashSet<Point> GetItemSpawnPoints(Map map) => throw new NotImplementedException();
     }
 }

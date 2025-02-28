@@ -1,6 +1,7 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
 using CommunityToolkit.HighPerformance;
+using Microsoft.Xna.Framework;
 using RoguelikeBase2D.Constants;
 using RoguelikeBase2D.Containers;
 using RoguelikeBase2D.ECS.Components;
@@ -49,6 +50,29 @@ namespace RoguelikeBase2D.Datasets
                     components.Add(new Consumable() { ConsumableType = item.ConsumableType, Amount = item.EffectAmount });
                 }
                 
+                return world.World.CreateFromArray(components.ToArray()).Reference();
+            }
+
+            return EntityReference.Null;
+        }
+
+        public static EntityReference SpawnEntityAtPoint(GameWorld world, string name, Point point)
+        {
+            var item = itemContainers.Where(a => a.Name == name).FirstOrDefault();
+            if (item != null)
+            {
+                List<object> components = [
+                    new Item(),
+                    new Identity() { Name = name },
+                    new Position() { Point = point },
+                    new SpriteInfo() { Height = 48, Width = 48, Sprite = item.Sprite }
+                ];
+
+                if (item.Consumable)
+                {
+                    components.Add(new Consumable() { ConsumableType = item.ConsumableType, Amount = item.EffectAmount });
+                }
+
                 return world.World.CreateFromArray(components.ToArray()).Reference();
             }
 

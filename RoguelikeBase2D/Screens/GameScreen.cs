@@ -307,6 +307,8 @@ namespace RoguelikeBase2D.Screens
             playerSpawner.SpawnEntityForPoint(world, generator.GetPlayerStartingPosition(map));
             EnemySpawner enemySpawner = new EnemySpawner();
             enemySpawner.SpawnEntitiesForPoints(world, generator.GetEnemySpawnPoints(map));
+            ItemSpawner itemSpawner = new ItemSpawner();
+            itemSpawner.SpawnEntitiesForPoints(world, generator.GetItemSpawnPoints(map));
 
             if (nextLevel)
             {

@@ -125,6 +125,36 @@ namespace RoguelikeBase2D.Maps.Generators
             return points;
         }
 
+        public override HashSet<Point> GetItemSpawnPoints(Map map)
+        {
+            HashSet<Point> points = new HashSet<Point>();
+
+            var playerStart = GetPlayerStartingPosition(map);
+
+            foreach (var room in Rooms)
+            {
+                int numSpawns = Math.Max(SeededRandom.Next(0, 5) - 2, 0);
+                int tries = 0;
+                HashSet<Point> spawnsForRoom = new HashSet<Point>();
+                while (spawnsForRoom.Count < numSpawns && tries < 30)
+                {
+                    var spawn = new Point(room.X + SeededRandom.Next(1, room.Width), room.Y + SeededRandom.Next(1, room.Height));
+                    var tile = map.GetTileFromLayer(MapLayerType.Wall, spawn);
+                    if (spawn != playerStart && !tile.TileType.IsWallOrBorder())
+                    {
+                        spawnsForRoom.Add(spawn);
+                    }
+                }
+
+                foreach (var spawn in spawnsForRoom)
+                {
+                    points.Add(spawn);
+                }
+            }
+
+            return points;
+        }
+
         public override Point GetMapExit(Map map)
         {
             var lastRoom = Rooms.Last();
