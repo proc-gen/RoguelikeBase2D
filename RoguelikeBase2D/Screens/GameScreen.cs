@@ -20,6 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using GameWindow = RoguelikeBase2D.Screens.Generated.GameWindow;
 
 namespace RoguelikeBase2D.Screens
@@ -426,6 +427,10 @@ namespace RoguelikeBase2D.Screens
                 inventoryWindow.OpenWindow();
                 InputDelayHelper.Reset();
             }
+            else if (kState.IsKeyDown(Keys.G))
+            {
+                TryPickUpItem();
+            }
         }
 
         public void CloseInventory()
@@ -459,6 +464,29 @@ namespace RoguelikeBase2D.Screens
             InputDelayHelper.Reset();
         }
 
+
+        private void TryPickUpItem()
+        {
+            var name = world.PlayerRef.Entity.Get<Identity>();
+            var position = world.PlayerRef.Entity.Get<Position>();
+            var entitiesAtLocation = world.PhysicsWorld.GetEntitiesAtLocation(position.Point);
+            if (entitiesAtLocation != null && entitiesAtLocation.Any(a => a.Entity.Has<Item>()))
+            {
+                var item = entitiesAtLocation.Where(a => a.Entity.Has<Item>()).FirstOrDefault();
+                string itemName = item.Entity.Get<Identity>().Name;
+                item.Entity.Add(new Owner() { OwnerReference = world.PlayerRef });
+                item.Entity.Remove<Position>();
+                world.PhysicsWorld.RemoveEntity(item, position.Point);
+
+                world.LogEntry(string.Format("{0} picked up {1}", name.Name, itemName));
+            }
+            else
+            {
+                world.LogEntry("There's nothing here");
+            }
+
+            MovePlayer(Point.Zero);
+        }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) 
         {
             foreach (var layer in MapLayerTypeExtensions.AllLayers)
