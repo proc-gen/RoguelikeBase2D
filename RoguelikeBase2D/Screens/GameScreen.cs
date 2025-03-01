@@ -282,6 +282,7 @@ namespace RoguelikeBase2D.Screens
                 new UseItemSystem(world),
                 new EntityActSystem(world),
                 new MeleeAttackSystem(world),
+                new RangedAttackSystem(world),
                 new DeathSystem(world),
             };
 
