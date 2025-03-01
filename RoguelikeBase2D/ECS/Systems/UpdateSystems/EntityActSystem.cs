@@ -1,5 +1,6 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
+using Microsoft.VisualBasic;
 using Microsoft.Xna.Framework;
 using RoguelikeBase2D.Constants;
 using RoguelikeBase2D.Containers;
@@ -17,10 +18,12 @@ namespace RoguelikeBase2D.ECS.Systems.UpdateSystems
     internal class EntityActSystem : ArchSystem, IUpdateSystem
     {
         QueryDescription nonPlayerQuery = new QueryDescription().WithAll<Position, Input>().WithNone<Player>();
+        Dictionary<string, Tileset> Tilesets;
 
-        public EntityActSystem(GameWorld world)
+        public EntityActSystem(GameWorld world, Dictionary<string, Tileset> tilesets)
             : base(world)
         {
+            Tilesets = tilesets;
         }
 
         public void Update(GameTime gameTime)
@@ -70,13 +73,69 @@ namespace RoguelikeBase2D.ECS.Systems.UpdateSystems
                     else
                     {
                         var target = entitiesAtPosition.Where(a => a.Entity.Has<Blocker>()).First();
-                        if (entity.Entity.Has<Player>() || target.Entity.Has<Player>())
+                        if (target.Entity.Has<IsDoor>())
+                        {
+                            OpenDoor(target);
+                        }
+                        else if (entity.Entity.Has<Player>() || target.Entity.Has<Player>())
                         {
                             World.World.Create(new MeleeAttack() { Source = entity, Target = target });
                         }
                     }
                 }
             }
+        }
+
+        private void OpenDoor(EntityReference doorPart)
+        {
+            var parent = doorPart.Entity.Get<IsDoor>().Parent.Entity.Get<Door>();
+            
+            OpenDoorPart(parent.TopTop);
+            OpenDoorPart(parent.Top);
+            OpenDoorPart(parent.Bottom);
+
+            FieldOfView.CalculatePlayerFOV(World);
+        }
+
+        private void OpenDoorPart(EntityReference doorPart)
+        {
+            if (doorPart != EntityReference.Null)
+            {
+                doorPart.Entity.Remove<Blocker>();
+                var point = doorPart.Entity.Get<Position>().Point;
+                var doorPartTile = World.Map.GetTileFromLayer(MapLayerType.Door, point);
+
+                doorPartTile.TileType = OpenDoorTile(doorPartTile.TileType);
+                var tileset = Tilesets[doorPartTile.TilesetName];
+                var tilesetTile = tileset.TilesetTiles.Where(a => a != null && a.TileTypes.Contains(doorPartTile.TileType)).FirstOrDefault();
+                doorPartTile.TilesetTileId = tilesetTile.Id;
+                
+                World.Map.SetTileInLayer(MapLayerType.Door, point, doorPartTile);
+            }
+        }
+
+        private TileType OpenDoorTile(TileType tileType)
+        {
+            switch (tileType)
+            {
+                case TileType.DoorHorizontalClosedTop:
+                    return TileType.DoorHorizontalOpenTop;
+                    break;
+                case TileType.DoorVerticalClosedTop:
+                    return TileType.DoorVerticalOpenTop;
+                    break;
+                case TileType.DoorHorizontalClosedBottom:
+                    return TileType.DoorHorizontalOpenBottom;
+                    break;
+                case TileType.DoorVerticalClosedBottom:
+                    return TileType.DoorVerticalOpenBottom;
+                    break;
+                case TileType.DoorHorizontalClosedTopTop:
+                    return TileType.DoorHorizontalOpenTopTop;
+                    break;
+            }
+
+            return TileType.None;
         }
     }
 }

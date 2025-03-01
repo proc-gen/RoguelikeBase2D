@@ -102,7 +102,7 @@ namespace RoguelikeBase2D.Screens
             tileset.SetTilesetTile(56, new TilesetTile(56, TileType.DoorHorizontalClosedBottom));
             tileset.SetTilesetTile(47, new TilesetTile(47, TileType.DoorHorizontalOpenTop));
             tileset.SetTilesetTile(57, new TilesetTile(57, TileType.DoorHorizontalOpenBottom));
-            tileset.SetTilesetTile(2, new TilesetTile(2, TileType.DoorHorizontalClosedTopTop));
+            tileset.SetTilesetTile(2, new TilesetTile(2, TileType.DoorHorizontalClosedTopTop, TileType.DoorHorizontalOpenTopTop));
 
             tileset.SetTilesetTile(90, new TilesetTile(90, TileType.WallBorder5));
             tileset.SetTilesetTile(80, new TilesetTile(80,
@@ -290,7 +290,7 @@ namespace RoguelikeBase2D.Screens
             {
                 new ComputerInputSystem(world),
                 new UseItemSystem(world),
-                new EntityActSystem(world),
+                new EntityActSystem(world, Tilesets),
                 new MeleeAttackSystem(world),
                 new RangedAttackSystem(world),
                 new DeathSystem(world),
@@ -321,9 +321,11 @@ namespace RoguelikeBase2D.Screens
             PlayerSpawner playerSpawner = new PlayerSpawner();
             playerSpawner.SpawnEntityForPoint(world, generator.GetPlayerStartingPosition(map));
             EnemySpawner enemySpawner = new EnemySpawner();
-            //enemySpawner.SpawnEntitiesForPoints(world, generator.GetEnemySpawnPoints(map));
+            enemySpawner.SpawnEntitiesForPoints(world, generator.GetEnemySpawnPoints(map));
             ItemSpawner itemSpawner = new ItemSpawner();
             itemSpawner.SpawnEntitiesForPoints(world, generator.GetItemSpawnPoints(map));
+            MapPostCreationProcessor processor = new MapPostCreationProcessor();
+            processor.PostProcess(world, map);
 
             if (nextLevel)
             {
