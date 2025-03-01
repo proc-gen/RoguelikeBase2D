@@ -35,6 +35,7 @@ namespace RoguelikeBase2D.Screens.Windows
         {
             IsOpen = true;
             UpdateInventoryItems();
+            UpdatePlayerEquipment();
         }
 
         public override void CloseWindow()
@@ -181,6 +182,38 @@ namespace RoguelikeBase2D.Screens.Windows
                 window.BackpackList.Items.First().IsSelected = true;
                 selectedItem = 0;
             }
+        }
+
+        private void UpdatePlayerEquipment()
+        {
+            var window = (GameWindow)GameScreen.MyraWindow;
+            var playerEquipment = World.PlayerRef.Entity.Get<CombatEquipment>();
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("Weapon: ");
+            if(playerEquipment.Weapon != EntityReference.Null)
+            {
+                sb.AppendLine(playerEquipment.Weapon.Entity.Get<Identity>().Name);
+            }
+            else
+            {
+                sb.AppendLine("Unarmed");
+            }
+
+            sb.AppendLine();
+
+            sb.Append("Armor: ");
+            if (playerEquipment.Armor != EntityReference.Null)
+            {
+                sb.AppendLine(playerEquipment.Armor.Entity.Get<Identity>().Name);
+            }
+            else
+            {
+                sb.AppendLine("None");
+            }
+
+            window.EquipmentTextbox.Text = sb.ToString();
         }
     }
 }
