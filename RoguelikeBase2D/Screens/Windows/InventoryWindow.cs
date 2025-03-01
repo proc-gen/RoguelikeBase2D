@@ -73,7 +73,36 @@ namespace RoguelikeBase2D.Screens.Windows
 
         private void UseItem()
         {
-            InventoryItems[selectedItem].Entity.Add(new WantToUseItem());
+            var item = InventoryItems[selectedItem];
+            
+            if (item.Entity.Has<Consumable>())
+            {
+                item.Entity.Add(new WantToUseItem());
+            }
+            else
+            {
+                var combatEquipment = World.PlayerRef.Entity.Get<CombatEquipment>();
+                var old = item.Entity.Has<Armor>() ? combatEquipment.Armor : combatEquipment.Weapon;
+                if (old != EntityReference.Null)
+                {
+                    old.Entity.Remove<Equipped>();
+                }
+                item.Entity.Add(new Equipped());
+                if (item.Entity.Has<Armor>())
+                {
+                    combatEquipment.Armor = item;
+                }
+                else
+                {
+                    combatEquipment.Weapon = item;
+                }
+                World.PlayerRef.Entity.Set(combatEquipment);
+
+                var ownerName = item.Entity.Get<Owner>().OwnerReference.Entity.Get<Identity>();
+                var itemName = item.Entity.Get<Identity>();
+                World.GameLog.Add(string.Format("{0} equipped {1}", ownerName.Name, itemName.Name));
+            }
+
             GameScreen.MovePlayer(Point.Zero);
             CloseInventory();
         }
