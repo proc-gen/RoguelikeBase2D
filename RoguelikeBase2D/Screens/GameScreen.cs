@@ -1,4 +1,5 @@
-﻿using Arch.Core.Extensions;
+﻿using Arch.Core;
+using Arch.Core.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -27,8 +28,8 @@ namespace RoguelikeBase2D.Screens
 {
     public class GameScreen : Screen
     {
-        Dictionary<string, Texture2D> textures;
-        Dictionary<string, Tileset> tilesets;
+        public Dictionary<string, Texture2D> textures;
+        public Dictionary<string, Tileset> Tilesets;
         GameWorld world;
         List<IUpdateSystem> updateSystems;
         List<IRenderSystem> renderSystems;
@@ -267,7 +268,7 @@ namespace RoguelikeBase2D.Screens
                 TileType.WallBorder123457,
                 TileType.WallBorder12457));
 
-            tilesets = new Dictionary<string, Tileset>()
+            Tilesets = new Dictionary<string, Tileset>()
             {
                 {tileset.Name, tileset},
             };
@@ -286,7 +287,7 @@ namespace RoguelikeBase2D.Screens
 
             renderSystems = new List<IRenderSystem>()
             {
-                new RenderMapSystem(world, tilesets, textures),
+                new RenderMapSystem(world, Tilesets, textures),
                 new RenderEntitySystem(world, textures),
                 new RenderHudSystem(world, MyraWindow as GameWindow),
             };
@@ -304,7 +305,7 @@ namespace RoguelikeBase2D.Screens
             int height = random.Next(30, 30 + 5 * world.Depth);
 
             var map = generator.GenerateMap(width, height);
-            map = painter.PaintMap(map, tilesets["test-tileset"]);
+            map = painter.PaintMap(map, Tilesets["test-tileset"]);
 
             PlayerSpawner playerSpawner = new PlayerSpawner();
             playerSpawner.SpawnEntityForPoint(world, generator.GetPlayerStartingPosition(map));
@@ -405,19 +406,19 @@ namespace RoguelikeBase2D.Screens
             }
             else if (kState.IsKeyDown(Keys.Up))
             {
-                MovePlayer(new Point(0, -1));
+                MovePlayer(PointConstants.Up);
             }
             else if (kState.IsKeyDown(Keys.Down))
             {
-                MovePlayer(new Point(0, 1));
+                MovePlayer(PointConstants.Down);
             }
             else if (kState.IsKeyDown(Keys.Left))
             {
-                MovePlayer(new Point(-1, 0));
+                MovePlayer(PointConstants.Left);
             }
             else if (kState.IsKeyDown(Keys.Right))
             {
-                MovePlayer(new Point(1, 0));
+                MovePlayer(PointConstants.Right);
             }
             else if (kState.IsKeyDown(Keys.Enter))
             {
@@ -439,9 +440,12 @@ namespace RoguelikeBase2D.Screens
             }
             else if (kState.IsKeyDown(Keys.T))
             {
-                ((GameWindow)MyraWindow).TargetingPanel.Visible = true;
-                targetingWindow.OpenWindow();
-                InputDelayHelper.Reset();
+                if (world.PlayerRef.Entity.Get<CombatEquipment>().Weapon != EntityReference.Null)
+                {
+                    ((GameWindow)MyraWindow).TargetingPanel.Visible = true;
+                    targetingWindow.OpenWindow();
+                    InputDelayHelper.Reset();
+                }
             }
         }
 
@@ -514,6 +518,11 @@ namespace RoguelikeBase2D.Screens
                 {
                     system.Render(gameTime, spriteBatch, layer);
                 }
+            }
+
+            if (targetingWindow.IsOpen)
+            {
+                targetingWindow.Render(gameTime, spriteBatch);
             }
         }
     }
