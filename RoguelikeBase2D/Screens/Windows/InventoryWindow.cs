@@ -16,17 +16,24 @@ using GameWindow = RoguelikeBase2D.Screens.Generated.GameWindow;
 
 namespace RoguelikeBase2D.Screens.Windows
 {
+    public class GroupInventoryItem
+    {
+        public string Name { get; set; }
+        public int Count { get; set; }
+        public EntityReference Entity { get; set; }
+    }
+
     public class InventoryWindow : Window
     {
         
-        List<EntityReference> InventoryItems;
+        List<GroupInventoryItem> GroupedInventoryItems;
         int selectedItem = 0;
         QueryDescription ownedItemsQuery = new QueryDescription().WithAll<Item, Owner>();
 
         public InventoryWindow(GameScreen gameScreen, GameWorld world)
             : base(gameScreen, world)
         {
-            InventoryItems = new List<EntityReference>();
+            GroupedInventoryItems = new List<GroupInventoryItem>();
         }
 
         public override void OpenWindow()
@@ -54,10 +61,10 @@ namespace RoguelikeBase2D.Screens.Windows
             }
             else if (kState.IsKeyDown(Keys.Down))
             {
-                selectedItem = Math.Min(selectedItem + 1, InventoryItems.Count - 1);
+                selectedItem = Math.Min(selectedItem + 1, GroupedInventoryItems.Count - 1);
                 SetSelectedItem();
             }
-            else if (InventoryItems.Count > 0)
+            else if (GroupedInventoryItems.Count > 0)
             {
                 if (kState.IsKeyDown(Keys.U))
                 {
@@ -72,7 +79,7 @@ namespace RoguelikeBase2D.Screens.Windows
 
         private void UseItem()
         {
-            var item = InventoryItems[selectedItem];
+            var item = GroupedInventoryItems[selectedItem].Entity;
             
             if (item.Entity.Has<Consumable>())
             {
@@ -108,7 +115,7 @@ namespace RoguelikeBase2D.Screens.Windows
 
         private void DropItem()
         {
-            var item = InventoryItems[selectedItem];
+            var item = GroupedInventoryItems[selectedItem].Entity;
 
             var ownerPosition = item.Entity.Get<Owner>().OwnerReference.Entity.Get<Position>();
             var ownerName = item.Entity.Get<Owner>().OwnerReference.Entity.Get<Identity>();
@@ -158,7 +165,8 @@ namespace RoguelikeBase2D.Screens.Windows
 
         private void UpdateInventoryItems()
         {
-            InventoryItems.Clear();
+            var inventoryItems = new List<EntityReference>();
+            GroupedInventoryItems.Clear();
             var window = (GameWindow)GameScreen.MyraWindow;
             window.BackpackList.Items.Clear();
 
@@ -166,16 +174,37 @@ namespace RoguelikeBase2D.Screens.Windows
             {
                 if (owner.OwnerReference == World.PlayerRef && !entity.Has<Equipped>())
                 {
-                    InventoryItems.Add(entity.Reference());
+                    inventoryItems.Add(entity.Reference());
                 }
             });
 
-            if (InventoryItems.Count > 0)
-            {                 
-                for (int i = 0; i < InventoryItems.Count; i++)
+            if (inventoryItems.Count > 0)
+            {
+                foreach (var item in inventoryItems)
                 {
-                    var item = InventoryItems[i];
-                    window.BackpackList.Items.Add(new Myra.Graphics2D.UI.ListItem(item.Entity.Get<Identity>().Name, null, item));
+                    if (item.Entity.Has<Consumable>())
+                    {
+                        var groupedItem = GroupedInventoryItems.Where(a => a.Name == item.Entity.Get<Identity>().Name).FirstOrDefault();
+                        if (groupedItem != null)
+                        {
+                            groupedItem.Count++;
+                        }
+                        else
+                        {
+                            GroupedInventoryItems.Add(new GroupInventoryItem() { Name = item.Entity.Get<Identity>().Name, Count = 1, Entity = item });
+                        }
+                    }
+                    else
+                    {
+                        GroupedInventoryItems.Add(new GroupInventoryItem() { Name = item.Entity.Get<Identity>().Name, Count = 1, Entity = item });
+                    }
+                }
+
+                for (int i = 0; i < GroupedInventoryItems.Count; i++)
+                {
+                    var item = GroupedInventoryItems[i];
+                    string text = item.Count == 1 ? item.Name : string.Format("{0} ({1})", item.Name, item.Count);
+                    window.BackpackList.Items.Add(new Myra.Graphics2D.UI.ListItem(text, null, item));
                 }
                 window.BackpackList.Items.First().IsSelected = true;
                 selectedItem = 0;
