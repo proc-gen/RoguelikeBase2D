@@ -21,5 +21,9 @@
         </VerticalStackPanel>
       </HorizontalStackPanel>
     </VerticalStackPanel>
+    <VerticalStackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="32" Padding="8" Visible="False" Background="#202020C0" Border="#42260BFF" Id="TargetingPanel" >
+      <Label Text="Targeting:" Margin="8" Id="TargetingEntityLabel" />
+      <Label Text="Weapon:" Margin="8" Id="TargetingWeaponLabel" />
+    </VerticalStackPanel>
   </Panel>
 </Project>

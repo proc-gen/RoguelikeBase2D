@@ -18,16 +18,14 @@ namespace RoguelikeBase2D.Screens.Windows
 {
     public class InventoryWindow : Window
     {
-        GameScreen GameScreen;
-        GameWorld World;
+        
         List<EntityReference> InventoryItems;
         int selectedItem = 0;
         QueryDescription ownedItemsQuery = new QueryDescription().WithAll<Item, Owner>();
 
-        public InventoryWindow(GameScreen gameScreen, GameWorld world) 
+        public InventoryWindow(GameScreen gameScreen, GameWorld world)
+            : base(gameScreen, world)
         {
-            GameScreen = gameScreen;
-            World = world;
             InventoryItems = new List<EntityReference>();
         }
 
@@ -43,7 +41,7 @@ namespace RoguelikeBase2D.Screens.Windows
             IsOpen = false;
         }
 
-        public void HandleKeyboard(KeyboardState kState) 
+        public override void HandleKeyboard(KeyboardState kState) 
         {
             if (kState.IsKeyDown(Keys.Escape) || kState.IsKeyDown(Keys.I))
             {

@@ -34,6 +34,7 @@ namespace RoguelikeBase2D.Screens
         List<IRenderSystem> renderSystems;
         SeededRandom random;
         InventoryWindow inventoryWindow;
+        TargetingWindow targetingWindow;
         public GameScreen(RogueGame game, bool continueGame)
             : base(game)
         {
@@ -291,6 +292,7 @@ namespace RoguelikeBase2D.Screens
             };
 
             inventoryWindow = new InventoryWindow(this, world);
+            targetingWindow = new TargetingWindow(this, world);
         }
 
         private void GenerateMap(bool nextLevel = false)
@@ -383,6 +385,10 @@ namespace RoguelikeBase2D.Screens
                 {
                     inventoryWindow.HandleKeyboard(kState);
                 }
+                else if (targetingWindow.IsOpen)
+                {
+                    targetingWindow.HandleKeyboard(kState);
+                }
                 else
                 {
                     HandleInGameKeyboard(kState);
@@ -431,6 +437,12 @@ namespace RoguelikeBase2D.Screens
             {
                 TryPickUpItem();
             }
+            else if (kState.IsKeyDown(Keys.T))
+            {
+                ((GameWindow)MyraWindow).TargetingPanel.Visible = true;
+                targetingWindow.OpenWindow();
+                InputDelayHelper.Reset();
+            }
         }
 
         public void CloseInventory()
@@ -438,6 +450,13 @@ namespace RoguelikeBase2D.Screens
             ((GameWindow)MyraWindow).InventoryPanel.Visible = false;
             inventoryWindow.CloseWindow();
             InputDelayHelper.Reset();
+        }
+
+        public void CloseTargeting()
+        {
+            ((GameWindow)MyraWindow).TargetingPanel.Visible = false;
+            targetingWindow.CloseWindow();
+            InputDelayHelper .Reset();
         }
 
         public void MovePlayer(Point direction)
