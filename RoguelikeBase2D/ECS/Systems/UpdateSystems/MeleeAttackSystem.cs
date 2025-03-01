@@ -1,6 +1,7 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
 using Microsoft.Xna.Framework;
+using RoguelikeBase2D.Constants;
 using RoguelikeBase2D.Containers;
 using RoguelikeBase2D.ECS.Components;
 using RoguelikeBase2D.Utils;
@@ -78,7 +79,27 @@ namespace RoguelikeBase2D.ECS.Systems.UpdateSystems
         {
             int damageStat = (int)((sourceStats.CurrentStrength - 10f) / 2f);
             int damage = SeededRandom.Next(damageStat, damageStat * 3 / 2);
+            
+            if (sourceEquipment.Weapon != EntityReference.Null)
+            {
+                var weapon = sourceEquipment.Weapon.Entity.Get<Weapon>();
+                if(weapon.WeaponType == WeaponType.Melee)
+                {
+                    damage += SeededRandom.Next(weapon.MinDamage, weapon.MaxDamage + 1);
+                }
+                else
+                {
+                    damage += 1;
+                }
+            }
+
             int damageReduction = targetStats.CurrentArmor;
+            if (targetEquipment.Armor != EntityReference.Null)
+            {
+                var armor = targetEquipment.Armor.Entity.Get<Armor>();
+                damageReduction += armor.Amount;
+            }
+
 
             return damage - damageReduction;
         }
