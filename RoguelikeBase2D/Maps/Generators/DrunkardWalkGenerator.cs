@@ -142,7 +142,7 @@ namespace RoguelikeBase2D.Maps.Generators
             Point down = new Point(0, 1);
 
             var tile = map.GetTileFromLayer(MapLayerType.Wall, pos);
-            while (tile.TileType.IsWallOrBorder())
+            while (tile.TileType.IsBlocked())
             {
                 pos += down;
                 tile = map.GetTileFromLayer(MapLayerType.Wall, pos);

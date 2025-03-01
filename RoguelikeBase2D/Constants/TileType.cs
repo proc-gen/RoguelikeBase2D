@@ -40,6 +40,14 @@ namespace RoguelikeBase2D.Constants
         WallTopSingle = 9,
         WallBottomSingle = 10,
         Exit = 11,
+        DoorVerticalClosedTop = 12,
+        DoorVerticalClosedBottom = 13,
+        DoorVerticalOpenTop = 14,
+        DoorVerticalOpenBottom = 15,
+        DoorHorizontalClosedTop = 16,
+        DoorHorizontalClosedBottom = 17,
+        DoorHorizontalOpenTop = 18,
+        DoorHorizontalOpenBottom = 19,
 
         WallBorder5 = 32,
 
@@ -236,7 +244,7 @@ namespace RoguelikeBase2D.Constants
     {
         public static bool IsPassable(this TileType tileType)
         {
-            return !IsWallOrBorder(tileType);
+            return !IsBlocked(tileType);
         }
 
         public static bool IsBorder(this TileType tileType)
@@ -438,11 +446,16 @@ namespace RoguelikeBase2D.Constants
             return false;
         }
 
-        public static bool IsWallOrBorder(this TileType tileType)
+        public static bool IsBlocked(this TileType tileType)
         {
             switch (tileType)
             {
                 case TileType.Wall:
+
+                case TileType.DoorVerticalClosedBottom:
+                case TileType.DoorVerticalClosedTop:
+                case TileType.DoorHorizontalClosedBottom:
+                case TileType.DoorHorizontalClosedTop:
 
                 case TileType.WallTopLeft:
                 case TileType.WallTopRight:

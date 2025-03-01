@@ -40,6 +40,15 @@ namespace RoguelikeBase2D.Maps.Painters
                         wallTile.TilesetTileId = tilesetTile?.Id ?? 31;
                         map.SetTileInLayer(Constants.MapLayerType.Wall, i, j, wallTile);
                     }
+
+                    var doorTile = map.GetTileFromLayer(Constants.MapLayerType.Door, i, j);
+                    if (doorTile.TileType != Constants.TileType.None)
+                    {
+                        doorTile.TilesetName = tileset.Name;
+                        var tilesetTile = tileset.TilesetTiles.Where(a => a != null && a.TileTypes.Contains(doorTile.TileType)).FirstOrDefault();
+                        doorTile.TilesetTileId = tilesetTile.Id;
+                        map.SetTileInLayer(Constants.MapLayerType.Door, i, j, doorTile);
+                    }
                 }
             }
 

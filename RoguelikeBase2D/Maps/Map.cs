@@ -28,6 +28,16 @@ namespace RoguelikeBase2D.Maps
             Height = height;
         }
 
+        public bool PointWithinBounds(Point point)
+        {
+            return PointWithinBounds(point.X, point.Y);
+        }
+
+        public bool PointWithinBounds(int x, int y)
+        {
+            return x >= 0 && y >= 0 && x < Width && y < Height;
+        }
+
         public Tile GetTileFromLayer(MapLayerType layer, int x, int y)
         {
             return MapLayers[layer].GetTile(x, y);

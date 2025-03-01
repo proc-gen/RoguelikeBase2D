@@ -34,6 +34,7 @@ namespace RoguelikeBase2D.Maps.Generators
         {
             FillMap(map);
             CreateRooms(map);
+            AddDoors(map);
         }
 
         private void FillMap(Map map)
@@ -75,6 +76,30 @@ namespace RoguelikeBase2D.Maps.Generators
             for (int i = 0; i < Rooms.Count - 1; i++)
             {
                 ApplyEfficienctCorridorToMap(map, Rooms[i].Center, Rooms[i + 1].Center);
+            }
+        }
+
+        private void AddDoors(Map map)
+        {
+            foreach (var room in Rooms)
+            {
+                for (int i = room.X; i < room.X + room.Width; i++)
+                {
+                    var point = new Point(i, room.Y);
+                    CreateVerticalDoor(map, point);
+
+                    point = new Point(i, room.Y + room.Height - 1);
+                    CreateVerticalDoor(map, point);
+                }
+
+                for (int j = room.Y; j < room.Y + room.Height; j++)
+                {
+                    var point = new Point(room.X, j);
+                    CreateHorizontalDoor(map, point);
+
+                    point = new Point(room.X + room.Width, j);
+                    CreateHorizontalDoor(map, point);
+                }
             }
         }
 
@@ -142,7 +167,7 @@ namespace RoguelikeBase2D.Maps.Generators
             Point down = new Point(0, 1);
 
             var tile = map.GetTileFromLayer(MapLayerType.Wall, pos);
-            while (tile.TileType.IsWallOrBorder())
+            while (tile.TileType.IsBlocked())
             {
                 pos += down;
                 tile = map.GetTileFromLayer(MapLayerType.Wall, pos);
@@ -166,7 +191,7 @@ namespace RoguelikeBase2D.Maps.Generators
                 {
                     var spawn = new Point(room.X + SeededRandom.Next(1, room.Width), room.Y + SeededRandom.Next(1, room.Height));
                     var tile = map.GetTileFromLayer(MapLayerType.Wall, spawn);
-                    if (spawn != playerStart && !tile.TileType.IsWallOrBorder())
+                    if (spawn != playerStart && !tile.TileType.IsBlocked())
                     {
                         spawnsForRoom.Add(spawn);
                     }
@@ -196,7 +221,7 @@ namespace RoguelikeBase2D.Maps.Generators
                 {
                     var spawn = new Point(room.X + SeededRandom.Next(1, room.Width), room.Y + SeededRandom.Next(1, room.Height));
                     var tile = map.GetTileFromLayer(MapLayerType.Wall, spawn);
-                    if (spawn != playerStart && !tile.TileType.IsWallOrBorder())
+                    if (spawn != playerStart && !tile.TileType.IsBlocked())
                     {
                         spawnsForRoom.Add(spawn);
                     }
@@ -216,7 +241,7 @@ namespace RoguelikeBase2D.Maps.Generators
             var lastRoom = Rooms.Last();
             var point = lastRoom.Center;
             var tile = map.GetTileFromLayer(MapLayerType.Wall, point);
-            while (tile.TileType.IsWallOrBorder())
+            while (tile.TileType.IsBlocked())
             {
                 point = new Point(
                     SeededRandom.Next(lastRoom.X + 1, lastRoom.X + lastRoom.Width - 1),

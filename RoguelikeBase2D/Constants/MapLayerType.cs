@@ -11,10 +11,11 @@ namespace RoguelikeBase2D.Constants
         Floor,
         FloorDecorations,
         Wall,
+        Door,
     }
 
     public static class MapLayerTypeExtensions
     {
-        public static MapLayerType[] AllLayers { get; private set; } = [MapLayerType.Floor, MapLayerType.FloorDecorations, MapLayerType.Wall];
+        public static MapLayerType[] AllLayers { get; private set; } = [MapLayerType.Floor, MapLayerType.FloorDecorations, MapLayerType.Wall, MapLayerType.Door];
     }
 }

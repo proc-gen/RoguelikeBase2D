@@ -36,7 +36,7 @@ namespace RoguelikeBase2D.Pathfinding
         public bool Passable(Location id)
         {
             var tile = World.Map.GetTileFromLayer(MapLayerType.Wall, id.Point);
-            if(tile.TileType.IsWallOrBorder())
+            if(tile.TileType.IsBlocked())
             {
                 return false;
             }

@@ -58,7 +58,7 @@ namespace RoguelikeBase2D.ECS.Systems.UpdateSystems
             if (newPosition != position.Point)
             {
                 var tile = World.Map.GetTileFromLayer(MapLayerType.Wall, newPosition);
-                if (!tile.TileType.IsWallOrBorder())
+                if (!tile.TileType.IsBlocked())
                 {
                     var entitiesAtPosition = World.PhysicsWorld.GetEntitiesAtLocation(newPosition);
 

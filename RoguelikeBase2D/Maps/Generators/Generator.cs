@@ -120,7 +120,7 @@ namespace RoguelikeBase2D.Maps.Generators
                 for (int j = 0; j < map.Height; j++)
                 {
                     var wall = map.GetTileFromLayer(MapLayerType.Wall, i, j);
-                    if (wall.TileType.IsWallOrBorder())
+                    if (wall.TileType.IsBlocked())
                     {
                         var floor = map.GetTileFromLayer(MapLayerType.Floor, i, j);
                         floor.TileType = TileType.None;
@@ -137,7 +137,7 @@ namespace RoguelikeBase2D.Maps.Generators
                 return true;
             }
 
-            return map.GetTileFromLayer(MapLayerType.Wall, i, j).TileType.IsWallOrBorder();
+            return map.GetTileFromLayer(MapLayerType.Wall, i, j).TileType.IsBlocked();
         }
 
         private bool IsBorder(Map map, int i, int j)
@@ -216,6 +216,54 @@ namespace RoguelikeBase2D.Maps.Generators
                 var tile = map.GetTileFromLayer(MapLayerType.Wall, x, j);
                 tile.TileType = TileType.None;
                 map.SetTileInLayer(MapLayerType.Wall, x, j, tile);
+            }
+        }
+
+        protected void CreateVerticalDoor(Map map, Point point)
+        {
+            if (map.PointWithinBounds(point) && map.PointWithinBounds(point + PointConstants.Left) && map.PointWithinBounds(point + PointConstants.Right))
+            {
+                var wallTile = map.GetTileFromLayer(MapLayerType.Wall, point);
+                var wallLeft = map.GetTileFromLayer(MapLayerType.Wall, point + PointConstants.Left);
+                var wallRight = map.GetTileFromLayer(MapLayerType.Wall, point + PointConstants.Right);
+                if (wallTile.TileType.IsPassable() &&
+                            wallLeft.TileType.IsBlocked() &&
+                            wallRight.TileType.IsBlocked())
+                {
+                    var bottomDoor = map.GetTileFromLayer(MapLayerType.Door, point + PointConstants.Down);
+                    bottomDoor.TileType = TileType.DoorVerticalClosedBottom;
+                    map.SetTileInLayer(MapLayerType.Door, point + PointConstants.Down, bottomDoor);
+
+                    var topDoor = map.GetTileFromLayer(MapLayerType.Door, point);
+                    topDoor.TileType = TileType.DoorVerticalClosedTop;
+                    map.SetTileInLayer(MapLayerType.Door, point, topDoor);
+                }
+            }
+        }
+
+        protected void CreateHorizontalDoor(Map map, Point point)
+        {
+            if (map.PointWithinBounds(point) && map.PointWithinBounds(point + PointConstants.Down) && map.PointWithinBounds(point + PointConstants.Up + PointConstants.Up + PointConstants.Up))
+            {
+                var wallTile = map.GetTileFromLayer(MapLayerType.Wall, point);
+                var wallDown = map.GetTileFromLayer(MapLayerType.Wall, point + PointConstants.Down);
+                if (wallTile.TileType.IsPassable() &&
+                            wallDown.TileType.IsBlocked() &&
+                            point.Y - 3 < map.Height)
+                {
+                    var wallUp = map.GetTileFromLayer(MapLayerType.Wall, point + PointConstants.Up + PointConstants.Up + PointConstants.Up);
+
+                    if (wallUp.TileType.IsBlocked())
+                    {
+                        var bottomDoor = map.GetTileFromLayer(MapLayerType.Door, point);
+                        bottomDoor.TileType = TileType.DoorHorizontalClosedBottom;
+                        map.SetTileInLayer(MapLayerType.Door, point, bottomDoor);
+
+                        var topDoor = map.GetTileFromLayer(MapLayerType.Door, point + PointConstants.Up);
+                        topDoor.TileType = TileType.DoorHorizontalClosedTop;
+                        map.SetTileInLayer(MapLayerType.Door, point + PointConstants.Up, topDoor);
+                    }
+                }
             }
         }
     }
