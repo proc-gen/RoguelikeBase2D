@@ -262,6 +262,10 @@ namespace RoguelikeBase2D.Maps.Generators
                         var topDoor = map.GetTileFromLayer(MapLayerType.Door, point + PointConstants.Up);
                         topDoor.TileType = TileType.DoorHorizontalClosedTop;
                         map.SetTileInLayer(MapLayerType.Door, point + PointConstants.Up, topDoor);
+
+                        var toptopDoor = map.GetTileFromLayer(MapLayerType.Door, point + PointConstants.Up + PointConstants.Up);
+                        toptopDoor.TileType = TileType.DoorHorizontalClosedTopTop;
+                        map.SetTileInLayer(MapLayerType.Door, point + PointConstants.Up + PointConstants.Up, toptopDoor);
                     }
                 }
             }

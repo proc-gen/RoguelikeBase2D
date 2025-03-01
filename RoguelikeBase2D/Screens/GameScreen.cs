@@ -102,6 +102,7 @@ namespace RoguelikeBase2D.Screens
             tileset.SetTilesetTile(56, new TilesetTile(56, TileType.DoorHorizontalClosedBottom));
             tileset.SetTilesetTile(47, new TilesetTile(47, TileType.DoorHorizontalOpenTop));
             tileset.SetTilesetTile(57, new TilesetTile(57, TileType.DoorHorizontalOpenBottom));
+            tileset.SetTilesetTile(2, new TilesetTile(2, TileType.DoorHorizontalClosedTopTop));
 
             tileset.SetTilesetTile(90, new TilesetTile(90, TileType.WallBorder5));
             tileset.SetTilesetTile(80, new TilesetTile(80,

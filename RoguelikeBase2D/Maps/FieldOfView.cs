@@ -57,7 +57,8 @@ namespace RoguelikeBase2D.Maps
                     {
                         fov.Add(point);
 
-                        if (world.Map.GetTileFromLayer(MapLayerType.Wall, point).TileType.IsBorder())
+                        if (world.Map.GetTileFromLayer(MapLayerType.Wall, point).TileType.IsBorder() ||
+                            world.Map.GetTileFromLayer(MapLayerType.Door, point).TileType.IsClosedDoor())
                         {
                             hitWall = true;
                         }
@@ -134,10 +135,18 @@ namespace RoguelikeBase2D.Maps
 
         private static HashSet<Point> PostProcessPoints(Map map, HashSet<Point> pointsToCheck, HashSet<Point> fov, Point origin)
         {
+            fov = SmoothFov(map, pointsToCheck, fov, origin);
+            fov = MakeVerticalDoorsEntirelyVisible(map, fov);
+
+            return fov;
+        }
+
+        private static HashSet<Point> SmoothFov(Map map, HashSet<Point> pointsToCheck, HashSet<Point> fov, Point origin)
+        {
             foreach (Point point in pointsToCheck)
             {
                 if (!fov.Contains(point)
-                    && map.GetTileFromLayer(MapLayerType.Wall, point).TileType.IsWall())
+                    && IsWallAndNotClosedDoor(map, point))
                 {
                     int x1 = point.X;
                     int y1 = point.Y;
@@ -167,16 +176,46 @@ namespace RoguelikeBase2D.Maps
                     Point point3 = new Point(x2, y1);
                     Point point4 = new Point(x1, y2);
 
-                    if ((map.GetTileFromLayer(MapLayerType.Wall, point1).TileType.IsWall() && fov.Contains(point1))
-                        || (map.GetTileFromLayer(MapLayerType.Wall, point2).TileType.IsWall() && fov.Contains(point2))
-                        || (map.GetTileFromLayer(MapLayerType.Wall, point3).TileType.IsWall() && fov.Contains(point3))
-                        || (map.GetTileFromLayer(MapLayerType.Wall, point4).TileType.IsWall() && fov.Contains(point4)))
+                    if ((IsWallAndNotClosedDoor(map, point1) && fov.Contains(point1))
+                        || (IsWallAndNotClosedDoor(map, point2) && fov.Contains(point2))
+                        || (IsWallAndNotClosedDoor(map, point3) && fov.Contains(point3))
+                        || (IsWallAndNotClosedDoor(map, point4) && fov.Contains(point4)))
                     {
                         fov.Add(point);
                     }
                 }
             }
+
             return fov;
+        }
+
+        private static HashSet<Point> MakeVerticalDoorsEntirelyVisible(Map map, HashSet<Point> fov)
+        {
+            HashSet<Point> points = new HashSet<Point>();
+            foreach (Point point in fov)
+            {
+                var door = map.GetTileFromLayer(MapLayerType.Door, point);
+                if (door.TileType == TileType.DoorVerticalClosedBottom)
+                {
+                    points.Add(point + PointConstants.Up);
+                }
+                else if (door.TileType == TileType.DoorVerticalClosedTop)
+                {
+                    points.Add(point + PointConstants.Down);
+                }
+            }
+            foreach (Point point in points)
+            {
+                fov.Add(point);
+            }
+
+            return fov;
+        }
+
+        private static bool IsWallAndNotClosedDoor(Map map, Point point)
+        {
+            return map.GetTileFromLayer(MapLayerType.Wall, point).TileType.IsWall()
+                    && !map.GetTileFromLayer(MapLayerType.Door, point).TileType.IsClosedDoor();
         }
 
     }

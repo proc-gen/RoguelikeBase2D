@@ -48,6 +48,8 @@ namespace RoguelikeBase2D.Constants
         DoorHorizontalClosedBottom = 17,
         DoorHorizontalOpenTop = 18,
         DoorHorizontalOpenBottom = 19,
+        DoorHorizontalClosedTopTop = 20,
+        DoorHorizontalOpenTopTop = 21,
 
         WallBorder5 = 32,
 
@@ -675,6 +677,31 @@ namespace RoguelikeBase2D.Constants
                 case TileType.WallBottomMiddle:
                 case TileType.WallTopSingle:
                 case TileType.WallBottomSingle:
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsClosedDoorBottom(this TileType tileType) 
+        {
+            switch (tileType)
+            {
+                case TileType.DoorHorizontalClosedBottom:
+                case TileType.DoorVerticalClosedBottom:
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsClosedDoor(this TileType tileType)
+        {
+            switch (tileType)
+            {
+                case TileType.DoorHorizontalClosedTop:
+                case TileType.DoorVerticalClosedTop:
+                case TileType.DoorHorizontalClosedBottom:
+                case TileType.DoorVerticalClosedBottom:
+                case TileType.DoorHorizontalClosedTopTop:
                     return true;
             }
             return false;
